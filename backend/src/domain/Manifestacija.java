@@ -1,12 +1,12 @@
 package domain;
 
-import java.awt.Image;
 import java.time.LocalDateTime;
 
 import enums.StatusManifestacije;
 import enums.TipManifestacije;
 
 public class Manifestacija {
+	private String id;
 	private String naziv;
 	private TipManifestacije tip;
 	private int brojMesta;
@@ -14,7 +14,6 @@ public class Manifestacija {
 	private double cenaRegular;
 	private StatusManifestacije status;
 	private Lokacija lokacija;
-	private Image slika; // ili string putanja do slike
 	private String slikaPath;
 	
 
@@ -23,9 +22,13 @@ public class Manifestacija {
 	}
 
 
-	public Manifestacija(String naziv, TipManifestacije tip, int brojMesta, LocalDateTime datumVremeOdrzavanja,
-			double cenaRegular, StatusManifestacije status, Lokacija lokacija, Image slika, String slikaPath) {
+
+
+	public Manifestacija(String id, String naziv, TipManifestacije tip, int brojMesta,
+			LocalDateTime datumVremeOdrzavanja, double cenaRegular, StatusManifestacije status, Lokacija lokacija,
+			String slikaPath) {
 		super();
+		this.id = id;
 		this.naziv = naziv;
 		this.tip = tip;
 		this.brojMesta = brojMesta;
@@ -33,9 +36,24 @@ public class Manifestacija {
 		this.cenaRegular = cenaRegular;
 		this.status = status;
 		this.lokacija = lokacija;
-		this.slika = slika;
 		this.slikaPath = slikaPath;
 	}
+
+
+
+
+	public String getId() {
+		return id;
+	}
+
+
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+
 
 
 	public String getNaziv() {
@@ -107,15 +125,6 @@ public class Manifestacija {
 		this.lokacija = lokacija;
 	}
 
-
-	public Image getSlika() {
-		return slika;
-	}
-
-
-	public void setSlika(Image slika) {
-		this.slika = slika;
-	}
 
 
 	public String getSlikaPath() {

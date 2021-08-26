@@ -7,10 +7,10 @@ import enums.TipKarte;
 
 public class Karta {
 	private String id;
-	private Manifestacija manifestacija;
+	private String manifestacijaId;
 	private LocalDateTime datumVremeOdrzavanja; //redundantno
 	private double cena;
-	private Kupac kupac;
+	private String kupacUsername;
 	private StatusKarte status;
 	private TipKarte tip;
 
@@ -18,17 +18,45 @@ public class Karta {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Karta(String id, Manifestacija manifestacija, LocalDateTime datumVremeOdrzavanja, double cena, Kupac kupac,
-			StatusKarte status, TipKarte tip) {
+	
+
+	public Karta(String id, String manifestacijaId, LocalDateTime datumVremeOdrzavanja, double cena,
+			String kupacUsername, StatusKarte status, TipKarte tip) {
 		super();
 		this.id = id;
-		this.manifestacija = manifestacija;
+		this.manifestacijaId = manifestacijaId;
 		this.datumVremeOdrzavanja = datumVremeOdrzavanja;
 		this.cena = cena;
-		this.kupac = kupac;
+		this.kupacUsername = kupacUsername;
 		this.status = status;
 		this.tip = tip;
 	}
+
+
+
+	public String getManifestacijaId() {
+		return manifestacijaId;
+	}
+
+
+
+	public void setManifestacijaId(String manifestacijaId) {
+		this.manifestacijaId = manifestacijaId;
+	}
+
+
+
+	public String getKupacUsername() {
+		return kupacUsername;
+	}
+
+
+
+	public void setKupacUsername(String kupacUsername) {
+		this.kupacUsername = kupacUsername;
+	}
+
+
 
 	public String getId() {
 		return id;
@@ -38,13 +66,7 @@ public class Karta {
 		this.id = id;
 	}
 
-	public Manifestacija getManifestacija() {
-		return manifestacija;
-	}
-
-	public void setManifestacija(Manifestacija manifestacija) {
-		this.manifestacija = manifestacija;
-	}
+	
 
 	public LocalDateTime getDatumVremeOdrzavanja() {
 		return datumVremeOdrzavanja;
@@ -62,13 +84,7 @@ public class Karta {
 		this.cena = cena;
 	}
 
-	public Kupac getKupac() {
-		return kupac;
-	}
-
-	public void setKupac(Kupac kupac) {
-		this.kupac = kupac;
-	}
+	
 
 	public StatusKarte getStatus() {
 		return status;

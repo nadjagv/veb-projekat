@@ -1,8 +1,9 @@
 package domain;
 
 public class Komentar {
-	private Kupac kupac;
-	private Manifestacija manifestacija;
+	private String id;
+	private String kupacUsername;
+	private String manifestacijaId;
 	private String tekst;
 	private double ocena;
 
@@ -10,29 +11,46 @@ public class Komentar {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Komentar(Kupac kupac, Manifestacija manifestacija, String tekst, double ocena) {
+
+	public Komentar(String id, String kupacUsername, String manifestacijaId, String tekst, double ocena) {
 		super();
-		this.kupac = kupac;
-		this.manifestacija = manifestacija;
+		this.id = id;
+		this.kupacUsername = kupacUsername;
+		this.manifestacijaId = manifestacijaId;
 		this.tekst = tekst;
 		this.ocena = ocena;
 	}
 
-	public Kupac getKupac() {
-		return kupac;
+
+	public String getId() {
+		return id;
 	}
 
-	public void setKupac(Kupac kupac) {
-		this.kupac = kupac;
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public Manifestacija getManifestacija() {
-		return manifestacija;
+
+	public String getKupacUsername() {
+		return kupacUsername;
 	}
 
-	public void setManifestacija(Manifestacija manifestacija) {
-		this.manifestacija = manifestacija;
+
+	public void setKupacUsername(String kupacUsername) {
+		this.kupacUsername = kupacUsername;
 	}
+
+
+	public String getManifestacijaId() {
+		return manifestacijaId;
+	}
+
+
+	public void setManifestacijaId(String manifestacijaId) {
+		this.manifestacijaId = manifestacijaId;
+	}
+
 
 	public String getTekst() {
 		return tekst;

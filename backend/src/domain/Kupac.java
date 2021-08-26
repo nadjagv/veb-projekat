@@ -3,36 +3,31 @@ package domain;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import enums.ImeTipaKupca;
 import enums.Pol;
 import enums.Uloga;
 
 public class Kupac extends Korisnik {
 	
-	private ArrayList<Karta> karte;
+	private ArrayList<String> karteIds;
 	private double brojBodova;
-	private TipKupca tip;
+	private ImeTipaKupca tip;
 
 	public Kupac() {
-		karte = new ArrayList<Karta>();
+		karteIds = new ArrayList<String>();
 		brojBodova = 0;
-		// TODO Auto-generated constructor stub
+		tip = ImeTipaKupca.BRONZANI;
 	}
 
 	public Kupac(String username, String password, String ime, String prezime, Pol pol, LocalDate datumRodjenja,
 			Uloga uloga) {
 		super(username, password, ime, prezime, pol, datumRodjenja, uloga);
-		karte = new ArrayList<Karta>();
+		karteIds = new ArrayList<String>();
 		brojBodova = 0;
-		// TODO Auto-generated constructor stub
+		tip = ImeTipaKupca.BRONZANI;
 	}
 
-	public ArrayList<Karta> getKarte() {
-		return karte;
-	}
-
-	public void setKarte(ArrayList<Karta> karte) {
-		this.karte = karte;
-	}
+	
 
 	public double getBrojBodova() {
 		return brojBodova;
@@ -42,13 +37,23 @@ public class Kupac extends Korisnik {
 		this.brojBodova = brojBodova;
 	}
 
-	public TipKupca getTip() {
+	public ArrayList<String> getKarteIds() {
+		return karteIds;
+	}
+
+	public void setKarteIds(ArrayList<String> karteIds) {
+		this.karteIds = karteIds;
+	}
+
+	public ImeTipaKupca getTip() {
 		return tip;
 	}
 
-	public void setTip(TipKupca tip) {
+	public void setTip(ImeTipaKupca tip) {
 		this.tip = tip;
 	}
+
+	
 	
 	
 
