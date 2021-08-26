@@ -1,0 +1,34 @@
+{ "kupci":
+	[
+	{
+		"username" : "maja",
+		"password" : "maja",
+		"ime" : "Maja",
+		"prezime" : "Majić",
+		"pol" : "ZENSKI",
+		"datumRodjenja" : "1999-12-04",
+		"uloga": "KUPAC",
+		"brojBodova" : 200.0,
+		"tip" : "BRONZANI",
+		"karteIds" : 
+			[
+			"aaaaa11111", "bilaa22222"
+			]
+	},
+	{
+		"username" : "marko",
+		"password" : "marko",
+		"ime" : "Marko",
+		"prezime" : "Markov",
+		"pol" : "MUSKI",
+		"datumRodjenja" : "2000-11-02",
+		"uloga": "KUPAC",
+		"brojBodova" : 200.0,
+		"tip" : "BRONZANI",
+		"karteIds" : 
+			[
+			"aaaaa22222"
+			]
+	}
+	]
+}

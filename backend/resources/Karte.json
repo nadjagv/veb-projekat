@@ -1,0 +1,31 @@
+{"karte":
+	[
+	{
+	"id":"aaaaa11111",
+	"manifestacijaId":"mmmmm11111",
+	"datumVremeOdrzavanja":[2021,9,26,19,0,0,0],
+	"cena":500.0,
+	"kupacUsername":"maja",
+	"status":"REZERVISANA",
+	"tip":"REGULAR"
+	},
+	{
+	"id":"bilaa22222",
+	"manifestacijaId":"prosla1111",
+	"datumVremeOdrzavanja":[2021,8,25,19,0,0,0],
+	"cena":500.0,
+	"kupacUsername":"maja",
+	"status":"REZERVISANA",
+	"tip":"REGULAR"
+	},
+	{
+	"id":"aaaaa22222",
+	"manifestacijaId":"mmmmm11111",
+	"datumVremeOdrzavanja":[2021,9,26,19,0,0,0],
+	"cena":2000.0,
+	"kupacUsername":"marko",
+	"status":"REZERVISANA",
+	"tip":"VIP"
+	}
+	]
+}

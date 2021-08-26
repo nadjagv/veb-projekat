@@ -1,0 +1,42 @@
+{"manifestacije":
+	[
+	{
+		"id":"mmmmm11111",
+		"naziv":"Veliki koncert",
+		"tip":"KONCERT",
+		"brojMesta":3000,
+		"datumVremeOdrzavanja":[2021,9,26,19,0,0,0],
+		"cenaRegular":500.0,
+		"status":"AKTIVNO",
+		"lokacija":
+		{
+			"geoDuzina":19.8453,
+			"geoSirina":45.2470,
+			"ulica":"Sutjeska",
+			"grad":"Novi Sad",
+			"postanskiBroj":"21000",
+			"kucniBroj":2
+		},
+		"slikaPath":"putanja"
+	},
+		{
+		"id":"prosla1111",
+		"naziv":"Mali koncert",
+		"tip":"KONCERT",
+		"brojMesta":3000,
+		"datumVremeOdrzavanja":[2021,8,25,19,0,0,0],
+		"cenaRegular":500.0,
+		"status":"NEAKTIVNO",
+		"lokacija":
+		{
+			"geoDuzina":19.8453,
+			"geoSirina":45.2470,
+			"ulica":"Sutjeska",
+			"grad":"Novi Sad",
+			"postanskiBroj":"21000",
+			"kucniBroj":2
+		},
+		"slikaPath":"putanja"
+	}
+	]
+}

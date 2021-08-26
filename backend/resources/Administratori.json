@@ -1,0 +1,22 @@
+{ "administratori":
+	[
+	{
+		"username" : "nadja",
+		"password" : "nadja",
+		"ime" : "Nađa",
+		"prezime" : "Gvozdenac",
+		"pol" : "ZENSKI",
+		"datumRodjenja" : "1999-10-04",
+		"uloga": "ADMINISTRATOR"
+	},
+	{
+		"username" : "matija",
+		"password" : "matija",
+		"ime" : "Matija",
+		"prezime" : "Pojatar",
+		"pol" : "MUSKI",
+		"datumRodjenja" : "2000-01-02",
+		"uloga": "ADMINISTRATOR"
+	}
+	]
+}

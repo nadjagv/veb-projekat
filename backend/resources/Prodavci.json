@@ -1,0 +1,17 @@
+{ "prodavci":
+	[
+	{
+		"username" : "joca",
+		"password" : "joca",
+		"ime" : "Jovan",
+		"prezime" : "Jovin",
+		"pol" : "MUSKI",
+		"datumRodjenja" : "1990-12-24",
+		"uloga": "PRODAVAC",
+		"manifestacijeIds" : 
+			[
+			"mmmmm11111"
+			]
+	}
+	]
+}

@@ -1,0 +1,11 @@
+{"komentari":
+	[
+	{
+		"id":"komentar01",
+		"kupacUsername":"maja",
+		"manifestacijaId":"prosla1111",
+		"tekst":"Super koncert, sjajna muzika.",
+		"ocena":5.0
+	}
+	]
+}
