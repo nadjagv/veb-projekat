@@ -15,6 +15,7 @@ public class Manifestacija {
 	private StatusManifestacije status;
 	private Lokacija lokacija;
 	private String slikaPath;
+	private boolean obrisana;
 	
 
 	public Manifestacija() {
@@ -26,7 +27,7 @@ public class Manifestacija {
 
 	public Manifestacija(String id, String naziv, TipManifestacije tip, int brojMesta,
 			LocalDateTime datumVremeOdrzavanja, double cenaRegular, StatusManifestacije status, Lokacija lokacija,
-			String slikaPath) {
+			String slikaPath, boolean obrisana) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
@@ -37,6 +38,7 @@ public class Manifestacija {
 		this.status = status;
 		this.lokacija = lokacija;
 		this.slikaPath = slikaPath;
+		this.obrisana = obrisana;
 	}
 
 
@@ -134,6 +136,20 @@ public class Manifestacija {
 
 	public void setSlikaPath(String slikaPath) {
 		this.slikaPath = slikaPath;
+	}
+
+
+
+
+	public boolean isObrisana() {
+		return obrisana;
+	}
+
+
+
+
+	public void setObrisana(boolean obrisana) {
+		this.obrisana = obrisana;
 	}
 	
 	

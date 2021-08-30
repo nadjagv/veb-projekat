@@ -8,6 +8,8 @@
 		"pol" : "ZENSKI",
 		"datumRodjenja" : "1999-12-04",
 		"uloga": "KUPAC",
+		"obrisan": false,
+		"blokiran": false,
 		"brojBodova" : 200.0,
 		"tip" : "BRONZANI",
 		"karteIds" : 

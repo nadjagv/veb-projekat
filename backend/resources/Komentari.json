@@ -5,7 +5,8 @@
 		"kupacUsername":"maja",
 		"manifestacijaId":"prosla1111",
 		"tekst":"Super koncert, sjajna muzika.",
-		"ocena":5.0
+		"ocena":5.0,
+		"status":"PRIHVACEN"
 	}
 	]
 }

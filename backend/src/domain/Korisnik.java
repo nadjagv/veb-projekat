@@ -11,6 +11,7 @@ public abstract class Korisnik {
 	private Pol pol;
 	private LocalDate datumRodjenja;
 	private Uloga uloga;
+	private boolean obrisan;
 	
 	
 	
@@ -21,7 +22,7 @@ public abstract class Korisnik {
 
 
 	public Korisnik(String username, String password, String ime, String prezime, Pol pol, LocalDate datumRodjenja,
-			Uloga uloga) {
+			Uloga uloga, boolean obrisan) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -30,6 +31,7 @@ public abstract class Korisnik {
 		this.pol = pol;
 		this.datumRodjenja = datumRodjenja;
 		this.uloga = uloga;
+		this.obrisan = obrisan;
 	}
 
 
@@ -114,6 +116,18 @@ public abstract class Korisnik {
 
 	public void setUloga(Uloga uloga) {
 		this.uloga = uloga;
+	}
+
+
+
+	public boolean isObrisan() {
+		return obrisan;
+	}
+
+
+
+	public void setObrisan(boolean obrisan) {
+		this.obrisan = obrisan;
 	}
 	
 	

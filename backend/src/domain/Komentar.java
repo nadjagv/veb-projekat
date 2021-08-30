@@ -1,25 +1,44 @@
 package domain;
 
+import enums.StatusKomentara;
+
 public class Komentar {
 	private String id;
 	private String kupacUsername;
 	private String manifestacijaId;
 	private String tekst;
 	private double ocena;
+	private StatusKomentara status;
 
 	public Komentar() {
 		// TODO Auto-generated constructor stub
 	}
 
 
-	public Komentar(String id, String kupacUsername, String manifestacijaId, String tekst, double ocena) {
+
+	public Komentar(String id, String kupacUsername, String manifestacijaId, String tekst, double ocena,
+			StatusKomentara status) {
 		super();
 		this.id = id;
 		this.kupacUsername = kupacUsername;
 		this.manifestacijaId = manifestacijaId;
 		this.tekst = tekst;
 		this.ocena = ocena;
+		this.status = status;
 	}
+
+
+
+	public StatusKomentara getStatus() {
+		return status;
+	}
+
+
+
+	public void setStatus(StatusKomentara status) {
+		this.status = status;
+	}
+
 
 
 	public String getId() {

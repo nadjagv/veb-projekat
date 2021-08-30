@@ -12,6 +12,7 @@ public class Kupac extends Korisnik {
 	private ArrayList<String> karteIds;
 	private double brojBodova;
 	private ImeTipaKupca tip;
+	private boolean blokiran;
 
 	public Kupac() {
 		karteIds = new ArrayList<String>();
@@ -20,14 +21,24 @@ public class Kupac extends Korisnik {
 	}
 
 	public Kupac(String username, String password, String ime, String prezime, Pol pol, LocalDate datumRodjenja,
-			Uloga uloga) {
-		super(username, password, ime, prezime, pol, datumRodjenja, uloga);
+			Uloga uloga, boolean obrisan, boolean blokiran) {
+		super(username, password, ime, prezime, pol, datumRodjenja, uloga, obrisan);
 		karteIds = new ArrayList<String>();
 		brojBodova = 0;
 		tip = ImeTipaKupca.BRONZANI;
+		this.blokiran = blokiran;
+		
 	}
 
 	
+
+	public boolean isBlokiran() {
+		return blokiran;
+	}
+
+	public void setBlokiran(boolean blokiran) {
+		this.blokiran = blokiran;
+	}
 
 	public double getBrojBodova() {
 		return brojBodova;

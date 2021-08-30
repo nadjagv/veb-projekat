@@ -8,6 +8,8 @@
 		"pol" : "MUSKI",
 		"datumRodjenja" : "1990-12-24",
 		"uloga": "PRODAVAC",
+		"obrisan": false,
+		"blokiran": false,
 		"manifestacijeIds" : 
 			[
 			"mmmmm11111"

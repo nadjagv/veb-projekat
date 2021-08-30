@@ -1,0 +1,14 @@
+{ "srebrni":
+	{
+	"ime":"SREBRNI",
+	"popust":"5"
+	"potrebniBodovi":3000.0
+	},
+  "zlatni":
+	{
+	"ime":"ZLATNI",
+	"popust":"10"
+	"potrebniBodovi":4000.0
+	},
+
+}
