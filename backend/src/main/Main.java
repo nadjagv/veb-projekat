@@ -1,8 +1,13 @@
 package main;
 
-import static spark.Spark.get;
 import static spark.Spark.port;
 
+import controller.AdministratorController;
+import controller.KartaController;
+import controller.KomentarController;
+import controller.KupacController;
+import controller.ManifestacijaController;
+import controller.ProdavacController;
 import repositories.AdministratorRepository;
 import repositories.KartaRepository;
 import repositories.KomentarRepository;
@@ -23,9 +28,12 @@ public class Main {
 		
 		port(8080);
 		
-		get("/main/test", (req, res) -> {
-			return "Doktor";
-		});
+		new AdministratorController();
+		new KupacController();
+		new ProdavacController();
+		new KartaController();
+		new ManifestacijaController();
+		new KomentarController();
 
 	}
 
