@@ -45,7 +45,7 @@ Vue.component("home-page", {
 			  </div>
 			  <div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-				  <li class="active"><a href="#">Home</a></li>
+				  <li class="active"><a href="#"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a></li>
 				  <li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
 					<ul class="dropdown-menu">
@@ -92,7 +92,7 @@ Vue.component("home-page", {
 			  <div class="carousel-caption">
 				<h1>Želiš da kupiš karte za sledeću manifestaciju?</h1>
 				<p>Prijavi se danas i omogući sebi da na brz način obezbediš svoje mesto na sledećoj velikoj manifestaciji.</p>
-				<p><a class="btn btn-lg btn-primary" href="#" role="button">Prijavi se danas</a></p>
+				<p><a class="btn btn-lg btn-primary" href="#/register" role="button">Prijavi se danas</a></p>
 			  </div>
 			</div>
 		  </div>
@@ -179,11 +179,11 @@ Vue.component("home-page", {
 			<div class="card">
 				<div class="card-header" id="headingOne">
 				<h5 class="mb-0">
-					<button class="btn " type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-					Pretraga
+					<button class="btn " type="button" data-toggle="collapse" @click="dropdownPretraga()" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+					Pretraga <span id="pretragaIcon" class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
 					</button>
 					<button class="btn " v-if="pretrazeno" type="button" @click="reset()">
-					Reset
+					Reset <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
 					</button>
 				</h5>
 			</div>
@@ -210,7 +210,7 @@ Vue.component("home-page", {
 					<vuejs-datepicker  v-model="pretragaDatumDo" format="dd.MM.yyyy" ></vuejs-datepicker>
 					<br />
 					<button class="btn " type="button" @click="trazi()" >
-						Traži
+						Traži <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					</button>
 				</div>
 				</div>
@@ -226,22 +226,46 @@ Vue.component("home-page", {
             <p >Datum: {{m.datumPocetak | dateFormat('HH:mm DD.MM.YYYY')}}</p>
             <p>Cena: {{m.cena}}RSD </p>
 			<p><div style="margin:auto;"><star-rating style="justify:center;" v-model="m.ocena" v-if="m.prosla" :increment="0.5" :read-only="true" :round-start-rating="false" :star-size="25"></star-rating></div></p>
-			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+			<button type="button" class="btn btn-primary" data-toggle="modal" :data-target="'#'+m.id">
 			Prikaži detalje &raquo;
 			</button>
 
 			<!-- Modal -->
-				<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-				<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal fade" :id="m.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-scrollable" role="document">
 					<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+						<h2 class="modal-title" >Detalji manifestacije {{m.naziv}}</h2>
+						<h3 class="modal-title" >{{m.tip}}</h3>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">
-						...
+						<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-4" >
+								<img class="img-thumbnail" :src="'images/'+m.slika" alt="Generic placeholder image" width="140" height="140">
+							</div>
+							<div class="col-md-4 ml-auto" >
+								<p>Broj mesta: {{m.brojMesta}}</p>
+								<p>Preostali broj karata: {{m.slobodnaMesta}}</p>
+								<p >Datum: {{m.datumPocetak | dateFormat('HH:mm DD.MM.YYYY')}}</p>
+								<p>Cena: {{m.cena}}RSD </p>
+								<p v-if="!m.aktivna">Status: Neaktivno <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></p>
+								<p v-if="m.aktivna">Status: Aktivno <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></p>
+								<p>Lokacija: {{m.grad}}, {{m.drzava}}</p>
+								<p><div style="margin:auto;"><star-rating style="justify:center;" v-model="m.ocena" v-if="m.prosla" :increment="0.5" :read-only="true" :round-start-rating="false" :star-size="25"></star-rating></div></p>
+							</div>
+							
+						</div>
+						</div>
+
+						<br/>
+						<br/>
+
+						<h3>Komentari:</h3>
+
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -365,6 +389,10 @@ Vue.component("home-page", {
 			this.pretragaDatumOd=Date.now()
 			this.manifestacijeZaPrikaz= [...this.manifestacije]
 		},
+		dropdownPretraga(){
+			$("#pretragaIcon").toggleClass("glyphicon-arrow-down");
+			$("#pretragaIcon").toggleClass("glyphicon-arrow-up");
+		},
 	},
 	mounted() {
 		$(document).ready(function () {
@@ -378,6 +406,7 @@ Vue.component("home-page", {
 		});
 
 		this.manifestacije.push({
+			id:1,
 			naziv: "Test1",
 			grad: "Novi Sad",
 			drzava: "Srbija",
@@ -388,8 +417,12 @@ Vue.component("home-page", {
 			prosla: true,
 			rasprodato: true,
 			ocena: 4.4,
+			brojMesta: 120,
+			slobodnaMesta: 0,
+			aktivna: true,
 		})
 		this.manifestacije.push({
+			id:2,
 			naziv: "Test2",
 			grad: "Novi Sad",
 			drzava: "Srbija",
@@ -400,8 +433,12 @@ Vue.component("home-page", {
 			prosla: true,
 			rasprodato: false,
 			ocena: 3.2,
+			brojMesta: 221,
+			slobodnaMesta: 56,
+			aktivna: true,
 		})
 		this.manifestacije.push({
+			id:3,
 			naziv: "Test3",
 			grad: "Beograd",
 			drzava: "Srbija",
@@ -412,8 +449,12 @@ Vue.component("home-page", {
 			prosla: false,
 			rasprodato: false,
 			ocena: 0,
+			brojMesta: 42,
+			slobodnaMesta: 3,
+			aktivna: false,
 		})
 		this.manifestacije.push({
+			id:4,
 			naziv: "Test4",
 			grad: "Niš",
 			drzava: "Srbija",
@@ -424,9 +465,13 @@ Vue.component("home-page", {
 			prosla: false,
 			rasprodato: false,
 			ocena: 0,
+			brojMesta: 22,
+			slobodnaMesta: 1,
+			aktivna: true,
 		})
 
 		this.manifestacije.push({
+			id:5,
 			naziv: "Test5",
 			grad: "Niš",
 			drzava: "Srbija",
@@ -437,6 +482,9 @@ Vue.component("home-page", {
 			prosla: false,
 			rasprodato: true,
 			ocena: 0,
+			brojMesta: 78,
+			slobodnaMesta: 0,
+			aktivna: true,
 		})
 
 		this.manifestacije=this.manifestacije.sort(this.porediManifestacijePocetak)
