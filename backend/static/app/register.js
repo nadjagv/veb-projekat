@@ -74,7 +74,7 @@ Vue.component("register", {
                 </div>
 
 
-                <button class="btn btn-lg btn-primary" style="margin:20px" type="submit">Registruj se</button>
+                <button class="btn btn-lg btn-primary" style="margin:20px" type="submit" @click="submitReg()">Registruj se</button>
             </form>
 
         </div>
@@ -84,9 +84,18 @@ Vue.component("register", {
 	,
 
 	methods: {
-
+        submitReg(){
+            if ( $('#formRegister')[0].checkValidity() ) {
+                alert("Uspesna registracija")
+                $('#formRegister').submit(function (evt) {
+                    evt.preventDefault();
+                    window.history.back();
+                });
+            }
+        },
 	},
 	mounted() {
+
 	},
     components:{
 		vuejsDatepicker,

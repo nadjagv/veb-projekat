@@ -5,7 +5,7 @@ function fixDate(students) {
 	return students;
 }
 
-Vue.component("home-page", {
+Vue.component("man-view-user", {
 	data: function () {
 		return {
 			manifestacije: [],
@@ -29,102 +29,6 @@ Vue.component("home-page", {
 	},
 	template: `
     <div>
-    <div class="navbar-wrapper">
-		<div class="container">
-  
-		  <nav class="navbar navbar-inverse navbar-static-top">
-			<div class="container">
-			  <div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-				  <span class="sr-only">Toggle navigation</span>
-				  <span class="icon-bar"></span>
-				  <span class="icon-bar"></span>
-				  <span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="#">Web Projekat Tim45</a>
-			  </div>
-			  <div id="navbar" class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">
-				  <li class="active"><a href="#"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a></li>
-				  <li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-					<ul class="dropdown-menu">
-					  <li><a href="#">Action</a></li>
-					  <li><a href="#">Another action</a></li>
-					  <li><a href="#">Something else here</a></li>
-					  <li role="separator" class="divider"></li>
-					  <li class="dropdown-header">Nav header</li>
-					  <li><a href="#">Separated link</a></li>
-					  <li><a href="#">One more separated link</a></li>
-					</ul>
-				  </li>
-				</ul>
-
-
-				<form class="navbar-form navbar-right" id="navForm">
-					<div class="form-group">
-					  <input type="text" placeholder="Username" class="form-control">
-					</div>
-					<div class="form-group">
-					  <input type="password" placeholder="Password" class="form-control">
-					</div>
-					<button @click="logIn()" type="submit" class="btn btn-success">Sign in</button>
-				  </form>
-				  </div>
-			  </div>
-		  </nav>
-  
-		</div>
-	</div>
-
-    <!-- Carousel
-    ================================================== -->
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-		<!-- Indicators -->
-		<ol class="carousel-indicators">
-		  <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-		  <li data-target="#myCarousel" data-slide-to="1"></li>
-		  <li data-target="#myCarousel" data-slide-to="2"></li>
-		</ol>
-		<div class="carousel-inner" role="listbox">
-		  <div class="item active">
-			<img class="first-slide" src="images/car1.jpg" alt="First slide">
-			<div class="container">
-			  <div class="carousel-caption">
-				<h1>Želiš da kupiš karte za sledeću manifestaciju?</h1>
-				<p>Prijavi se danas i omogući sebi da na brz način obezbediš svoje mesto na sledećoj velikoj manifestaciji.</p>
-				<p><a class="btn btn-lg btn-primary" href="#/register" role="button">Prijavi se danas</a></p>
-			  </div>
-			</div>
-		  </div>
-		  <div class="item">
-			<img class="second-slide" src="images/car2.jpg" alt="Second slide">
-			<div class="container">
-			  <div class="carousel-caption">
-				<h1>Šta raditi sledeći vikend?</h1>
-				<p>U našoj ponudi je preko 1000 popularnih manifestacija.</p>
-			  </div>
-			</div>
-		  </div>
-		  <div class="item">
-			<img class="third-slide" src="images/car3.jpg" alt="Third slide">
-			<div class="container">
-			  <div class="carousel-caption">
-				<h1>Po nešto za svakoga.</h1>
-				<p>Velika raznovrsnost manifestacija od koncerata i klubskih žurki do predstava i umetničkih izložbi.</p>
-			  </div>
-			</div>
-		  </div>
-		</div>
-		<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-		  <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-		  <span class="sr-only">Previous</span>
-		</a>
-		<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-		  <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-		  <span class="sr-only">Next</span>
-		</a>
-	</div><!-- /.carousel -->
 
       <h1 style="text-align:center;margin:30px"> Manifestacije: </h1>
 
@@ -231,6 +135,10 @@ Vue.component("home-page", {
 			Prikaži detalje &raquo;
 			</button>
 
+            <button v-if="m.slobodnaMesta!=0 && m.aktivna && !m.prosla" type="button" style="margin-top:10px" class="btn btn-primary" data-toggle="modal" :data-target="'#karteModal'+m.id">
+			Rezerviši karte &raquo;
+			</button>
+
 			<!-- Modal -->
 				<div class="modal fade" :id="m.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 				<div class="modal-dialog modal-dialog-scrollable" role="document">
@@ -266,6 +174,55 @@ Vue.component("home-page", {
 						<br/>
 
 						<h3>Komentari:</h3>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+					</div>
+				</div>
+				</div>
+
+                <!-- Modal -->
+				<div class="modal fade" :id="'karteModal'+m.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-scrollable" role="document">
+					<div class="modal-content">
+					<div class="modal-header">
+						<h2 class="modal-title" >Kupovina karata za manifestaciju {{m.naziv}}</h2>
+						<h3 class="modal-title" >{{m.tip}}</h3>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-4" >
+								<img class="img-thumbnail" :src="'images/'+m.slika" alt="Generic placeholder image" width="140" height="140">
+							</div>
+							<div class="col-md-4 ml-auto" >
+                                <p>Broj mesta: {{m.brojMesta}}</p>
+                                <p>Preostali broj karata: {{m.slobodnaMesta}}</p>
+                                <p >Datum: {{m.datumPocetak | dateFormat('HH:mm DD.MM.YYYY')}}</p>
+                                <p>Lokacija: {{m.grad}}, {{m.drzava}}</p>
+
+                                
+							</div>
+
+                            <h3>Cenovnik:</h3>
+
+                                <p>Regular karta: {{m.cena}}RSD</p>
+                                <p>Fan pit: {{m.cena * 2}}RSD</p>
+                                <p>VIP: {{m.cena * 4}}RSD</p>
+
+                                <div class="col-md-4 ml-auto" >
+                                    <label for="inputUsername" class="control-label">Broj karata:</label>
+                                    <input type="number" id="brojKarataInput" required>
+                                </div>
+
+							
+						</div>
+						</div>
 
 					</div>
 					<div class="modal-footer">
@@ -393,18 +350,6 @@ Vue.component("home-page", {
 		dropdownPretraga(){
 			$("#pretragaIcon").toggleClass("glyphicon-arrow-down");
 			$("#pretragaIcon").toggleClass("glyphicon-arrow-up");
-		},
-		logIn(){
-			if ( $('#navForm')[0].checkValidity() ) {
-                alert("Uspesna prijava")
-                $('#navForm').submit(function (evt) {
-                    evt.preventDefault();
-
-
-					
-                    window.location="#/user"
-                });
-            }
 		},
 	},
 	mounted() {
