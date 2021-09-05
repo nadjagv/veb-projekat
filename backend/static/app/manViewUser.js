@@ -13,6 +13,8 @@ Vue.component("man-view-user", {
 			prikazRasprodatih: true,
 			tipZaPrikaz: "Svi",
 			tipovi: ["Svi", "Klubska žurka", "Koncert", "Predstava", "Izložba"],
+			tipKarata: ["Regular","Fan Pit","VIP"],
+			tipKarte:"Regular",
 			redSortiranjaOpcije:["Bez reda","Opadajuće","Rastuće"],
 			redSortiranja:"Bez reda",
 			sortirajPoOpcije:["Naziv","Datum","Cena","Lokacija"],
@@ -25,6 +27,8 @@ Vue.component("man-view-user", {
 			pretragaCenaDo:10000,
 			pretragaDatumOd: Date.now(),
 			pretragaDatumDo: Date.now(),
+			brojKarata: 0,
+			ukupnaCena: 0,
 		}
 	},
 	template: `
@@ -135,7 +139,7 @@ Vue.component("man-view-user", {
 			Prikaži detalje &raquo;
 			</button>
 
-            <button v-if="m.slobodnaMesta!=0 && m.aktivna && !m.prosla" type="button" style="margin-top:10px" class="btn btn-primary" data-toggle="modal" :data-target="'#karteModal'+m.id">
+            <button @click="pripremiModal(m)" v-if="m.slobodnaMesta!=0 && m.aktivna && !m.prosla" type="button" style="margin-top:10px" class="btn btn-primary" data-toggle="modal" :data-target="'#karteModal'+m.id">
 			Rezerviši karte &raquo;
 			</button>
 
@@ -216,8 +220,19 @@ Vue.component("man-view-user", {
                                 <p>VIP: {{m.cena * 4}}RSD</p>
 
                                 <div class="col-md-4 ml-auto" >
-                                    <label for="inputUsername" class="control-label">Broj karata:</label>
-                                    <input type="number" id="brojKarataInput" required>
+                                    <label for="brojKarataInput" class="control-label">Broj karata:</label>
+									<input type="range" class="form-range" min="0" :max=m.slobodnaMesta step="1" id="brojKarataInput" v-model="brojKarata" @change="racunajCenu(m)" >
+									<input type="number" :value=brojKarata id="rangePrimary" disabled/>
+									<label>Tip karti:</label>
+									<select v-model="tipKarte" @change="racunajCenu(m)">
+									<option v-for="tip in tipKarata" v-bind:value="tip">
+										{{ tip }}
+									</option>
+									</select>
+									<label>Ukupna cena:</label>
+									<input type="number" :value=ukupnaCena disabled/>
+									<br/>
+									<button @click="kupiKarte(m)" type="button" class="btn btn-success" >Kupi</button>
                                 </div>
 
 							
@@ -351,6 +366,36 @@ Vue.component("man-view-user", {
 			$("#pretragaIcon").toggleClass("glyphicon-arrow-down");
 			$("#pretragaIcon").toggleClass("glyphicon-arrow-up");
 		},
+		pripremiModal(m){
+			this.tipKarte="Regular"
+			this.brojKarata=0
+			this.racunajCenu(m)
+		},
+		racunajCenu(m){
+			switch(this.tipKarte){
+				case "Regular":
+					this.ukupnaCena=m.cena*this.brojKarata
+					break
+				case "Fan Pit":
+					this.ukupnaCena=m.cena*this.brojKarata*2
+					break
+				case "VIP":
+					this.ukupnaCena=m.cena*this.brojKarata*4
+					break
+				default:
+
+			}
+		},
+		kupiKarte(m){
+			if(this.brojKarata==0){
+				alert("Nije moguće kupiti 0 karata")
+			}else{
+				m.slobodnaMesta-=this.brojKarata
+				this.pripremiModal(m)
+				alert("KUPLJENO")
+			}
+
+		},
 	},
 	mounted() {
 		$(document).ready(function () {
@@ -405,8 +450,8 @@ Vue.component("man-view-user", {
 			prosla: false,
 			ocena: 0,
 			brojMesta: 42,
-			slobodnaMesta: 3,
-			aktivna: false,
+			slobodnaMesta: 14,
+			aktivna: true,
 		})
 		this.manifestacije.push({
 			id:4,
@@ -420,7 +465,7 @@ Vue.component("man-view-user", {
 			prosla: false,
 			ocena: 0,
 			brojMesta: 22,
-			slobodnaMesta: 1,
+			slobodnaMesta: 10,
 			aktivna: true,
 		})
 

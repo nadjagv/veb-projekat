@@ -51,6 +51,7 @@ Vue.component("user-page", {
 
 
 			  </div>
+			</div>
 		  </nav>
 
           <man-view-user></man-view-user>
