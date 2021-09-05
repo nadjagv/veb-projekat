@@ -60,14 +60,15 @@ Vue.component("home-page", {
 				  </li>
 				</ul>
 
-				<form class="navbar-form navbar-right">
+
+				<form class="navbar-form navbar-right" id="navForm">
 					<div class="form-group">
-					  <input type="text" placeholder="Email" class="form-control">
+					  <input type="text" placeholder="Username" class="form-control">
 					</div>
 					<div class="form-group">
 					  <input type="password" placeholder="Password" class="form-control">
 					</div>
-					<button type="submit" class="btn btn-success">Sign in</button>
+					<button @click="logIn()" type="submit" class="btn btn-success">Sign in</button>
 				  </form>
 				  </div>
 			  </div>
@@ -300,7 +301,7 @@ Vue.component("home-page", {
 					this.sortiraj()
 				}
 			} else {
-				this.manifestacijeZaPrikaz = this.manifestacije.filter(m => m.rasprodato == this.prikazRasprodatih)
+				this.manifestacijeZaPrikaz = this.manifestacije.filter(m => (m.slobodnaMesta==0) == this.prikazRasprodatih)
 				if(this.redSortiranja!=="Bez reda"){
 					this.sortiraj()
 				}
@@ -393,6 +394,18 @@ Vue.component("home-page", {
 			$("#pretragaIcon").toggleClass("glyphicon-arrow-down");
 			$("#pretragaIcon").toggleClass("glyphicon-arrow-up");
 		},
+		logIn(){
+			if ( $('#navForm')[0].checkValidity() ) {
+                alert("Uspesna prijava")
+                $('#navForm').submit(function (evt) {
+                    evt.preventDefault();
+
+
+					
+                    window.location="#/user"
+                });
+            }
+		},
 	},
 	mounted() {
 		$(document).ready(function () {
@@ -415,7 +428,6 @@ Vue.component("home-page", {
 			datumPocetak: 1630620000000,
 			cena: 1000,
 			prosla: true,
-			rasprodato: true,
 			ocena: 4.4,
 			brojMesta: 120,
 			slobodnaMesta: 0,
@@ -431,7 +443,6 @@ Vue.component("home-page", {
 			datumPocetak: 1630087200000,
 			cena: 100,
 			prosla: true,
-			rasprodato: false,
 			ocena: 3.2,
 			brojMesta: 221,
 			slobodnaMesta: 56,
@@ -447,7 +458,6 @@ Vue.component("home-page", {
 			datumPocetak: 1630864800000,
 			cena: 1000,
 			prosla: false,
-			rasprodato: false,
 			ocena: 0,
 			brojMesta: 42,
 			slobodnaMesta: 3,
@@ -463,7 +473,6 @@ Vue.component("home-page", {
 			datumPocetak: 1630864800000,
 			cena: 3000,
 			prosla: false,
-			rasprodato: false,
 			ocena: 0,
 			brojMesta: 22,
 			slobodnaMesta: 1,
@@ -480,7 +489,6 @@ Vue.component("home-page", {
 			datumPocetak: 1630620000000,
 			cena: 1000,
 			prosla: false,
-			rasprodato: true,
 			ocena: 0,
 			brojMesta: 78,
 			slobodnaMesta: 0,
