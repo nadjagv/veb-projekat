@@ -12,6 +12,7 @@ public abstract class Korisnik {
 	private LocalDate datumRodjenja;
 	private Uloga uloga;
 	private boolean obrisan;
+	private String JWTToken;
 	
 	
 	
@@ -129,6 +130,19 @@ public abstract class Korisnik {
 	public void setObrisan(boolean obrisan) {
 		this.obrisan = obrisan;
 	}
+
+
+
+	public String getJWTToken() {
+		return JWTToken;
+	}
+
+
+
+	public void setJWTToken(String jWTToken) {
+		JWTToken = jWTToken;
+	}
+	
 	
 	
 	

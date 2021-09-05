@@ -1,6 +1,7 @@
 package main;
 
 import static spark.Spark.port;
+import static spark.Spark.staticFiles;
 
 import controller.AdministratorController;
 import controller.KartaController;
@@ -8,6 +9,9 @@ import controller.KomentarController;
 import controller.KupacController;
 import controller.ManifestacijaController;
 import controller.ProdavacController;
+import java.io.File;
+import java.io.IOException;
+
 import repositories.AdministratorRepository;
 import repositories.KartaRepository;
 import repositories.KomentarRepository;
@@ -17,7 +21,7 @@ import repositories.ProdavacRepository;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
 		AdministratorRepository.loadData();
 		KupacRepository.loadData();
@@ -27,6 +31,8 @@ public class Main {
 		KomentarRepository.loadData();
 		
 		port(8080);
+		
+		staticFiles.externalLocation(new File("./static").getCanonicalPath()); 
 		
 		new AdministratorController();
 		new KupacController();
