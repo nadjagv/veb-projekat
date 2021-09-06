@@ -20,5 +20,7 @@ public class AdministratorService {
 	public Administrator preuzmiPoUsername(String username) {
 		return administratorRep.getOneByUsername(username);
 	}
+	
+	
 
 }

@@ -10,6 +10,8 @@ import controller.KorisnikController;
 import controller.KupacController;
 import controller.ManifestacijaController;
 import controller.ProdavacController;
+import domain.Administrator;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -42,6 +44,7 @@ public class Main {
 		new KartaController();
 		new ManifestacijaController();
 		new KomentarController();
+		
 
 	}
 

@@ -1,24 +1,23 @@
-{ "administratori":
-	[
-	{
-		"username" : "nadja",
-		"password" : "nadja",
-		"ime" : "Nađa",
-		"prezime" : "Gvozdenac",
-		"pol" : "ZENSKI",
-		"datumRodjenja" : "1999-10-04",
-		"uloga": "ADMINISTRATOR",
-		"obrisan": false
-	},
-	{
-		"username" : "matija",
-		"password" : "matija",
-		"ime" : "Matija",
-		"prezime" : "Pojatar",
-		"pol" : "MUSKI",
-		"datumRodjenja" : "2000-01-02",
-		"uloga": "ADMINISTRATOR",
-		"obrisan": false
-	}
-	]
+{
+  "administratori" : [ {
+    "username" : "nadja",
+    "password" : "nadja",
+    "ime" : "Nađa",
+    "prezime" : "Gvozdenac",
+    "pol" : "ZENSKI",
+    "datumRodjenja" : [ 1999, 10, 4 ],
+    "uloga" : "ADMINISTRATOR",
+    "obrisan" : false,
+    "jwttoken" : null
+  }, {
+    "username" : "matija",
+    "password" : "matija",
+    "ime" : "Matija",
+    "prezime" : "Pojatar",
+    "pol" : "MUSKI",
+    "datumRodjenja" : [ 2000, 1, 2 ],
+    "uloga" : "ADMINISTRATOR",
+    "obrisan" : false,
+    "jwttoken" : null
+  }]
 }

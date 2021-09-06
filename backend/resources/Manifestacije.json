@@ -7,7 +7,8 @@
 		"brojMesta":3000,
 		"datumVremeOdrzavanja":[2021,9,26,19,0,0,0],
 		"cenaRegular":500.0,
-		"status":"AKTIVNO",
+    "aktivna": true,
+    "ocena": null,
 		"lokacija":
 		{
 			"geoDuzina":19.8453,
@@ -17,7 +18,7 @@
 			"postanskiBroj":"21000",
 			"kucniBroj":2
 		},
-		"slikaPath":"putanja"
+		"slikaPath":"koncert-v.png"
 	},
 		{
 		"id":"prosla1111",
@@ -26,7 +27,8 @@
 		"brojMesta":3000,
 		"datumVremeOdrzavanja":[2021,8,25,19,0,0,0],
 		"cenaRegular":500.0,
-		"status":"NEAKTIVNO",
+    "aktivna": false,
+    "ocena": 4.5,
 		"lokacija":
 		{
 			"geoDuzina":19.8453,
@@ -36,7 +38,7 @@
 			"postanskiBroj":"21000",
 			"kucniBroj":2
 		},
-		"slikaPath":"putanja"
+		"slikaPath":"koncert.jpg"
 	}
 	]
 }

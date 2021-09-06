@@ -6,7 +6,9 @@ import java.util.ArrayList;
 
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
+import domain.Administrator;
 import domain.Komentar;
 
 public class KomentarRepository {
@@ -52,6 +54,26 @@ public class KomentarRepository {
 
 		try {
 			instance = mapper.readValue(new File("resources/Komentari.json"), KomentarRepository.class);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	}
+	
+	public void add(Komentar k) {
+		komentari.add(k);
+		save();
+	}
+	
+	public void save(){
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
+		mapper.findAndRegisterModules();
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+		try {
+			mapper.writeValue(new File("resources/Komentari.json"), this);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -6,7 +6,9 @@ import java.util.ArrayList;
 
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
+import domain.Komentar;
 import domain.Manifestacija;
 
 public class ManifestacijaRepository {
@@ -56,6 +58,26 @@ public class ManifestacijaRepository {
 
 		try {
 			instance = mapper.readValue(new File("resources/Manifestacije.json"), ManifestacijaRepository.class);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	}
+	
+	public void add(Manifestacija m) {
+		manifestacije.add(m);
+		save();
+	}
+	
+	public void save(){
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
+		mapper.findAndRegisterModules();
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+		try {
+			mapper.writeValue(new File("resources/Manifestacije.json"), this);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

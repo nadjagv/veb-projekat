@@ -20,5 +20,6 @@ public class KartaService {
 	public Karta preuzmiPoId(String id) {
 		return kartaRep.getOneById(id);
 	}
+	
 
 }

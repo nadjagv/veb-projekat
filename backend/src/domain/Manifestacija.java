@@ -12,10 +12,11 @@ public class Manifestacija {
 	private int brojMesta;
 	private LocalDateTime datumVremeOdrzavanja;
 	private double cenaRegular;
-	private StatusManifestacije status;
+	private boolean aktivna;
 	private Lokacija lokacija;
 	private String slikaPath;
 	private boolean obrisana;
+	private double ocena;
 	
 
 	public Manifestacija() {
@@ -25,9 +26,10 @@ public class Manifestacija {
 
 
 
+
 	public Manifestacija(String id, String naziv, TipManifestacije tip, int brojMesta,
-			LocalDateTime datumVremeOdrzavanja, double cenaRegular, StatusManifestacije status, Lokacija lokacija,
-			String slikaPath, boolean obrisana) {
+			LocalDateTime datumVremeOdrzavanja, double cenaRegular, boolean aktivna, Lokacija lokacija,
+			String slikaPath, boolean obrisana, double ocena) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
@@ -35,11 +37,17 @@ public class Manifestacija {
 		this.brojMesta = brojMesta;
 		this.datumVremeOdrzavanja = datumVremeOdrzavanja;
 		this.cenaRegular = cenaRegular;
-		this.status = status;
+		this.aktivna = aktivna;
 		this.lokacija = lokacija;
 		this.slikaPath = slikaPath;
 		this.obrisana = obrisana;
+		this.ocena = ocena;
 	}
+
+
+
+
+
 
 
 
@@ -108,14 +116,23 @@ public class Manifestacija {
 	}
 
 
-	public StatusManifestacije getStatus() {
-		return status;
+	
+
+
+	public boolean isAktivna() {
+		return aktivna;
 	}
 
 
-	public void setStatus(StatusManifestacije status) {
-		this.status = status;
+
+
+
+	public void setAktivna(boolean aktivna) {
+		this.aktivna = aktivna;
 	}
+
+
+
 
 
 	public Lokacija getLokacija() {
@@ -150,6 +167,20 @@ public class Manifestacija {
 
 	public void setObrisana(boolean obrisana) {
 		this.obrisana = obrisana;
+	}
+
+
+
+
+	public double getOcena() {
+		return ocena;
+	}
+
+
+
+
+	public void setOcena(double ocena) {
+		this.ocena = ocena;
 	}
 	
 	

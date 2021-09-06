@@ -6,7 +6,9 @@ import java.util.ArrayList;
 
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
+import domain.Komentar;
 import domain.Kupac;
 
 public class KupacRepository {
@@ -51,6 +53,26 @@ public class KupacRepository {
 
 		try {
 			instance = mapper.readValue(new File("resources/Kupci.json"), KupacRepository.class);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	}
+	
+	public void add(Kupac k) {
+		kupci.add(k);
+		save();
+	}
+	
+	public void save(){
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
+		mapper.findAndRegisterModules();
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+		try {
+			mapper.writeValue(new File("resources/Kupci.json"), this);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
