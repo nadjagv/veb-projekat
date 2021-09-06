@@ -63,10 +63,10 @@ Vue.component("home-page", {
 
 				<form class="navbar-form navbar-right" id="navForm">
 					<div class="form-group">
-					  <input type="text" placeholder="Username" class="form-control">
+					  <input type="text" placeholder="Username" class="form-control" id="username">
 					</div>
 					<div class="form-group">
-					  <input type="password" placeholder="Password" class="form-control">
+					  <input type="password" placeholder="Password" class="form-control"  id="password">
 					</div>
 					<button @click="logIn()" type="submit" class="btn btn-success">Sign in</button>
 				  </form>
@@ -396,13 +396,15 @@ Vue.component("home-page", {
 		},
 		logIn(){
 			if ( $('#navForm')[0].checkValidity() ) {
-                alert("Uspesna prijava")
                 $('#navForm').submit(function (evt) {
                     evt.preventDefault();
+                    console.log(document.getElementById('username').value)
 
-
+                    axios
+                    .post('korisnici/login', {"username":document.getElementById('username').value, "password":document.getElementById('password').value})
+                    .then(response => window.localStorage.setItem('jwt', response.data.JWTToken))
 					
-                    window.location="#/user"
+                    
                 });
             }
 		},

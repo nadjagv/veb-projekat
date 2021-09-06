@@ -34,11 +34,15 @@ public class KorisnikService {
 			return pronadjen;
 		}
 		
+		System.out.println(pronadjen.getUsername());
+		
 		return null;
 	}
 	
 	public Korisnik logIn(Kredencijali kred) {
 		Korisnik korisnik = pretraziPoUsername(kred.getUsername());
+		if (korisnik == null || korisnik.isObrisan())
+			return null;
 		if (korisnik.getPassword().equals(kred.getPassword())) {
 			TokenUtils.napraviToken(korisnik);
 			return korisnik;

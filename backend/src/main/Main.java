@@ -6,6 +6,7 @@ import static spark.Spark.staticFiles;
 import controller.AdministratorController;
 import controller.KartaController;
 import controller.KomentarController;
+import controller.KorisnikController;
 import controller.KupacController;
 import controller.ManifestacijaController;
 import controller.ProdavacController;
@@ -34,6 +35,7 @@ public class Main {
 		
 		staticFiles.externalLocation(new File("./static").getCanonicalPath()); 
 		
+		new KorisnikController();
 		new AdministratorController();
 		new KupacController();
 		new ProdavacController();
