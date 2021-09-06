@@ -1,8 +1,8 @@
-function fixDate(students) {
-	for (var s of students) {
-		s.datumRodjenja = new Date(parseInt(s.datumRodjenja));
+function fixDate(man) {
+	for (var m of man) {
+		m.datumPocetka = new Date(parseInt(m.datumPocetka));
 	}
-	return students;
+	return man;
 }
 
 Vue.component("man-view-user", {
@@ -12,7 +12,7 @@ Vue.component("man-view-user", {
 			manifestacijeZaPrikaz: [],
 			prikazRasprodatih: true,
 			tipZaPrikaz: "Svi",
-			tipovi: ["Svi", "Klubska žurka", "Koncert", "Predstava", "Izložba"],
+			tipovi: ["Svi", "Sport", "Koncert", "Predstava", "Ostalo","Festival"],
 			tipKarata: ["Regular","Fan Pit","VIP"],
 			tipKarte:"Regular",
 			redSortiranjaOpcije:["Bez reda","Opadajuće","Rastuće"],
@@ -29,6 +29,9 @@ Vue.component("man-view-user", {
 			pretragaDatumDo: Date.now(),
 			brojKarata: 0,
 			ukupnaCena: 0,
+			novaManifestacija:{
+				tip: "Koncert"
+			},
 		}
 	},
 	props:{
@@ -146,6 +149,10 @@ Vue.component("man-view-user", {
 			Rezerviši karte &raquo;
 			</button>
 
+			<button v-if="userRole==='Prodavac'" type="button" style="margin-top:10px" class="btn btn-primary" data-toggle="modal" :data-target="'#editModal'+m.id">
+			Izmeni informacije &raquo;
+			</button>
+
 			<!-- Modal -->
 				<div class="modal fade" :id="m.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 				<div class="modal-dialog modal-dialog-scrollable" role="document">
@@ -189,6 +196,75 @@ Vue.component("man-view-user", {
 					</div>
 				</div>
 				</div>
+
+				<!-- Modal -->
+				<div class="modal fade" :id="'editModal'+m.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-scrollable" role="document">
+					<div class="modal-content">
+					<div class="modal-header">
+						<h2 class="modal-title" >Izmena informacija manifestacije {{m.naziv}}</h2>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+					<div class="container-fluid">
+					<form class="form-signin" data-toggle="validator" id="formEdit" role="form">
+						<div class="form-group">
+						<label for="inputNaziv" class="control-label">Naziv manifestacije</label>
+						<input v-model="m.naziv" type="text" class="form-control" id="inputNaziv" data-error="Polje ne sme biti prazno" required>
+							<div class="help-block with-errors"></div>
+						</div>
+
+						<div class="form-group">
+						<label for="inputGrad" class="control-label">Grad</label>
+						<input type="text" v-model="m.grad" class="form-control" id="inputGrad" data-error="Polje ne sme biti prazno" required>
+							<div class="help-block with-errors"></div>
+						</div>
+
+						<div class="form-group">
+							<label for="inputDrzava" class="control-label">Država</label>
+							<input type="text" v-model="m.drzava" pattern="^[_A-z0-9]{1,}$" maxlength="15" class="form-control" id="inputDrzava"  data-error="Polje ne sme biti prazno" required>
+							<div class="help-block with-errors"></div>
+						</div>
+
+						<div class="form-group" required>
+									<label>Tip manifestacije:</label>
+									<select v-model="m.tip">
+									<option v-for="tip in tipovi" v-bind:value="tip">
+										{{ tip }}
+									</option>
+									</select>
+						</div>
+
+						<div class="form-group">
+							<label for="datePicker">Datum:</label>
+							<vuejs-datepicker id="datePicker" v-model="m.datumPocetka" format="dd.MM.yyyy" data-error="Polje ne sme biti prazno" required></vuejs-datepicker>
+								<div class="help-block with-errors"></div>
+						</div>
+
+						<div class="form-group">
+							<label for="inputCena" class="control-label">Cena karte</label>
+							<input type="number" v-model="m.cena" min="100" max="10000" maxlength="15" class="form-control" id="inputCena"  data-error="Polje ne sme biti prazno" required>
+							<div class="help-block with-errors"></div>
+						</div>
+
+						<div class="form-group">
+							<label for="inputMesta" class="control-label">Broj mesta</label>
+							<input type="number" min="10" v-model="m.brojMesta" max="50000" maxlength="15" class="form-control" id="inputMesta"  data-error="Polje ne sme biti prazno" required>
+							<div class="help-block with-errors"></div>
+						</div>
+
+
+						<button class="btn btn-lg btn-primary" style="margin:20px" type="submit" @click="submitIzmene()">Sačuvaj izmene</button>
+					</form>
+				</div>
+				</div>
+				</div>
+				</div>
+				</div>
+
+
 
                 <!-- Modal -->
 				<div class="modal fade" :id="'karteModal'+m.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -250,6 +326,83 @@ Vue.component("man-view-user", {
 				</div>
 				</div>
         </div><!-- /.col-lg-4 -->
+
+		<div class="col-lg-3" style="margin:20px">
+			<img class="img-circle" @click="openModal()" src="images/plus.png" alt="Generic placeholder image" width="140" height="140" >
+			<h2 style="text-align:center">Dodaj manifestaciju</h2>
+
+			<!-- Modal -->
+				<div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-scrollable" role="document">
+					<div class="modal-content">
+					<div class="modal-header">
+						<h2 class="modal-title" >Nova manifestacija</h2>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="container-fluid">
+							<form class="form-signin" data-toggle="validator" id="formNew" role="form">
+								<div class="form-group">
+								<label for="inputNaziv" class="control-label">Naziv manifestacije</label>
+								<input v-model="novaManifestacija.naziv" type="text" class="form-control" id="inputNaziv" data-error="Polje ne sme biti prazno" required>
+									<div class="help-block with-errors"></div>
+								</div>
+
+								<div class="form-group">
+								<label for="inputGrad" class="control-label">Grad</label>
+								<input type="text" v-model="novaManifestacija.grad" class="form-control" id="inputGrad" data-error="Polje ne sme biti prazno" required>
+									<div class="help-block with-errors"></div>
+								</div>
+
+								<div class="form-group">
+									<label for="inputDrzava" class="control-label">Država</label>
+									<input type="text" v-model="novaManifestacija.drzava" pattern="^[_A-z0-9]{1,}$" maxlength="15" class="form-control" id="inputDrzava"  data-error="Polje ne sme biti prazno" required>
+									<div class="help-block with-errors"></div>
+								</div>
+
+								<div class="form-group" required>
+									<label>Tip manifestacije:</label>
+									<select v-model="novaManifestacija.tip">
+									<option v-for="tip in tipovi" v-bind:value="tip">
+										{{ tip }}
+									</option>
+									</select>
+								</div>
+
+								<div class="form-group">
+									<label for="datePicker">Datum:</label>
+									<input type="date" id="datePicker" v-model="novaManifestacija.datumPocetka"
+										min="1900-01-01" data-error="Polje ne sme biti prazno" required>
+										<div class="help-block with-errors"></div>
+								</div>
+
+								<div class="form-group">
+									<label for="inputCena" class="control-label">Cena karte</label>
+									<input type="number" v-model="novaManifestacija.cena" min="100" max="10000" maxlength="15" class="form-control" id="inputCena"  data-error="Polje ne sme biti prazno" required>
+									<div class="help-block with-errors"></div>
+								</div>
+
+								<div class="form-group">
+									<label for="inputMesta" class="control-label">Broj mesta</label>
+									<input type="number" min="10" v-model="novaManifestacija.brojMesta" max="50000" maxlength="15" class="form-control" id="inputMesta"  data-error="Polje ne sme biti prazno" required>
+									<div class="help-block with-errors"></div>
+								</div>
+
+
+								<button class="btn btn-lg btn-primary" style="margin:20px" type="submit" @click="submitMan()">Dodaj manifestaciju</button>
+							</form>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+					</div>
+				</div>
+				</div>
+
+		</div>
       </div><!-- /.row -->
 		
   
@@ -261,6 +414,39 @@ Vue.component("man-view-user", {
 `
 	,
 	methods: {
+		openModal(){
+			$('#modal1').modal();
+		},
+		submitIzmene(){
+			//TO DO poslati izmene na backend
+			if ( $('#formEdit')[0].checkValidity() ) {
+				$('#formEdit').submit(function (evt) {
+					evt.preventDefault();
+					
+					
+				});
+			}
+		},
+		submitMan(){
+			//TO DO poslati novu manifestaciju na backend
+			if ( $('#formNew')[0].checkValidity() ) {
+				$('#formNew').submit(function (evt) {
+					evt.preventDefault();
+					
+					
+				});
+				console.log(this.novaManifestacija)
+				this.novaManifestacija.id=this.manifestacije.length+1
+				this.novaManifestacija.slobodnaMesta=this.novaManifestacija.brojMesta
+				this.novaManifestacija.aktivna=false
+				this.novaManifestacija.datumPocetka=Date.parse(this.novaManifestacija.datumPocetka)
+				console.log(this.novaManifestacija)
+				this.manifestacije.push(this.novaManifestacija)
+				fixDate(this.manifestacije)
+				this.novaManifestacija={tip:"Koncert"}
+				this.pripremi()
+			}
+		},
 		pripremi(){
 
             this.manifestacijeZaPrikaz = [...this.manifestacije]
@@ -413,7 +599,7 @@ Vue.component("man-view-user", {
 			grad: "Novi Sad",
 			drzava: "Srbija",
 			slika: "car1.jpg",
-			tip: "Klubska žurka",
+			tip: "Sport",
 			datumPocetak: 1630620000000,
 			cena: 1000,
 			prosla: true,
@@ -443,7 +629,7 @@ Vue.component("man-view-user", {
 			grad: "Beograd",
 			drzava: "Srbija",
 			slika: "car3.jpg",
-			tip: "Izložba",
+			tip: "Ostalo",
 			datumPocetak: 1630864800000,
 			cena: 1000,
 			prosla: false,
@@ -484,6 +670,7 @@ Vue.component("man-view-user", {
 			aktivna: true,
 		})
 
+		fixDate(this.manifestacije)
 		this.manifestacije=this.manifestacije.sort(this.porediManifestacijePocetak)
 		this.manifestacijeZaPrikaz = [...this.manifestacije]
 	},
