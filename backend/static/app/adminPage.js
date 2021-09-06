@@ -1,13 +1,7 @@
-const TestPage = { template: '<test-page></test-page>' }
-const ManView = { template: '<man-view-user></man-view-user>' }
-const AccountView = { template: '<account-view></account-view>' }
-const KarteView = { template: '<karte-view></karte-view>' }
-
-Vue.component("user-page", {
+Vue.component("admin-page", {
 	data: function () {
 		return {
 			prikaz: "Home",
-			userRole: "Kupac",
 		}
 	},
 	template: `
@@ -29,10 +23,9 @@ Vue.component("user-page", {
 			</div>
 		  </nav>
 		  
-		  <karte-view v-if="prikaz==='Karte'" :userRole='userRole'></karte-view>
-		  <man-view-user v-if="prikaz==='Home'" :userRole='userRole'></man-view-user>
-          <account-view v-if="prikaz==='Account'" :userRole='userRole'></account-view>
-		  
+		  <man-view-user v-if="prikaz==='Home'" userRole='Admin'></man-view-user>
+          <account-view v-if="prikaz==='Account'"></account-view>
+		  <karte-view v-if="prikaz==='Karte'" userRole='Admin'></karte-view>
 
 		  <div class="container marketing">
 				<footer>
@@ -61,9 +54,9 @@ Vue.component("user-page", {
 		
 	},
 	components:{
-		KarteView,
         TestPage,
         ManView,
 		AccountView,
+		KarteView,
 	}
 });

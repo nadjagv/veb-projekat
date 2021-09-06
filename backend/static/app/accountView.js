@@ -5,7 +5,7 @@ Vue.component("account-view", {
 		}
 	},
     props:{
-        user: Object,
+        userRole: String,
     },
 	template: `
     <div>
@@ -84,7 +84,6 @@ Vue.component("account-view", {
 		
 	},
 	mounted() {
-		
 	},
 	components:{
 		vuejsDatepicker,

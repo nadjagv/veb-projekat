@@ -1,6 +1,6 @@
 function fixDate(man) {
 	for (var m of man) {
-		m.datumPocetka = new Date(parseInt(m.datumPocetka));
+		m.datumPocetak = new Date(parseInt(m.datumPocetak));
 	}
 	return man;
 }
@@ -153,6 +153,10 @@ Vue.component("man-view-user", {
 			Izmeni informacije &raquo;
 			</button>
 
+			<button @click="aktiviraj(m)" v-if="userRole==='Admin' && !m.aktivna" type="button" style="margin-bottom:10px" class="btn btn-success" >
+			Aktiviraj <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+			</button>
+
 			<!-- Modal -->
 				<div class="modal fade" :id="m.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 				<div class="modal-dialog modal-dialog-scrollable" role="document">
@@ -239,7 +243,7 @@ Vue.component("man-view-user", {
 
 						<div class="form-group">
 							<label for="datePicker">Datum:</label>
-							<vuejs-datepicker id="datePicker" v-model="m.datumPocetka" format="dd.MM.yyyy" data-error="Polje ne sme biti prazno" required></vuejs-datepicker>
+							<vuejs-datepicker id="datePicker" v-model="m.datumPocetak" format="dd.MM.yyyy" data-error="Polje ne sme biti prazno" required></vuejs-datepicker>
 								<div class="help-block with-errors"></div>
 						</div>
 
@@ -327,7 +331,7 @@ Vue.component("man-view-user", {
 				</div>
         </div><!-- /.col-lg-4 -->
 
-		<div class="col-lg-3" style="margin:20px">
+		<div class="col-lg-3" style="margin:20px" v-if="userRole==='Prodavac'">
 			<img class="img-circle" @click="openModal()" src="images/plus.png" alt="Generic placeholder image" width="140" height="140" >
 			<h2 style="text-align:center">Dodaj manifestaciju</h2>
 
@@ -554,6 +558,10 @@ Vue.component("man-view-user", {
 			this.brojKarata=0
 			this.racunajCenu(m)
 		},
+		aktiviraj(m){
+			m.aktivna=true
+			this.pripremi()
+		},
 		racunajCenu(m){
 			switch(this.tipKarte){
 				case "Regular":
@@ -593,6 +601,7 @@ Vue.component("man-view-user", {
 
 		//TO DO: izvrsiti ucitavnja na osnovu user role 
 
+
 		this.manifestacije.push({
 			id:1,
 			naziv: "Test1",
@@ -606,7 +615,7 @@ Vue.component("man-view-user", {
 			ocena: 4.4,
 			brojMesta: 120,
 			slobodnaMesta: 0,
-			aktivna: true,
+			aktivna: false,
 		})
 		this.manifestacije.push({
 			id:2,

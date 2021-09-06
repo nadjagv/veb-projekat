@@ -1,10 +1,9 @@
-function fixDate(students) {
-	for (var s of students) {
-		s.datumRodjenja = new Date(parseInt(s.datumRodjenja));
+function fixDate(karte) {
+	for (var k of karte) {
+		k.datumPocetak = new Date(parseInt(k.datumPocetak));
 	}
-	return students;
+	return karte;
 }
-
 
 Vue.component("karte-view", {
 	data: function () {
@@ -28,9 +27,8 @@ Vue.component("karte-view", {
 		}
 	},
     props:{
-        user: Object,
-        userRole: String,
-    },
+		userRole: String,
+	},
 	template: `
     <div>
 
@@ -220,7 +218,6 @@ Vue.component("karte-view", {
 			this.karteZaPrikaz =this.karteZaPrikaz.filter(k=>k.datumPocetak<=this.pretragaDatumDo && k.datumPocetak>=this.pretragaDatumOd)
 		},
         reset1(){
-            alert("LOL")
             this.pretrazeno=false
 			this.tipZaPrikaz="Svi"
             this.statusZaPrikaz="Svi"
@@ -245,7 +242,7 @@ Vue.component("karte-view", {
 
         //TO DO: ucitavanje karata na osnovu user role
 
-        if(this.userRole==="Kupac"){
+        if(this.userRole==="Kupac" || this.userRole==="Admin"){
             this.karte.push({
                 id:1,
                 naziv:"Test 1",
