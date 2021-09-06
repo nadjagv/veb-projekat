@@ -135,13 +135,13 @@ Vue.component("home-page", {
 		<div class="row">
 		<div class="col-xs-2">
 		<label class="checkbox-inline">
-			<input type="checkbox" id="RasprodateCheckbox" v-model="prikazRasprodatih" @change="filtriraj()"> Prikaz rasprodatih
+			<input type="checkbox" id="RasprodateCheckbox" v-model="prikazRasprodatih" @change="pripremi()"> Prikaz rasprodatih
 		</label>
 	  	</div>
 		  <div class="col-xs-3">
 		  <div class="row">
 		  <label>Tip manifestacije:</label>
-		  <select v-model="tipZaPrikaz" @change="filtriraj()">
+		  <select v-model="tipZaPrikaz" @change="pripremi()">
 		  <option v-for="tip in tipovi" v-bind:value="tip">
 			  {{ tip }}
 		  </option>
@@ -156,7 +156,7 @@ Vue.component("home-page", {
 			<div class="col-xs-2">
 			<div class="row">
 			<label>Sortiraj po:</label>
-			<select v-model="sortirajPo" @change="sortiraj()">
+			<select v-model="sortirajPo" @change="pripremi()">
 			<option v-for="opcija in sortirajPoOpcije" v-bind:value="opcija">
 				{{ opcija }}
 			</option>
@@ -167,7 +167,7 @@ Vue.component("home-page", {
 			<div class="col-xs-3">
 			<div class="row">
 			<label>Red sortiranja:</label>
-			<select v-model="redSortiranja" @change="sortiraj()">
+			<select v-model="redSortiranja" @change="pripremi()">
 			<option v-for="opcija in redSortiranjaOpcije" v-bind:value="opcija">
 				{{ opcija }}
 			</option>
@@ -291,20 +291,19 @@ Vue.component("home-page", {
 `
 	,
 	methods: {
-		proveriUsloveZaReset() {
-			return this.prikazRasprodatih && this.tipZaPrikaz === "Svi"
-		},
+		pripremi(){
+
+            this.manifestacijeZaPrikaz = [...this.manifestacije]
+
+            if(this.pretrazeno){
+                this.trazi()
+            }
+            this.filtriraj()
+            this.sortiraj()
+        },
 		filtriraj() {
-			if (this.prikazRasprodatih) {
-				this.manifestacijeZaPrikaz = [...this.manifestacije]
-				if(this.redSortiranja!=="Bez reda"){
-					this.sortiraj()
-				}
-			} else {
-				this.manifestacijeZaPrikaz = this.manifestacije.filter(m => (m.slobodnaMesta==0) == this.prikazRasprodatih)
-				if(this.redSortiranja!=="Bez reda"){
-					this.sortiraj()
-				}
+			if(!this.prikazRasprodatih){
+				this.manifestacijeZaPrikaz=this.manifestacijeZaPrikaz.filter(m=>m.slobodnaMesta>0)
 			}
 			if (this.tipZaPrikaz !== "Svi") {
 				this.manifestacijeZaPrikaz = this.manifestacijeZaPrikaz.filter(m => m.tip === this.tipZaPrikaz)
@@ -359,18 +358,18 @@ Vue.component("home-page", {
 			return comparison
 		},
 		sortiraj(){
-			if(this.redSortiranja==="Bez reda"){
-				this.filtriraj()
-			}else{
+			if(this.redSortiranja!=="Bez reda"){
 				this.manifestacijeZaPrikaz.sort(this.porediManifestacije)
 			}
 		},
 		trazi(){
-			this.pretrazeno=true
-			this.prikazRasprodatih=true
-			this.tipZaPrikaz="Svi"
-			this.sortirajPo="Naziv"
-			this.redSortiranja="Bez reda"
+			if(!this.pretrazeno){
+				this.pretrazeno=true
+				this.prikazRasprodatih=true
+				this.tipZaPrikaz="Svi"
+				this.sortirajPo="Naziv"
+				this.redSortiranja="Bez reda"
+			}
 			this.manifestacijeZaPrikaz =this.manifestacije.filter(m=>m.naziv.toUpperCase().includes(this.pretragaNaziv.toUpperCase()) && m.grad.toUpperCase().includes(this.pretragaGrad.toUpperCase()) && m.drzava.toUpperCase().includes(this.pretragaDrzava.toUpperCase()))
 			this.manifestacijeZaPrikaz =this.manifestacijeZaPrikaz.filter(m=>m.cena<=this.pretragaCenaDo && m.cena>=this.pretragaCenaOd)
 			this.manifestacijeZaPrikaz =this.manifestacijeZaPrikaz.filter(m=>m.datumPocetak<=this.pretragaDatumDo && m.datumPocetak>=this.pretragaDatumOd)

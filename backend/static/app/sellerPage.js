@@ -1,28 +1,6 @@
-const TestPage = { template: '<test-page></test-page>' }
-const ManView = { template: '<man-view-user></man-view-user>' }
-const AccountView = { template: '<account-view></account-view>' }
-const KarteView = { template: '<karte-view></karte-view>' }
-
-Vue.component("user-page", {
+Vue.component("seller-page", {
 	data: function () {
 		return {
-			manifestacije: [],
-			manifestacijeZaPrikaz: [],
-			prikazRasprodatih: true,
-			tipZaPrikaz: "Svi",
-			tipovi: ["Svi", "Klubska žurka", "Koncert", "Predstava", "Izložba"],
-			redSortiranjaOpcije:["Bez reda","Opadajuće","Rastuće"],
-			redSortiranja:"Bez reda",
-			sortirajPoOpcije:["Naziv","Datum","Cena","Lokacija"],
-			sortirajPo:"Naziv",
-			pretrazeno: false,
-			pretragaNaziv:"",
-			pretragaGrad:"",
-			pretragaDrzava:"",
-			pretragaCenaOd:0,
-			pretragaCenaDo:10000,
-			pretragaDatumOd: Date.now(),
-			pretragaDatumDo: Date.now(),
 			prikaz: "Home",
 		}
 	},
@@ -45,9 +23,9 @@ Vue.component("user-page", {
 			</div>
 		  </nav>
 		  
-		  <man-view-user v-if="prikaz==='Home'" userRole='Kupac'></man-view-user>
+		  <man-view-user v-if="prikaz==='Home'" userRole='Prodavac'></man-view-user>
           <account-view v-if="prikaz==='Account'"></account-view>
-		  <karte-view v-if="prikaz==='Karte'" userRole='Kupac'></karte-view>
+		  <karte-view v-if="prikaz==='Karte'" userRole='Prodavac'></karte-view>
 
 		  <div class="container marketing">
 				<footer>

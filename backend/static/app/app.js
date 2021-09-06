@@ -1,6 +1,7 @@
 const HomePage = { template: '<home-page></home-page>' }
 const RegisterPage = { template: '<register></register>' }
 const UserPage = { template: '<user-page></user-page>' }
+const SellerPage = { template: '<seller-page></seller-page>' }
 
 
 const router = new VueRouter({
@@ -9,6 +10,7 @@ const router = new VueRouter({
 	    { path: '/', component: HomePage},
 		{ path: '/register', component: RegisterPage},
 		{path: '/user',component:UserPage},
+		{path: '/seller',component:SellerPage},
 	  ]
 });
 
@@ -19,7 +21,6 @@ var app = new Vue({
 	el: '#webProjekat',
 	components: {
 		VueStarRating,
-		
   },
 });
 
