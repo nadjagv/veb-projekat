@@ -12,7 +12,7 @@ Vue.component("home-page", {
 			manifestacijeZaPrikaz: [],
 			prikazRasprodatih: true,
 			tipZaPrikaz: "Svi",
-			tipovi: ["Svi", "Klubska žurka", "Koncert", "Predstava", "Izložba"],
+			tipovi: ["Svi", "KONCERT", "FESTIVAL", "PREDSTAVA", "SPORT", "OSTALO"],
 			redSortiranjaOpcije:["Bez reda","Opadajuće","Rastuće"],
 			redSortiranja:"Bez reda",
 			sortirajPoOpcije:["Naziv","Datum","Cena","Lokacija"],
