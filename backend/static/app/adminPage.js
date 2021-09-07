@@ -15,6 +15,7 @@ Vue.component("admin-page", {
 				  <li class="active"><a @click="prikaziHome()"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a></li>
 				  <li class="active"><a @click="prikaziAccount()"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Korisnički nalog</a></li>
 				  <li class="active"><a @click="prikaziKarte()"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> Karte</a></li>
+				  <li class="active"><a @click="prikaziUser()"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> Korisnici</a></li>
                   <li class="active navbar-right"><a href="javascript:history.back()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Log out</a></li>
 				</ul>
 
@@ -23,9 +24,10 @@ Vue.component("admin-page", {
 			</div>
 		  </nav>
 		  
-		  <man-view-user v-if="prikaz==='Home'" userRole='Admin'></man-view-user>
+		  <man-view-user v-if="prikaz==='Home'" ></man-view-user>
           <account-view v-if="prikaz==='Account'"></account-view>
-		  <karte-view v-if="prikaz==='Karte'" userRole='Admin'></karte-view>
+		  <karte-view v-if="prikaz==='Karte'" ></karte-view>
+		  <user-list-view v-if="prikaz==='UserList'" ></user-list-view>
 
 		  <div class="container marketing">
 				<footer>
@@ -49,6 +51,9 @@ Vue.component("admin-page", {
 		prikaziKarte(){
 			this.prikaz="Karte"
 		},
+		prikaziUser(){
+			this.prikaz="UserList"
+		},
 	},
 	mounted() {
 		
@@ -58,5 +63,6 @@ Vue.component("admin-page", {
         ManView,
 		AccountView,
 		KarteView,
+		UserListView,
 	}
 });

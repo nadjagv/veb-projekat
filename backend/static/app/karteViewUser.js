@@ -24,10 +24,10 @@ Vue.component("karte-view", {
 			pretragaCenaDo:100000,
 			pretragaDatumOd: Date.now(),
 			pretragaDatumDo: Date.now(),
+            userRole: "",
 		}
 	},
     props:{
-		userRole: String,
 	},
 	template: `
     <div>
@@ -133,7 +133,7 @@ Vue.component("karte-view", {
             <p>Cena: {{k.cena}}RSD </p>
             <p>Broj karata: {{k.brojKarata}}</p>
 
-            <button @click="odustani(k)" v-if="userRole==='Kupac' && k.status=='Rezervisana'" type="button" style="margin-bottom:10px" class="btn btn-danger" >
+            <button @click="odustani(k)" v-if="userRole==='KUPAC' && k.status=='Rezervisana'" type="button" style="margin-bottom:10px" class="btn btn-danger" >
 			Odustani <span class="glyphicon glyphicon-cancel" aria-hidden="true"></span>
 			</button>
 
@@ -240,9 +240,11 @@ Vue.component("karte-view", {
 	},
 	mounted() {
 
+        this.userRole=window.localStorage.getItem('uloga')
+
         //TO DO: ucitavanje karata na osnovu user role
 
-        if(this.userRole==="Kupac" || this.userRole==="Admin"){
+        if(this.userRole==="KUPAC" || this.userRole==="ADMINISTRATOR"){
             this.karte.push({
                 id:1,
                 naziv:"Test 1",

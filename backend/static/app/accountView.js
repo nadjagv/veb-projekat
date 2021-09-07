@@ -1,11 +1,11 @@
 Vue.component("account-view", {
 	data: function () {
 		return {
-
+            userRole: "",
+            user: {},
 		}
 	},
     props:{
-        userRole: String,
     },
 	template: `
     <div>
@@ -17,17 +17,17 @@ Vue.component("account-view", {
 
                 <div class="form-group">
                 <label for="inputName" class="control-label">Ime</label>
-                <input type="text" class="form-control" id="inputName" data-error="Polje ne sme biti prazno" required>
+                <input type="text" class="form-control" id="inputName" v-model="user.ime" data-error="Polje ne sme biti prazno" required>
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                 <label for="inputLastName" class="control-label">Prezime</label>
-                <input type="text" class="form-control" id="inputLastName" data-error="Polje ne sme biti prazno" required>
+                <input type="text" class="form-control" id="inputLastName" v-model="user.prezime" data-error="Polje ne sme biti prazno" required>
                     <div class="help-block with-errors"></div>
                 </div>
 
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label for="inputPassword" class="control-label">Password</label>
                     <div class="form-inline row">
                     <div class="form-group col-sm-6">
@@ -39,7 +39,7 @@ Vue.component("account-view", {
                         <div class="help-block with-errors"></div>
                     </div>
                     </div>
-                </div>
+                </div>-->
 
                 <label for="polRadio" class="control-label">Pol</label>
                 <div class="form-group" id="polRadio">
@@ -48,7 +48,7 @@ Vue.component("account-view", {
                         <div class="form-group col-sm-4">
                             <div class="radio">
                             <label>
-                                <input type="radio" name="pol" required>
+                                <input type="radio" value="MUSKI" name="pol" v-model="user.pol" required>
                                 Muški
                             </label>
                             </div>
@@ -56,7 +56,7 @@ Vue.component("account-view", {
                         <div class="form-group col-sm-6">
                         <div class="radio">
                             <label>
-                                <input type="radio" name="pol" required>
+                                <input type="radio" value="ZENSKI" name="pol" v-model="user.pol" required>
                                 Ženski
                             </label>
                             </div>
@@ -67,7 +67,7 @@ Vue.component("account-view", {
                 <div class="form-group">
                     <label for="datePicker">Datum rođenja</label>
                     <input type="date" id="datePicker" 
-                        min="1900-01-01" data-error="Polje ne sme biti prazno" required>
+                        min="1900-01-01" v-model="user.datumRodjenja" data-error="Polje ne sme biti prazno" required>
                         <div class="help-block with-errors"></div>
                 </div>
 
@@ -84,6 +84,30 @@ Vue.component("account-view", {
 		
 	},
 	mounted() {
+        this.userRole=window.localStorage.getItem('uloga')
+        let username=window.localStorage.getItem('username')
+
+        switch(this.userRole){
+            case "KUPAC":
+                axios.get(`/kupci/`+username).then(response=>{
+                    console.log(response.data)
+                    this.user=response.data
+                })
+                break
+            case "PRODAVAC":
+                axios.get(`/prodavci/`+username).then(response=>{
+                    console.log(response.data)
+                    this.user=response.data
+                })
+                break
+            case "ADMINISTRATOR":
+                axios.get(`/administratori/`+username).then(response=>{
+                    console.log(response.data)
+                    this.user=response.data
+                })
+                break
+            default:
+        }
 	},
 	components:{
 		vuejsDatepicker,

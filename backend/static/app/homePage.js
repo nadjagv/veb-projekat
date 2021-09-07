@@ -226,7 +226,7 @@ Vue.component("home-page", {
             <p>Lokacija: {{m.grad}}, {{m.drzava}}</p>
             <p >Datum: {{m.datumPocetak | dateFormat('HH:mm DD.MM.YYYY')}}</p>
             <p>Cena: {{m.cena}}RSD </p>
-			<p><div style="margin:auto;"><star-rating style="justify:center;" v-model="m.ocena" v-if="m.prosla" :increment="0.5" :read-only="true" :round-start-rating="false" :star-size="25"></star-rating></div></p>
+			<p><div style="margin:auto;"><star-rating style="justify:center;" v-model="m.ocena" v-if="manProsla(m)" :increment="0.5" :read-only="true" :round-start-rating="false" :star-size="25"></star-rating></div></p>
 			<button type="button" class="btn btn-primary" data-toggle="modal" :data-target="'#'+m.id">
 			Prikaži detalje &raquo;
 			</button>
@@ -256,7 +256,7 @@ Vue.component("home-page", {
 								<p v-if="!m.aktivna">Status: Neaktivno <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></p>
 								<p v-if="m.aktivna">Status: Aktivno <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></p>
 								<p>Lokacija: {{m.grad}}, {{m.drzava}}</p>
-								<p><div style="margin:auto;"><star-rating style="justify:center;" v-model="m.ocena" v-if="m.prosla" :increment="0.5" :read-only="true" :round-start-rating="false" :star-size="25"></star-rating></div></p>
+								<p><div style="margin:auto;"><star-rating style="justify:center;" v-model="m.ocena" v-if="manProsla(m)" :increment="0.5" :read-only="true" :round-start-rating="false" :star-size="25"></star-rating></div></p>
 							</div>
 							
 						</div>
@@ -291,6 +291,9 @@ Vue.component("home-page", {
 `
 	,
 	methods: {
+		manProsla(m){
+			return m.datumPocetak<Date.now()
+		},
 		pripremi(){
 
             this.manifestacijeZaPrikaz = [...this.manifestacije]
@@ -401,7 +404,25 @@ Vue.component("home-page", {
 
                     axios
                     .post('korisnici/login', {"username":document.getElementById('username').value, "password":document.getElementById('password').value})
-                    .then(response => window.localStorage.setItem('jwt', response.data.JWTToken))
+                    .then(response => {
+						console.log(response.data)
+						window.localStorage.setItem('uloga',response.data.uloga)
+						window.localStorage.setItem('username',response.data.username)
+						window.localStorage.setItem('jwt', response.data.JWTToken)
+
+						if(response.data.uloga==="KUPAC"){
+							alert("Uspešno ulogovan kao kupac!")
+							window.location="#/user"
+						}else if(response.data.uloga==="PRODAVAC"){
+							alert("Uspešno ulogovan kao prodavac!")
+							window.location="#/seller"
+						}else if(response.data.uloga==="ADMINISTRATOR"){
+							alert("Uspešno ulogovan kao administrator!")
+							window.location="#/admin"
+						}
+					}).catch(err=>{
+						alert("Loši kredencijali!")
+					})
 					
                     
                 });
@@ -508,7 +529,6 @@ Vue.component("home-page", {
                  			tip: element.tip,
                  			datumPocetak: 1630620000000,
                  			cena: element.cenaRegular,
-                 			prosla: false,
                  			ocena: element.ocena,
                  			brojMesta: element.brojMesta,
                  			slobodnaMesta: 0,

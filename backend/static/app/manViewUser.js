@@ -32,10 +32,10 @@ Vue.component("man-view-user", {
 			novaManifestacija:{
 				tip: "Koncert"
 			},
+			userRole: "",
 		}
 	},
 	props:{
-		userRole: String,
 	},
 	template: `
     <div>
@@ -141,24 +141,24 @@ Vue.component("man-view-user", {
             <p >Datum: {{m.datumPocetak | dateFormat('HH:mm DD.MM.YYYY')}}</p>
             <p>Cena: {{m.cena}}RSD </p>
 			<p><div style="margin:auto;"><star-rating style="justify:center;" v-model="m.ocena" v-if="m.prosla" :increment="0.5" :read-only="true" :round-start-rating="false" :star-size="25"></star-rating></div></p>
-			<button type="button" class="btn btn-primary" data-toggle="modal" :data-target="'#'+m.id">
+			<button type="button" class="btn btn-primary" data-toggle="modal" :data-target="'#info'+m.id">
 			Prikaži detalje &raquo;
 			</button>
 
-            <button @click="pripremiModal(m)" v-if="userRole==='Kupac' && m.slobodnaMesta!=0 && m.aktivna && !m.prosla" type="button" style="margin-top:10px" class="btn btn-primary" data-toggle="modal" :data-target="'#karteModal'+m.id">
+            <button @click="pripremiModal(m)" v-if="userRole==='KUPAC' && m.slobodnaMesta!=0 && m.aktivna && !m.prosla" type="button" style="margin-top:10px" class="btn btn-primary" data-toggle="modal" :data-target="'#karteModal'+m.id">
 			Rezerviši karte &raquo;
 			</button>
 
-			<button v-if="userRole==='Prodavac'" type="button" style="margin-top:10px" class="btn btn-primary" data-toggle="modal" :data-target="'#editModal'+m.id">
+			<button v-if="userRole==='PRODAVAC'" type="button" style="margin-top:10px" class="btn btn-primary" data-toggle="modal" :data-target="'#editModal'+m.id">
 			Izmeni informacije &raquo;
 			</button>
 
-			<button @click="aktiviraj(m)" v-if="userRole==='Admin' && !m.aktivna" type="button" style="margin-bottom:10px" class="btn btn-success" >
+			<button @click="aktiviraj(m)" v-if="userRole==='ADMINISTRATOR' && !m.aktivna" type="button" style="margin-bottom:10px" class="btn btn-success" >
 			Aktiviraj <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 			</button>
 
 			<!-- Modal -->
-				<div class="modal fade" :id="m.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				<div class="modal fade" :id="'info'+m.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 				<div class="modal-dialog modal-dialog-scrollable" role="document">
 					<div class="modal-content">
 					<div class="modal-header">
@@ -213,22 +213,22 @@ Vue.component("man-view-user", {
 					</div>
 					<div class="modal-body">
 					<div class="container-fluid">
-					<form class="form-signin" data-toggle="validator" id="formEdit" role="form">
+					<form class="form-signin" data-toggle="validator" :id="'formEdit'+m.id" role="form">
 						<div class="form-group">
-						<label for="inputNaziv" class="control-label">Naziv manifestacije</label>
-						<input v-model="m.naziv" type="text" class="form-control" id="inputNaziv" data-error="Polje ne sme biti prazno" required>
+						<label :for="'inputNaziv'+m.id" class="control-label">Naziv manifestacije</label>
+						<input v-model="m.naziv" type="text" class="form-control" :id="'inputNaziv'+m.id" data-error="Polje ne sme biti prazno" required>
 							<div class="help-block with-errors"></div>
 						</div>
 
 						<div class="form-group">
-						<label for="inputGrad" class="control-label">Grad</label>
-						<input type="text" v-model="m.grad" class="form-control" id="inputGrad" data-error="Polje ne sme biti prazno" required>
+						<label :for="'inputGrad'+m.id" class="control-label">Grad</label>
+						<input type="text" v-model="m.grad" class="form-control" :id="'inputGrad'+m.id" data-error="Polje ne sme biti prazno" required>
 							<div class="help-block with-errors"></div>
 						</div>
 
 						<div class="form-group">
-							<label for="inputDrzava" class="control-label">Država</label>
-							<input type="text" v-model="m.drzava" pattern="^[_A-z0-9]{1,}$" maxlength="15" class="form-control" id="inputDrzava"  data-error="Polje ne sme biti prazno" required>
+							<label :for="'inputDrzava'+m.id" class="control-label">Država</label>
+							<input type="text" v-model="m.drzava" pattern="^[_A-z0-9]{1,}$" maxlength="15" class="form-control" :id="'inputDrzava'+m.id"  data-error="Polje ne sme biti prazno" required>
 							<div class="help-block with-errors"></div>
 						</div>
 
@@ -242,20 +242,20 @@ Vue.component("man-view-user", {
 						</div>
 
 						<div class="form-group">
-							<label for="datePicker">Datum:</label>
-							<vuejs-datepicker id="datePicker" v-model="m.datumPocetak" format="dd.MM.yyyy" data-error="Polje ne sme biti prazno" required></vuejs-datepicker>
+							<label :for="'datePicker'+m.id">Datum:</label>
+							<vuejs-datepicker :id="'datePicker'+m.id" v-model="m.datumPocetak" format="dd.MM.yyyy" data-error="Polje ne sme biti prazno" required></vuejs-datepicker>
 								<div class="help-block with-errors"></div>
 						</div>
 
 						<div class="form-group">
-							<label for="inputCena" class="control-label">Cena karte</label>
-							<input type="number" v-model="m.cena" min="100" max="10000" maxlength="15" class="form-control" id="inputCena"  data-error="Polje ne sme biti prazno" required>
+							<label :for="'inputCena'+m.id" class="control-label">Cena karte</label>
+							<input type="number" v-model="m.cena" min="100" max="10000" maxlength="15" class="form-control" :id="'inputCena'+m.id"  data-error="Polje ne sme biti prazno" required>
 							<div class="help-block with-errors"></div>
 						</div>
 
 						<div class="form-group">
-							<label for="inputMesta" class="control-label">Broj mesta</label>
-							<input type="number" min="10" v-model="m.brojMesta" max="50000" maxlength="15" class="form-control" id="inputMesta"  data-error="Polje ne sme biti prazno" required>
+							<label :for="'inputMesta'+m.id" class="control-label">Broj mesta</label>
+							<input type="number" min="10" v-model="m.brojMesta" max="50000" maxlength="15" class="form-control" :id="'inputMesta'+m.id"  data-error="Polje ne sme biti prazno" required>
 							<div class="help-block with-errors"></div>
 						</div>
 
@@ -331,7 +331,7 @@ Vue.component("man-view-user", {
 				</div>
         </div><!-- /.col-lg-4 -->
 
-		<div class="col-lg-3" style="margin:20px" v-if="userRole==='Prodavac'">
+		<div class="col-lg-3" style="margin:20px" v-if="userRole==='PRODAVAC'">
 			<img class="img-circle" @click="openModal()" src="images/plus.png" alt="Generic placeholder image" width="140" height="140" >
 			<h2 style="text-align:center">Dodaj manifestaciju</h2>
 
@@ -349,20 +349,20 @@ Vue.component("man-view-user", {
 						<div class="container-fluid">
 							<form class="form-signin" data-toggle="validator" id="formNew" role="form">
 								<div class="form-group">
-								<label for="inputNaziv" class="control-label">Naziv manifestacije</label>
-								<input v-model="novaManifestacija.naziv" type="text" class="form-control" id="inputNaziv" data-error="Polje ne sme biti prazno" required>
+								<label for="inputNazivAdd" class="control-label">Naziv manifestacije</label>
+								<input v-model="novaManifestacija.naziv" type="text" class="form-control" id="inputNazivAdd" data-error="Polje ne sme biti prazno" required>
 									<div class="help-block with-errors"></div>
 								</div>
 
 								<div class="form-group">
-								<label for="inputGrad" class="control-label">Grad</label>
-								<input type="text" v-model="novaManifestacija.grad" class="form-control" id="inputGrad" data-error="Polje ne sme biti prazno" required>
+								<label for="inputGradAdd" class="control-label">Grad</label>
+								<input type="text" v-model="novaManifestacija.grad" class="form-control" id="inputGradAdd" data-error="Polje ne sme biti prazno" required>
 									<div class="help-block with-errors"></div>
 								</div>
 
 								<div class="form-group">
-									<label for="inputDrzava" class="control-label">Država</label>
-									<input type="text" v-model="novaManifestacija.drzava" pattern="^[_A-z0-9]{1,}$" maxlength="15" class="form-control" id="inputDrzava"  data-error="Polje ne sme biti prazno" required>
+									<label for="inputDrzavaAdd" class="control-label">Država</label>
+									<input type="text" v-model="novaManifestacija.drzava" pattern="^[_A-z0-9]{1,}$" maxlength="15" class="form-control" id="inputDrzavaAdd"  data-error="Polje ne sme biti prazno" required>
 									<div class="help-block with-errors"></div>
 								</div>
 
@@ -376,21 +376,21 @@ Vue.component("man-view-user", {
 								</div>
 
 								<div class="form-group">
-									<label for="datePicker">Datum:</label>
-									<input type="date" id="datePicker" v-model="novaManifestacija.datumPocetka"
+									<label for="datePickeAddr">Datum:</label>
+									<input type="date" id="datePickerAdd" v-model="novaManifestacija.datumPocetka"
 										min="1900-01-01" data-error="Polje ne sme biti prazno" required>
 										<div class="help-block with-errors"></div>
 								</div>
 
 								<div class="form-group">
-									<label for="inputCena" class="control-label">Cena karte</label>
-									<input type="number" v-model="novaManifestacija.cena" min="100" max="10000" maxlength="15" class="form-control" id="inputCena"  data-error="Polje ne sme biti prazno" required>
+									<label for="inputCenaAdd" class="control-label">Cena karte</label>
+									<input type="number" v-model="novaManifestacija.cena" min="100" max="10000" maxlength="15" class="form-control" id="inputCenaAdd"  data-error="Polje ne sme biti prazno" required>
 									<div class="help-block with-errors"></div>
 								</div>
 
 								<div class="form-group">
-									<label for="inputMesta" class="control-label">Broj mesta</label>
-									<input type="number" min="10" v-model="novaManifestacija.brojMesta" max="50000" maxlength="15" class="form-control" id="inputMesta"  data-error="Polje ne sme biti prazno" required>
+									<label for="inputMestaAdd" class="control-label">Broj mesta</label>
+									<input type="number" min="10" v-model="novaManifestacija.brojMesta" max="50000" maxlength="15" class="form-control" id="inputMestaAdd"  data-error="Polje ne sme biti prazno" required>
 									<div class="help-block with-errors"></div>
 								</div>
 
@@ -600,6 +600,8 @@ Vue.component("man-view-user", {
 		});
 
 		//TO DO: izvrsiti ucitavnja na osnovu user role 
+
+		this.userRole=window.localStorage.getItem('uloga')
 
 
 		this.manifestacije.push({
