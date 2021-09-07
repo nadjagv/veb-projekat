@@ -2,6 +2,8 @@ package domain;
 
 import java.time.LocalDateTime;
 
+import javax.json.bind.annotation.JsonbDateFormat;
+
 import enums.TipManifestacije;
 
 public class Manifestacija {
@@ -10,6 +12,7 @@ public class Manifestacija {
 	private TipManifestacije tip;
 	private int brojMesta;
 	private int slobodnaMesta;
+	@JsonbDateFormat(JsonbDateFormat.TIME_IN_MILLIS)
 	private LocalDateTime datumVremeOdrzavanja;
 	private double cenaRegular;
 	private boolean aktivna;

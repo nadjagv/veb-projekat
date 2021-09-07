@@ -29,5 +29,11 @@
 	<classpathentry kind="lib" path="lib/jackson-core-2.12.3.jar"/>
 	<classpathentry kind="lib" path="lib/jackson-databind-2.12.3.jar"/>
 	<classpathentry kind="lib" path="lib/jackson-datatype-jsr310-2.12.4.jar"/>
+	<classpathentry kind="lib" path="lib/jakarta.json-1.1.6-module.jar"/>
+	<classpathentry kind="lib" path="lib/jakarta.json-api-1.1.6.jar"/>
+	<classpathentry kind="lib" path="lib/jakarta.json.bind-api-1.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/javax.json-1.1.4.jar"/>
+	<classpathentry kind="lib" path="lib/javax.json.bind-api-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/yasson-1.0.9.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -2,6 +2,8 @@ package domain;
 
 import java.time.LocalDateTime;
 
+import javax.json.bind.annotation.JsonbDateFormat;
+
 import enums.StatusKarte;
 import enums.TipKarte;
 
@@ -9,6 +11,7 @@ public class Karta {
 	private String id;
 	private String manifestacijaId;
 	private String nazivManifestacije;
+	@JsonbDateFormat(JsonbDateFormat.TIME_IN_MILLIS)
 	private LocalDateTime datumVremeOdrzavanja; //redundantno
 	private double cena;
 	private String kupacUsername;

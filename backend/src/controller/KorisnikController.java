@@ -2,6 +2,9 @@ package controller;
 
 import static spark.Spark.post;
 
+import javax.json.bind.Jsonb;
+import javax.json.bind.JsonbBuilder;
+
 import com.google.gson.Gson;
 
 import domain.Korisnik;
@@ -13,7 +16,7 @@ import service.ProdavacService;
 
 public class KorisnikController {
 	
-	private static Gson gson = new Gson();
+	Jsonb jsonb = JsonbBuilder.newBuilder().build();
 
 	public KorisnikController() {
 		KorisnikService korisnikService = new KorisnikService();
@@ -23,12 +26,12 @@ public class KorisnikController {
 		post("/korisnici/login", (req, res) -> {
 			res.type("application/json");
 			String payload = req.body();
-			Kredencijali kred = gson.fromJson(payload, Kredencijali.class);
+			Kredencijali kred = jsonb.fromJson(payload, Kredencijali.class);
 			
 			Korisnik k = korisnikService.logIn(kred);
 			if (k != null) {
 				res.status(200);
-				return gson.toJson(k);
+				return jsonb.toJson(k);
 			}
 			
 			res.status(400);
@@ -53,7 +56,7 @@ public class KorisnikController {
 		post("/korisnici/registracija", (req, res) -> {
 			res.type("application/json");
 			String payload = req.body();
-			Korisnik k = gson.fromJson(payload, Korisnik.class);
+			Korisnik k = jsonb.fromJson(payload, Korisnik.class);
 			
 			Korisnik pronadjen = korisnikService.pretraziPoUsername(req.params("username"));
 			if (pronadjen != null) {

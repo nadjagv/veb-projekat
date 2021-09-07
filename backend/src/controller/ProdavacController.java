@@ -2,6 +2,9 @@ package controller;
 
 import static spark.Spark.get;
 
+import javax.json.bind.Jsonb;
+import javax.json.bind.JsonbBuilder;
+
 import com.google.gson.Gson;
 
 import domain.Prodavac;
@@ -9,18 +12,18 @@ import service.ProdavacService;
 
 public class ProdavacController {
 
-	private static Gson gson = new Gson();
+	Jsonb jsonb = JsonbBuilder.newBuilder().build();
 
 	public ProdavacController() {
 		ProdavacService prodavacService = new ProdavacService();
 		
 		get("/prodavci", (req, res) -> {
-			return gson.toJson(prodavacService.preuzmiSve());
+			return jsonb.toJson(prodavacService.preuzmiSve());
 		});
 		
 		get("/prodavci/:username", (req, res) -> {
 			Prodavac a = prodavacService.preuzmiPoUsername(req.params("username"));
-			return gson.toJson(a);
+			return jsonb.toJson(a);
 		});
 		
 		get("/prodavci/mojeMan/:username", (req, res) -> {
@@ -33,7 +36,7 @@ public class ProdavacController {
 				return "Nepostojeci prodavac.";
 			}
 			res.status(200);
-			return gson.toJson(prodavacService.preuzmiManifestacijeProdavca(username));
+			return jsonb.toJson(prodavacService.preuzmiManifestacijeProdavca(username));
 		});
 		
 		get("/prodavci/mojeKarte/:username", (req, res) -> {
@@ -46,7 +49,7 @@ public class ProdavacController {
 				return "Nepostojeci prodavac.";
 			}
 			res.status(200);
-			return gson.toJson(prodavacService.preuzmiRezKarteProdavca(username));
+			return jsonb.toJson(prodavacService.preuzmiRezKarteProdavca(username));
 		});
 		
 		get("/prodavci/mojiKupci/:username", (req, res) -> {
@@ -59,7 +62,7 @@ public class ProdavacController {
 				return "Nepostojeci prodavac.";
 			}
 			res.status(200);
-			return gson.toJson(prodavacService.preuzmiKupceRezKarataProdavca(username));
+			return jsonb.toJson(prodavacService.preuzmiKupceRezKarataProdavca(username));
 		});
 	}
 

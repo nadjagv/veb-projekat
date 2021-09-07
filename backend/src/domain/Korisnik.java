@@ -2,6 +2,8 @@ package domain;
 
 import java.time.LocalDate;
 
+import javax.json.bind.annotation.JsonbDateFormat;
+
 import enums.Pol;
 import enums.Uloga;
 
@@ -9,6 +11,7 @@ public abstract class Korisnik {
 	
 	private String username, password, ime, prezime;
 	private Pol pol;
+	@JsonbDateFormat(JsonbDateFormat.TIME_IN_MILLIS)
 	private LocalDate datumRodjenja;
 	private Uloga uloga;
 	private boolean obrisan;

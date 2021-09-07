@@ -507,7 +507,9 @@ Vue.component("home-page", {
 		
 		axios.get(`/manifestacije`).then(response=>{
                      const man=[]
+                     
                      response.data.forEach(element => {
+                    	 console.log(element.datumVremeOdrzavanja)
                          man.push({
                         	id:element.id,
                  			naziv: element.naziv,
@@ -515,18 +517,19 @@ Vue.component("home-page", {
                  			drzava: element.lokacija.drzava,
                  			slika: element.slikaPath,
                  			tip: element.tip,
-                 			datumPocetak: 1630620000000,
+                 			datumPocetak: element.datumVremeOdrzavanja,
                  			cena: element.cenaRegular,
                  			ocena: element.ocena,
                  			brojMesta: element.brojMesta,
-                 			slobodnaMesta: 0,
+                 			slobodnaMesta: element.slobodnaMesta,
                  			aktivna: element.aktivna,
                          })
-                         this.manifestacije=man
-                         this.manifestacije=this.manifestacije.sort(this.porediManifestacijePocetak)
-                 		this.manifestacijeZaPrikaz = [...this.manifestacije]
-                 	
+                         
                      });
+                     this.manifestacije=man
+                     this.manifestacije=this.manifestacije.sort(this.porediManifestacijePocetak)
+             		this.manifestacijeZaPrikaz = [...this.manifestacije]
+             	
                  })
 
 		},

@@ -2,6 +2,9 @@ package controller;
 
 import static spark.Spark.get;
 
+import javax.json.bind.Jsonb;
+import javax.json.bind.JsonbBuilder;
+
 import com.google.gson.Gson;
 
 import domain.Kupac;
@@ -9,18 +12,18 @@ import service.KupacService;
 
 public class KupacController {
 
-	private static Gson gson = new Gson();
+	Jsonb jsonb = JsonbBuilder.newBuilder().build();
 
 	public KupacController() {
 		KupacService kupacService = new KupacService();
 		
 		get("/kupci", (req, res) -> {
-			return gson.toJson(kupacService.preuzmiSve());
+			return jsonb.toJson(kupacService.preuzmiSve());
 		});
 		
 		get("/kupci/:username", (req, res) -> {
 			Kupac a = kupacService.preuzmiPoUsername(req.params("username"));
-			return gson.toJson(a);
+			return jsonb.toJson(a);
 		});
 	}
 

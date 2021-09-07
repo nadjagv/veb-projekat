@@ -7,6 +7,9 @@ import static spark.Spark.delete;
 
 import java.time.LocalDateTime;
 
+import javax.json.bind.Jsonb;
+import javax.json.bind.JsonbBuilder;
+
 import com.google.gson.Gson;
 
 import domain.Manifestacija;
@@ -14,17 +17,17 @@ import helperClasses.CrudManifestacijaDTO;
 import service.ManifestacijaService;
 
 public class ManifestacijaController {
-	private static Gson gson = new Gson();
+	Jsonb jsonb = JsonbBuilder.newBuilder().build();
 
 	public ManifestacijaController() {
 		ManifestacijaService manService = new ManifestacijaService();
 		
 		get("/manifestacije", (req, res) -> {
-			return gson.toJson(manService.preuzmiSveNeobrisane());
+			return jsonb.toJson(manService.preuzmiSveNeobrisane());
 		});
 		
 		get("/sveManifestacije", (req, res) -> {
-			return gson.toJson(manService.preuzmiSve());
+			return jsonb.toJson(manService.preuzmiSve());
 		});
 		
 		get("/manifestacije/:id", (req, res) -> {
@@ -34,13 +37,13 @@ public class ManifestacijaController {
 //			}else {
 //				res.status(404);
 //			}
-			return gson.toJson(m);
+			return jsonb.toJson(m);
 		});
 		
 		post("/manifestacije", (req, res) -> {
 			res.type("application/json");
 			String payload = req.body();
-			CrudManifestacijaDTO dto = gson.fromJson(payload, CrudManifestacijaDTO.class);
+			CrudManifestacijaDTO dto = jsonb.fromJson(payload, CrudManifestacijaDTO.class);
 			
 			//provera tokena
 			
@@ -69,7 +72,7 @@ public class ManifestacijaController {
 		put("/manifestacije", (req, res) -> {
 			res.type("application/json");
 			String payload = req.body();
-			CrudManifestacijaDTO dto = gson.fromJson(payload, CrudManifestacijaDTO.class);
+			CrudManifestacijaDTO dto = jsonb.fromJson(payload, CrudManifestacijaDTO.class);
 			
 			//provera tokena
 			
