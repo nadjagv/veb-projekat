@@ -29,6 +29,8 @@ Vue.component("man-view-user", {
 			pretragaDatumDo: Date.now(),
 			brojKarata: 0,
 			ukupnaCena: 0,
+			editVreme:"",
+			editDatum:"",
 			novaManifestacija:{
 				tip: "Koncert"
 			},
@@ -149,7 +151,7 @@ Vue.component("man-view-user", {
 			Rezerviši karte &raquo;
 			</button>
 
-			<button v-if="userRole==='PRODAVAC'" type="button" style="margin-top:10px" class="btn btn-primary" data-toggle="modal" :data-target="'#editModal'+m.id">
+			<button v-if="userRole==='PRODAVAC'" @click="pripremiEditModal(m)" type="button" style="margin-top:10px" class="btn btn-primary" data-toggle="modal" :data-target="'#editModal'+m.id">
 			Izmeni informacije &raquo;
 			</button>
 
@@ -243,7 +245,15 @@ Vue.component("man-view-user", {
 
 						<div class="form-group">
 							<label :for="'datePicker'+m.id">Datum:</label>
-							<vuejs-datepicker :id="'datePicker'+m.id" v-model="m.datumPocetak" format="dd.MM.yyyy" data-error="Polje ne sme biti prazno" required></vuejs-datepicker>
+							<input type="date" :id="'datePicker'+m.id" v-model="editDatum"
+								min="1900-01-01" data-error="Polje ne sme biti prazno" required>
+								<div class="help-block with-errors"></div>
+						</div>
+
+						<div class="form-group">
+							<label for="'timePicker'+m.id">Vreme:</label>
+							<input type="time" :id="'timePicker'+m.id" v-model="editVreme"
+								min="1900-01-01" data-error="Polje ne sme biti prazno" required>
 								<div class="help-block with-errors"></div>
 						</div>
 
@@ -260,7 +270,7 @@ Vue.component("man-view-user", {
 						</div>
 
 
-						<button class="btn btn-lg btn-primary" style="margin:20px" type="submit" @click="submitIzmene()">Sačuvaj izmene</button>
+						<button class="btn btn-lg btn-primary" style="margin:20px" type="submit" @click="submitIzmene(m)">Sačuvaj izmene</button>
 					</form>
 				</div>
 				</div>
@@ -377,7 +387,14 @@ Vue.component("man-view-user", {
 
 								<div class="form-group">
 									<label for="datePickeAddr">Datum:</label>
-									<input type="date" id="datePickerAdd" v-model="novaManifestacija.datumPocetka"
+									<input type="date" id="datePickerAdd" v-model="novaManifestacija.datumPocetak"
+										min="1900-01-01" data-error="Polje ne sme biti prazno" required>
+										<div class="help-block with-errors"></div>
+								</div>
+
+								<div class="form-group">
+									<label for="timePickeAddr">Vreme:</label>
+									<input type="time" id="timePickerAdd" v-model="novaManifestacija.vreme"
 										min="1900-01-01" data-error="Polje ne sme biti prazno" required>
 										<div class="help-block with-errors"></div>
 								</div>
@@ -418,17 +435,25 @@ Vue.component("man-view-user", {
 `
 	,
 	methods: {
+		pripremiEditModal(m){
+			var parsed = moment(m.datumPocetak);
+			this.editDatum= parsed.format('YYYY-MM-DD');
+			this.editVreme=parsed.format('HH:mm');
+			console.log(this.editDatum)
+		},
 		openModal(){
 			$('#modal1').modal();
 		},
-		submitIzmene(){
+		submitIzmene(m){
 			//TO DO poslati izmene na backend
-			if ( $('#formEdit')[0].checkValidity() ) {
-				$('#formEdit').submit(function (evt) {
+			if ( $('#formEdit'+m.id)[0].checkValidity() ) {
+				m.datumPocetak=new Date(parseInt(new Date(this.editDatum + " " + this.editVreme).getTime()))
+				$('#formEdit'+m.id).submit(function (evt) {
 					evt.preventDefault();
 					
 					
 				});
+				this.pripremi()
 			}
 		},
 		submitMan(){
@@ -443,10 +468,9 @@ Vue.component("man-view-user", {
 				this.novaManifestacija.id=this.manifestacije.length+1
 				this.novaManifestacija.slobodnaMesta=this.novaManifestacija.brojMesta
 				this.novaManifestacija.aktivna=false
-				this.novaManifestacija.datumPocetka=Date.parse(this.novaManifestacija.datumPocetka)
+				this.novaManifestacija.datumPocetak=new Date(parseInt(new Date(this.novaManifestacija.datumPocetak + " " + this.novaManifestacija.vreme).getTime()))
 				console.log(this.novaManifestacija)
 				this.manifestacije.push(this.novaManifestacija)
-				fixDate(this.manifestacije)
 				this.novaManifestacija={tip:"Koncert"}
 				this.pripremi()
 			}

@@ -12,7 +12,7 @@ Vue.component("account-view", {
 
     <div class="container marketing">
 
-        <form class="form-signin" data-toggle="validator" id="formRegister" role="form">
+        <form class="form-signin" data-toggle="validator" id="formChange" role="form">
                 <h2 class="form-signin-heading">Korisnički nalog:</h2>
 
                 <div class="form-group">
@@ -31,12 +31,8 @@ Vue.component("account-view", {
                     <label for="inputPassword" class="control-label">Password</label>
                     <div class="form-inline row">
                     <div class="form-group col-sm-6">
-                        <input type="password" data-minlength="6" class="form-control" id="inputPassword" placeholder="Šifra" data-error="Polje ne sme biti prazno" required>
+                        <input type="password" data-minlength="6" v-model="user.password" class="form-control" id="inputPassword" placeholder="Šifra" data-error="Polje ne sme biti prazno" required>
                         <div class="help-block">Minimum 6 karaktera</div>
-                    </div>
-                    <div class="form-group col-sm-6">
-                        <input type="password" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword" data-match-error="Šifre se ne poklapaju" data-error="Polje ne sme biti prazno" placeholder="Potvrdi" required>
-                        <div class="help-block with-errors"></div>
                     </div>
                     </div>
                 </div>
@@ -54,7 +50,7 @@ Vue.component("account-view", {
                             </div>
                         </div>
                         <div class="form-group col-sm-6">
-                        <div class="radio">
+                            <div class="radio">
                             <label>
                                 <input type="radio" value="ZENSKI" name="pol" v-model="user.pol" required>
                                 Ženski
@@ -66,13 +62,11 @@ Vue.component("account-view", {
 
                 <div class="form-group">
                     <label for="datePicker">Datum rođenja</label>
-                    <input type="date" id="datePicker" 
-                        min="1900-01-01" v-model="user.datumRodjenja" data-error="Polje ne sme biti prazno" required>
-                        <div class="help-block with-errors"></div>
+                    <vuejs-datepicker id="datePicker" data-error="Polje ne sme biti prazno" v-model="user.datumRodjenja" format="dd.MM.yyyy" required></vuejs-datepicker> 
                 </div>
 
 
-                <button class="btn btn-lg btn-primary" style="margin:20px" type="submit" @click="submitReg()"><span id="pretragaIcon" class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span> Sačuvaj izmene</button>
+                <button class="btn btn-lg btn-primary" style="margin:20px" type="submit" @click="saveChanges()"><span id="pretragaIcon" class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span> Sačuvaj izmene</button>
             </form>
 
 	</div>
@@ -81,33 +75,44 @@ Vue.component("account-view", {
 `
 	,
 	methods: {
-		
+        saveChanges(){
+            if ( $('#formChange')[0].checkValidity() ) {
+                $('#formChange').submit(function (evt) {
+                    evt.preventDefault();
+                    
+                });
+                alert(this.user.datumRodjenja)
+            }
+        },
 	},
-	mounted() {
+	async mounted() {
         this.userRole=window.localStorage.getItem('uloga')
         let username=window.localStorage.getItem('username')
 
         switch(this.userRole){
             case "KUPAC":
-                axios.get(`/kupci/`+username).then(response=>{
+                await axios.get(`/kupci/`+username).then(response=>{
                     console.log(response.data)
                     this.user=response.data
                 })
                 break
             case "PRODAVAC":
-                axios.get(`/prodavci/`+username).then(response=>{
+                await axios.get(`/prodavci/`+username).then(response=>{
                     console.log(response.data)
                     this.user=response.data
                 })
                 break
             case "ADMINISTRATOR":
-                axios.get(`/administratori/`+username).then(response=>{
+                await axios.get(`/administratori/`+username).then(response=>{
                     console.log(response.data)
                     this.user=response.data
                 })
                 break
             default:
         }
+
+        //this.user.datumRodjenja=moment.utc(this.user.datumRodjenja.year+'-'+this.user.datumRodjenja.month+'-'+this.user.datumRodjenja.day)
+        this.user.datumRodjenja=new Date(this.user.datumRodjenja.year,this.user.datumRodjenja.month-1,this.user.datumRodjenja.day)
 	},
 	components:{
 		vuejsDatepicker,
