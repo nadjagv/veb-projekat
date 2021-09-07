@@ -296,6 +296,8 @@ Vue.component("user-list-view", {
                 })
             })
 
+            this.korisnici=this.korisnici.filter(k=>k.username!=usernameMain)
+
         }else if(this.userRole==="PRODAVAC"){
             await axios.get(`/prodavci/mojiKupci/`+usernameMain).then(response=>{
                 response.data.forEach(element=>{
