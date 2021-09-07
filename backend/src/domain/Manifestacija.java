@@ -2,7 +2,6 @@ package domain;
 
 import java.time.LocalDateTime;
 
-import enums.StatusManifestacije;
 import enums.TipManifestacije;
 
 public class Manifestacija {
@@ -10,6 +9,7 @@ public class Manifestacija {
 	private String naziv;
 	private TipManifestacije tip;
 	private int brojMesta;
+	private int slobodnaMesta;
 	private LocalDateTime datumVremeOdrzavanja;
 	private double cenaRegular;
 	private boolean aktivna;
@@ -35,6 +35,7 @@ public class Manifestacija {
 		this.naziv = naziv;
 		this.tip = tip;
 		this.brojMesta = brojMesta;
+		this.slobodnaMesta = brojMesta;
 		this.datumVremeOdrzavanja = datumVremeOdrzavanja;
 		this.cenaRegular = cenaRegular;
 		this.aktivna = aktivna;
@@ -43,12 +44,24 @@ public class Manifestacija {
 		this.obrisana = obrisana;
 		this.ocena = ocena;
 	}
-
-
-
-
-
-
+	
+	public Manifestacija(String id, String naziv, TipManifestacije tip, int brojMesta, int slobodnaMesta,
+			LocalDateTime datumVremeOdrzavanja, double cenaRegular, boolean aktivna, Lokacija lokacija,
+			String slikaPath, boolean obrisana, double ocena) {
+		super();
+		this.id = id;
+		this.naziv = naziv;
+		this.tip = tip;
+		this.brojMesta = brojMesta;
+		this.slobodnaMesta = slobodnaMesta;
+		this.datumVremeOdrzavanja = datumVremeOdrzavanja;
+		this.cenaRegular = cenaRegular;
+		this.aktivna = aktivna;
+		this.lokacija = lokacija;
+		this.slikaPath = slikaPath;
+		this.obrisana = obrisana;
+		this.ocena = ocena;
+	}
 
 
 
@@ -155,32 +168,31 @@ public class Manifestacija {
 		this.slikaPath = slikaPath;
 	}
 
-
-
-
 	public boolean isObrisana() {
 		return obrisana;
 	}
-
-
-
 
 	public void setObrisana(boolean obrisana) {
 		this.obrisana = obrisana;
 	}
 
 
-
-
 	public double getOcena() {
 		return ocena;
 	}
 
-
-
-
 	public void setOcena(double ocena) {
 		this.ocena = ocena;
+	}
+
+
+	public int getSlobodnaMesta() {
+		return slobodnaMesta;
+	}
+
+
+	public void setSlobodnaMesta(int slobodnaMesta) {
+		this.slobodnaMesta = slobodnaMesta;
 	}
 	
 	

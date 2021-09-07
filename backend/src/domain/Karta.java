@@ -8,6 +8,7 @@ import enums.TipKarte;
 public class Karta {
 	private String id;
 	private String manifestacijaId;
+	private String nazivManifestacije;
 	private LocalDateTime datumVremeOdrzavanja; //redundantno
 	private double cena;
 	private String kupacUsername;
@@ -15,23 +16,22 @@ public class Karta {
 	private TipKarte tip;
 
 	public Karta() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
-	
 
-	public Karta(String id, String manifestacijaId, LocalDateTime datumVremeOdrzavanja, double cena,
-			String kupacUsername, StatusKarte status, TipKarte tip) {
+	public Karta(String id, String manifestacijaId, String nazivManifestacije, LocalDateTime datumVremeOdrzavanja,
+			double cena, String kupacUsername, StatusKarte status, TipKarte tip) {
 		super();
 		this.id = id;
 		this.manifestacijaId = manifestacijaId;
+		this.nazivManifestacije = nazivManifestacije;
 		this.datumVremeOdrzavanja = datumVremeOdrzavanja;
 		this.cena = cena;
 		this.kupacUsername = kupacUsername;
 		this.status = status;
 		this.tip = tip;
 	}
-
 
 
 	public String getManifestacijaId() {
@@ -101,6 +101,17 @@ public class Karta {
 	public void setTip(TipKarte tip) {
 		this.tip = tip;
 	}
+
+
+	public String getNazivManifestacije() {
+		return nazivManifestacije;
+	}
+
+
+	public void setNazivManifestacije(String nazivManifestacije) {
+		this.nazivManifestacije = nazivManifestacije;
+	}
+	
 	
 
 }

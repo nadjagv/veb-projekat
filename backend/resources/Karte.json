@@ -7,7 +7,8 @@
 	"cena":500.0,
 	"kupacUsername":"maja",
 	"status":"REZERVISANA",
-	"tip":"REGULAR"
+  "tip": "REGULAR",
+  "nazivManifestacije":"Veliki koncert"
 	},
 	{
 	"id":"bilaa22222",
@@ -16,7 +17,8 @@
 	"cena":500.0,
 	"kupacUsername":"maja",
 	"status":"REZERVISANA",
-	"tip":"REGULAR"
+  "tip": "REGULAR",
+  "nazivManifestacije":"Mali koncert"
 	},
 	{
 	"id":"aaaaa22222",
@@ -25,7 +27,8 @@
 	"cena":2000.0,
 	"kupacUsername":"marko",
 	"status":"REZERVISANA",
-	"tip":"VIP"
+  "tip": "VIP",
+  "nazivManifestacije":"Veliki koncert"
 	}
 	]
 }

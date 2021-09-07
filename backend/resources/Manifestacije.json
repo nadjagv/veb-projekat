@@ -1,44 +1,45 @@
-{"manifestacije":
-	[
-	{
-		"id":"mmmmm11111",
-		"naziv":"Veliki koncert",
-		"tip":"KONCERT",
-		"brojMesta":3000,
-		"datumVremeOdrzavanja":[2021,9,26,19,0,0,0],
-		"cenaRegular":500.0,
-    "aktivna": true,
-    "ocena": null,
-		"lokacija":
-		{
-			"geoDuzina":19.8453,
-			"geoSirina":45.2470,
-			"ulica":"Sutjeska",
-			"grad":"Novi Sad",
-			"postanskiBroj":"21000",
-			"kucniBroj":2
-		},
-		"slikaPath":"koncert-v.png"
-	},
-		{
-		"id":"prosla1111",
-		"naziv":"Mali koncert",
-		"tip":"KONCERT",
-		"brojMesta":3000,
-		"datumVremeOdrzavanja":[2021,8,25,19,0,0,0],
-		"cenaRegular":500.0,
-    "aktivna": false,
-    "ocena": 4.5,
-		"lokacija":
-		{
-			"geoDuzina":19.8453,
-			"geoSirina":45.2470,
-			"ulica":"Sutjeska",
-			"grad":"Novi Sad",
-			"postanskiBroj":"21000",
-			"kucniBroj":2
-		},
-		"slikaPath":"koncert.jpg"
-	}
-	]
+{
+  "manifestacije" : [ {
+    "id" : "mmmmm11111",
+    "naziv" : "Veliki koncert",
+    "tip" : "KONCERT",
+    "brojMesta" : 3000,
+    "slobodnaMesta" : 2998,
+    "datumVremeOdrzavanja" : [ 2021, 9, 26, 19, 0 ],
+    "cenaRegular" : 700.0,
+    "aktivna" : true,
+    "lokacija" : {
+      "geoDuzina" : 19.8453,
+      "geoSirina" : 45.247,
+      "ulica" : "Sutjeska",
+      "grad" : "Novi Sad",
+      "drzava" : "Srbija",
+      "postanskiBroj" : "21000",
+      "kucniBroj" : "2"
+    },
+    "slikaPath" : "koncert-v.png",
+    "obrisana" : false,
+    "ocena" : 0.0
+  }, {
+    "id" : "prosla1111",
+    "naziv" : "Mali koncert",
+    "tip" : "KONCERT",
+    "brojMesta" : 3000,
+    "slobodnaMesta" : 2999,
+    "datumVremeOdrzavanja" : [ 2021, 8, 25, 19, 0 ],
+    "cenaRegular" : 500.0,
+    "aktivna" : false,
+    "lokacija" : {
+      "geoDuzina" : 19.8453,
+      "geoSirina" : 45.247,
+      "ulica" : "Sutjeska",
+      "grad" : "Novi Sad",
+      "drzava" : "Srbija",
+      "postanskiBroj" : "21000",
+      "kucniBroj" : "2"
+    },
+    "slikaPath" : "koncert.jpg",
+    "obrisana" : false,
+    "ocena" : 4.5
+  } ]
 }

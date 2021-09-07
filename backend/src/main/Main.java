@@ -11,9 +11,13 @@ import controller.KupacController;
 import controller.ManifestacijaController;
 import controller.ProdavacController;
 import domain.Administrator;
+import domain.Manifestacija;
+import enums.TipManifestacije;
+import helperClasses.CrudManifestacijaDTO;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import repositories.AdministratorRepository;
 import repositories.KartaRepository;
@@ -21,6 +25,7 @@ import repositories.KomentarRepository;
 import repositories.KupacRepository;
 import repositories.ManifestacijaRepository;
 import repositories.ProdavacRepository;
+import service.ManifestacijaService;
 
 public class Main {
 
@@ -44,6 +49,20 @@ public class Main {
 		new KartaController();
 		new ManifestacijaController();
 		new KomentarController();
+		
+//		CrudManifestacijaDTO test = new CrudManifestacijaDTO("naz", "NS", "srb", "55536", "bulevar", "5", TipManifestacije.PREDSTAVA, LocalDateTime.MAX.minusHours(5), 22221212.0, 333, "putagdjd");
+//		
+//		CrudManifestacijaDTO testdf = new CrudManifestacijaDTO("nazeyey", "NS", "srb", "55536", "bulevar", "5", TipManifestacije.PREDSTAVA, LocalDateTime.MAX.minusHours(5), 22221212.0, 333, "putagdjd");
+//		
+//		
+//		ManifestacijaService service = new ManifestacijaService();
+//		Manifestacija m = service.napraviManifestaciju(test);
+//		Manifestacija msff = service.napraviManifestaciju(testdf);
+//		//test.setId(m.getId());
+//		//test.setNaziv("novi naziv izmena");
+//		//service.izmeniManifestaciju(test);
+	
+		
 		
 
 	}
