@@ -27,7 +27,7 @@ Vue.component("account-view", {
                     <div class="help-block with-errors"></div>
                 </div>
 
-                <!--<div class="form-group">
+                <div class="form-group">
                     <label for="inputPassword" class="control-label">Password</label>
                     <div class="form-inline row">
                     <div class="form-group col-sm-6">
@@ -39,7 +39,7 @@ Vue.component("account-view", {
                         <div class="help-block with-errors"></div>
                     </div>
                     </div>
-                </div>-->
+                </div>
 
                 <label for="polRadio" class="control-label">Pol</label>
                 <div class="form-group" id="polRadio">

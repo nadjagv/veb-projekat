@@ -17,6 +17,9 @@ Vue.component("user-list-view", {
             pretragaUsername:"",
             userRole: "",
             username:"",
+            noviProdavac:{
+                uloga:"PRODAVAC"
+            },
 		}
 	},
     props:{
@@ -121,7 +124,7 @@ Vue.component("user-list-view", {
             <h3>{{k.status}}</h3>
 
             <p>Korisničko ime: {{k.username}}</p>
-            <p>Datum rođenja: {{k.datum}}</p>
+            <p>Datum rođenja: {{k.datum | dateFormat('DD.MM.YYYY')}}</p>
 
             <p v-if="k.uloga==='KUPAC'">Tip kupca:{{k.tip}}</p>
             <p v-if="k.uloga==='KUPAC'">Broj bodova:{{k.bodovi}}</p>
@@ -138,6 +141,95 @@ Vue.component("user-list-view", {
 
         </div>
 
+        <div class="col-lg-3" style="margin:20px" v-if="userRole==='ADMINISTRATOR'">
+			<img class="img-circle" @click="openModal()" src="images/plus.png" alt="Generic placeholder image" width="140" height="140" >
+			<h2 style="text-align:center">Dodaj prodavca</h2>
+
+			<!-- Modal -->
+				<div class="modal fade" id="modalNew" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-scrollable" role="document">
+					<div class="modal-content">
+					<div class="modal-header">
+						<h2 class="modal-title" >Novi prodavac</h2>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="container-fluid">
+                        <form class="form-signin" data-toggle="validator" id="formNew" role="form">
+        
+                        <div class="form-group">
+                        <label for="inputName"  class="control-label">Ime</label>
+                        <input type="text" v-model="noviProdavac.ime" class="form-control" id="inputName" data-error="Polje ne sme biti prazno" required>
+                            <div class="help-block with-errors"></div>
+                        </div>
+
+                        <div class="form-group">
+                        <label for="inputLastName"  class="control-label">Prezime</label>
+                        <input type="text" v-model="noviProdavac.prezime" class="form-control" id="inputLastName" data-error="Polje ne sme biti prazno" required>
+                            <div class="help-block with-errors"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputUsernameNew"  class="control-label">Korisničko ime</label>
+                            <input type="text" autocomplete="new-username" v-model="noviProdavac.username" pattern="^[_A-z0-9]{1,}$" maxlength="15" class="form-control" id="inputUsernameNew"  data-error="Polje ne sme biti prazno" required>
+                            <div class="help-block with-errors"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPasswordNew" class="control-label">Password</label>
+                            <div class="form-inline row">
+                            <div class="form-group col-sm-6">
+                                <input type="password" autocomplete="new-password" v-model="noviProdavac.password" data-minlength="6" class="form-control" id="inputPasswordNew" placeholder="Šifra" data-error="Polje ne sme biti prazno" required>
+                                <div class="help-block">Minimum 6 karaktera</div>
+                            </div>
+                            </div>
+                        </div>
+
+                        <label for="polRadio" class="control-label">Pol</label>
+                        <div class="form-group" id="polRadio">
+                            
+                            <div class="form-inline row">
+                                <div class="form-group col-sm-4">
+                                    <div class="radio">
+                                    <label>
+                                        <input type="radio" value="MUSKI" v-model="noviProdavac.pol" name="pol" required>
+                                        Muški
+                                    </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" value="ZENSKI" v-model="noviProdavac.pol" name="pol" required>
+                                        Ženski
+                                    </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="datePicker">Datum rođenja</label>
+                            <vuejs-datepicker id="datePicker" data-error="Polje ne sme biti prazno" v-model="noviProdavac.datum" format="dd.MM.yyyy" required></vuejs-datepicker> 
+                        </div>
+
+
+
+                        <button class="btn btn-lg btn-primary" style="margin:20px" type="submit" @click="dodajProdavca()">Dodaj</button>
+                    </form>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+					</div>
+				</div>
+				</div>
+
+		</div>
+
     </div>
 
 	</div>
@@ -146,6 +238,22 @@ Vue.component("user-list-view", {
 `
 	,
 	methods: {
+        dodajProdavca(){
+            if ( $('#formNew')[0].checkValidity() ) {
+                alert("Uspesna dodat prodavac")
+                $('#formNew').submit(function (evt) {
+                    evt.preventDefault();
+                    
+                });
+                console.log(this.noviProdavac.datumRodjenja)
+                this.korisnici.push(Object.assign({},this.noviProdavac))
+                this.pripremi()
+                this.noviProdavac={uloga:"PRODAVAC"}
+            }
+		},
+        openModal(){
+			$('#modalNew').modal();
+		},
         blokiraj(k){
             k.blokiran=true
         },
@@ -264,7 +372,7 @@ Vue.component("user-list-view", {
                         prezime: element.prezime,
                         uloga: element.uloga,
                         username: element.username,
-                        datum: element.datumRodjenja,
+                        datum: moment.utc(element.datumRodjenja.year+'-'+element.datumRodjenja.month+'-'+element.datumRodjenja.day),
                     })
                 })
             })
@@ -276,7 +384,7 @@ Vue.component("user-list-view", {
                         prezime: element.prezime,
                         uloga: element.uloga,
                         username: element.username,
-                        datum: element.datumRodjenja,
+                        datum: moment.utc(element.datumRodjenja.year+'-'+element.datumRodjenja.month+'-'+element.datumRodjenja.day),
                         tip: element.tip,
                         bodovi: element.brojBodova,
                         blokiran: element.blokiran,
@@ -291,10 +399,11 @@ Vue.component("user-list-view", {
                         prezime: element.prezime,
                         uloga: element.uloga,
                         username: element.username,
-                        datum: element.datumRodjenja,
+                        datum: moment.utc(element.datumRodjenja.year+'-'+element.datumRodjenja.month+'-'+element.datumRodjenja.day),
                     })
                 })
             })
+
 
             this.korisnici=this.korisnici.filter(k=>k.username!=usernameMain)
 
