@@ -10,9 +10,10 @@ Vue.component("man-view-user", {
 		return {
 			manifestacije: [],
 			manifestacijeZaPrikaz: [],
+			manifestacijeProdavca:[],
 			prikazRasprodatih: true,
 			tipZaPrikaz: "Svi",
-			tipovi: ["Svi", "Sport", "Koncert", "Predstava", "Ostalo","Festival"],
+			tipovi: ["Svi", "KONCERT", "FESTIVAL", "PREDSTAVA", "SPORT", "OSTALO"],
 			tipKarata: ["Regular","Fan Pit","VIP"],
 			tipKarte:"Regular",
 			redSortiranjaOpcije:["Bez reda","Opadajuće","Rastuće"],
@@ -612,7 +613,7 @@ Vue.component("man-view-user", {
 
 		},
 	},
-	mounted() {
+	async mounted() {
 		$(document).ready(function () {
 			var options = {
 				max_value: 6,
@@ -626,88 +627,59 @@ Vue.component("man-view-user", {
 		//TO DO: izvrsiti ucitavnja na osnovu user role 
 
 		this.userRole=window.localStorage.getItem('uloga')
+		
+		await axios.get(`/manifestacije`).then(response=>{
+                     const man=[]
+                     
+                     response.data.forEach(element => {
+                    	 console.log(element.datumVremeOdrzavanja)
+                         man.push({
+                        	id:element.id,
+                 			naziv: element.naziv,
+                 			grad: element.lokacija.grad,
+                 			drzava: element.lokacija.drzava,
+                 			slika: element.slikaPath,
+                 			tip: element.tip,
+                 			datumPocetak: element.datumVremeOdrzavanja,
+                 			cena: element.cenaRegular,
+                 			ocena: element.ocena,
+                 			brojMesta: element.brojMesta,
+                 			slobodnaMesta: element.slobodnaMesta,
+                 			aktivna: element.aktivna,
+                         })
+                         
+                     });
+                     this.manifestacije=man
+					 fixDate(this.manifestacije)
+                     this.manifestacije=this.manifestacije.sort(this.porediManifestacijePocetak)
+             		this.manifestacijeZaPrikaz = [...this.manifestacije]
+             	
+                 })
+		/*if(this.userRole==="PRODAVAC"){
+			await axios.get(`/prodavci/mojeMan/`+window.localStorage.getItem('username')).then(response=>{
+				const manP=[]
 
-
-		this.manifestacije.push({
-			id:1,
-			naziv: "Test1",
-			grad: "Novi Sad",
-			drzava: "Srbija",
-			slika: "car1.jpg",
-			tip: "Sport",
-			datumPocetak: 1630620000000,
-			cena: 1000,
-			prosla: true,
-			ocena: 4.4,
-			brojMesta: 120,
-			slobodnaMesta: 0,
-			aktivna: false,
-		})
-		this.manifestacije.push({
-			id:2,
-			naziv: "Test2",
-			grad: "Novi Sad",
-			drzava: "Srbija",
-			slika: "car2.jpg",
-			tip: "Koncert",
-			datumPocetak: 1630087200000,
-			cena: 100,
-			prosla: true,
-			ocena: 3.2,
-			brojMesta: 221,
-			slobodnaMesta: 56,
-			aktivna: true,
-		})
-		this.manifestacije.push({
-			id:3,
-			naziv: "Test3",
-			grad: "Beograd",
-			drzava: "Srbija",
-			slika: "car3.jpg",
-			tip: "Ostalo",
-			datumPocetak: 1630864800000,
-			cena: 1000,
-			prosla: false,
-			ocena: 0,
-			brojMesta: 42,
-			slobodnaMesta: 14,
-			aktivna: true,
-		})
-		this.manifestacije.push({
-			id:4,
-			naziv: "Test4",
-			grad: "Niš",
-			drzava: "Srbija",
-			slika: "man4.jpg",
-			tip: "Predstava",
-			datumPocetak: 1630864800000,
-			cena: 3000,
-			prosla: false,
-			ocena: 0,
-			brojMesta: 22,
-			slobodnaMesta: 10,
-			aktivna: true,
-		})
-
-		this.manifestacije.push({
-			id:5,
-			naziv: "Test5",
-			grad: "Niš",
-			drzava: "Srbija",
-			slika: "man4.jpg",
-			tip: "Predstava",
-			datumPocetak: 1630620000000,
-			cena: 1000,
-			prosla: false,
-			ocena: 0,
-			brojMesta: 78,
-			slobodnaMesta: 0,
-			aktivna: true,
-		})
-
-		fixDate(this.manifestacije)
-		this.manifestacije=this.manifestacije.sort(this.porediManifestacijePocetak)
-		this.manifestacijeZaPrikaz = [...this.manifestacije]
+				response.data.forEach(element => {
+					manP.push({
+					   id:element.id,
+						naziv: element.naziv,
+						grad: element.lokacija.grad,
+						drzava: element.lokacija.drzava,
+						slika: element.slikaPath,
+						tip: element.tip,
+						datumPocetak: element.datumVremeOdrzavanja,
+						cena: element.cenaRegular,
+						ocena: element.ocena,
+						brojMesta: element.brojMesta,
+						slobodnaMesta: element.slobodnaMesta,
+						aktivna: element.aktivna,
+					})
+					
+				});
+				this.manifestacijeProdavca=manP
+				fixDate(this.manifestacijeProdavca)
+			})
+		}*/
 	},
 	filters: {
 		dateFormat: function (value, format) {

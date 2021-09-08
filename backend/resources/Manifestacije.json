@@ -41,5 +41,89 @@
     "slikaPath" : "koncert.jpg",
     "obrisana" : false,
     "ocena" : 4.5
+  }, {
+    "id" : "aaaaa1111",
+    "naziv" : "Radovan III",
+    "tip" : "PREDSTAVA",
+    "brojMesta" : 250,
+    "slobodnaMesta" : 122,
+    "datumVremeOdrzavanja" : [ 2021, 9, 25, 19, 0 ],
+    "cenaRegular" : 1500.0,
+    "aktivna" : true,
+    "lokacija" : {
+      "geoDuzina" : 19.8453,
+      "geoSirina" : 45.247,
+      "ulica" : "Sutjeska",
+      "grad" : "Novi Sad",
+      "drzava" : "Srbija",
+      "postanskiBroj" : "21000",
+      "kucniBroj" : "2"
+    },
+    "slikaPath" : "man4.jpg",
+    "obrisana" : false,
+    "ocena" : 0.0
+  }, {
+    "id" : "bbbbb1111",
+    "naziv" : "Žurka",
+    "tip" : "OSTALO",
+    "brojMesta" : 300,
+    "slobodnaMesta" : 0,
+    "datumVremeOdrzavanja" : [ 2021, 9, 25, 22, 0 ],
+    "cenaRegular" : 1000.0,
+    "aktivna" : false,
+    "lokacija" : {
+      "geoDuzina" : 19.8453,
+      "geoSirina" : 45.247,
+      "ulica" : "Sutjeska",
+      "grad" : "Novi Sad",
+      "drzava" : "Srbija",
+      "postanskiBroj" : "21000",
+      "kucniBroj" : "2"
+    },
+    "slikaPath" : "car1.jpg",
+    "obrisana" : false,
+    "ocena" : 0.0
+  }, {
+    "id" : "prosla2222",
+    "naziv" : "Koncert klasične muzike",
+    "tip" : "KONCERT",
+    "brojMesta" : 1000,
+    "slobodnaMesta" : 50,
+    "datumVremeOdrzavanja" : [ 2021, 8, 20, 19, 0 ],
+    "cenaRegular" : 2000.0,
+    "aktivna" : false,
+    "lokacija" : {
+      "geoDuzina" : 19.8453,
+      "geoSirina" : 45.247,
+      "ulica" : "Sutjeska",
+      "grad" : "Novi Sad",
+      "drzava" : "Srbija",
+      "postanskiBroj" : "21000",
+      "kucniBroj" : "2"
+    },
+    "slikaPath" : "car2.jpg",
+    "obrisana" : false,
+    "ocena" : 3.7
+  }, {
+    "id" : "ccccc1111",
+    "naziv" : "Umetnička izložba",
+    "tip" : "OSTALO",
+    "brojMesta" : 150,
+    "slobodnaMesta" : 50,
+    "datumVremeOdrzavanja" : [ 2021, 9, 23, 19, 0 ],
+    "cenaRegular" : 300.0,
+    "aktivna" : false,
+    "lokacija" : {
+      "geoDuzina" : 19.8453,
+      "geoSirina" : 45.247,
+      "ulica" : "Sutjeska",
+      "grad" : "Novi Sad",
+      "drzava" : "Srbija",
+      "postanskiBroj" : "21000",
+      "kucniBroj" : "2"
+    },
+    "slikaPath" : "car3.jpg",
+    "obrisana" : false,
+    "ocena" : 0.0
   } ]
 }

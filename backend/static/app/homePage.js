@@ -417,7 +417,7 @@ Vue.component("home-page", {
             }
 		},
 	},
-	mounted() {
+	async mounted() {
 		$(document).ready(function () {
 			var options = {
 				max_value: 6,
@@ -428,84 +428,8 @@ Vue.component("home-page", {
 			$(".rate").rate();
 		});
 
-//		this.manifestacije.push({
-//			id:1,
-//			naziv: "Test1",
-//			grad: "Novi Sad",
-//			drzava: "Srbija",
-//			slika: "car1.jpg",
-//			tip: "Klubska žurka",
-//			datumPocetak: 1630620000000,
-//			cena: 1000,
-//			prosla: true,
-//			ocena: 4.4,
-//			brojMesta: 120,
-//			slobodnaMesta: 0,
-//			aktivna: true,
-//		})
-//		this.manifestacije.push({
-//			id:2,
-//			naziv: "Test2",
-//			grad: "Novi Sad",
-//			drzava: "Srbija",
-//			slika: "car2.jpg",
-//			tip: "Koncert",
-//			datumPocetak: 1630087200000,
-//			cena: 100,
-//			prosla: true,
-//			ocena: 3.2,
-//			brojMesta: 221,
-//			slobodnaMesta: 56,
-//			aktivna: true,
-//		})
-//		this.manifestacije.push({
-//			id:3,
-//			naziv: "Test3",
-//			grad: "Beograd",
-//			drzava: "Srbija",
-//			slika: "car3.jpg",
-//			tip: "Izložba",
-//			datumPocetak: 1630864800000,
-//			cena: 1000,
-//			prosla: false,
-//			ocena: 0,
-//			brojMesta: 42,
-//			slobodnaMesta: 3,
-//			aktivna: false,
-//		})
-//		this.manifestacije.push({
-//			id:4,
-//			naziv: "Test4",
-//			grad: "Niš",
-//			drzava: "Srbija",
-//			slika: "man4.jpg",
-//			tip: "Predstava",
-//			datumPocetak: 1630864800000,
-//			cena: 3000,
-//			prosla: false,
-//			ocena: 0,
-//			brojMesta: 22,
-//			slobodnaMesta: 1,
-//			aktivna: true,
-//		})
-//
-//		this.manifestacije.push({
-//			id:5,
-//			naziv: "Test5",
-//			grad: "Niš",
-//			drzava: "Srbija",
-//			slika: "man4.jpg",
-//			tip: "Predstava",
-//			datumPocetak: 1630620000000,
-//			cena: 1000,
-//			prosla: false,
-//			ocena: 0,
-//			brojMesta: 78,
-//			slobodnaMesta: 0,
-//			aktivna: true,
-//		})
 		
-		axios.get(`/manifestacije`).then(response=>{
+		await axios.get(`/manifestacije`).then(response=>{
                      const man=[]
                      
                      response.data.forEach(element => {
@@ -527,6 +451,7 @@ Vue.component("home-page", {
                          
                      });
                      this.manifestacije=man
+					 fixDate(this.manifestacije)
                      this.manifestacije=this.manifestacije.sort(this.porediManifestacijePocetak)
              		this.manifestacijeZaPrikaz = [...this.manifestacije]
              	
