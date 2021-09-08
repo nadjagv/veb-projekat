@@ -479,22 +479,33 @@ Vue.component("man-view-user", {
 				this.ocenaKomentar=0
 			}
 		},
-		submitMan(){
+		async submitMan(){
 			//TO DO poslati novu manifestaciju na backend
 			if ( $('#formNew')[0].checkValidity() ) {
 				$('#formNew').submit(function (evt) {
 					evt.preventDefault();
-					
-					
 				});
-				console.log(this.novaManifestacija)
-				this.novaManifestacija.id=this.manifestacije.length+1
+				this.novaManifestacija.id="aaaa4545"
 				this.novaManifestacija.slobodnaMesta=this.novaManifestacija.brojMesta
 				this.novaManifestacija.aktivna=false
 				this.novaManifestacija.prodavacUsername=this.username
+				this.novaManifestacija.slikaPath=""
+				this.novaManifestacija.postanskiBroj=""
+				this.novaManifestacija.ulica=""
+				this.novaManifestacija.kucniBroj=""
 				this.novaManifestacija.datumVremeOdrzavanja=new Date(parseInt(new Date(this.novaManifestacija.datumVremeOdrzavanja + " " + this.novaManifestacija.vreme).getTime()))
+				delete this.novaManifestacija.vreme
 				console.log(this.novaManifestacija)
 				this.manifestacije.push(this.novaManifestacija)
+
+				this.novaManifestacija.datumVremeOdrzavanja=this.novaManifestacija.datumVremeOdrzavanja.getTime()
+				this.novaManifestacija.cenaRegular=parseInt(this.novaManifestacija.cenaRegular)
+				this.novaManifestacija.brojMesta=parseInt(this.novaManifestacija.brojMesta)
+				this.novaManifestacija.slobodnaMesta=this.novaManifestacija.brojMesta
+				console.log(this.novaManifestacija.datumVremeOdrzavanja)
+
+				await axios.post(`/manifestacije`,this.novaManifestacija)
+
 				this.novaManifestacija={tip:"Koncert"}
 				this.pripremi()
 			}
