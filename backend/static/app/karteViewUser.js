@@ -1,6 +1,6 @@
 function fixDate(karte) {
 	for (var k of karte) {
-		k.datumPocetak = new Date(parseInt(k.datumPocetak));
+		k.datumPocetak = new Date(parseInt(k.datumVremeOdrzavanja));
 	}
 	return karte;
 }
@@ -12,8 +12,8 @@ Vue.component("karte-view", {
             karteZaPrikaz:[],
             statusZaPrikaz:"Svi",
             tipZaPrikaz:"Svi",
-            statusi: ["Svi","Rezervisana","Odustanak"],
-            tipovi: ["Svi","Regular","Fan Pit","VIP"],
+            statusi: ["Svi","REZERVISANA","ODUSTANAK"],
+            tipovi: ["Svi","REGULAR","FAN_PIT","VIP"],
             sortirajPo:"Naziv manifestacije",
             sortirajPoOpcije:["Naziv manifestacije","Cena","Datum"],
             redSortiranjaOpcije:["Bez reda","Opadajuće","Rastuće"],
@@ -126,14 +126,15 @@ Vue.component("karte-view", {
 
 	<div class="row-cols-3 justify-content-center">
         <div class="col-lg-3" v-for="k in karteZaPrikaz" style="margin:20px;border-style:solid">
-            <h2>{{k.naziv}}</h2>
+            <h2>{{k.nazivManifestacije}}</h2>
             <h3>{{k.tip}}</h3>
             <h3>{{k.status}}</h3>
-            <p >Datum: {{k.datumPocetak | dateFormat('HH:mm DD.MM.YYYY')}}</p>
+            <p >Datum: {{k.datumVremeOdrzavanja | dateFormat('HH:mm DD.MM.YYYY')}}</p>
             <p>Cena: {{k.cena}}RSD </p>
             <p>Broj karata: {{k.brojKarata}}</p>
+            <p v-if="userRole!=='KUPAC'">Kupac: {{k.kupacUsername}}</p>
 
-            <button @click="odustani(k)" v-if="userRole==='KUPAC' && k.status=='Rezervisana'" type="button" style="margin-bottom:10px" class="btn btn-danger" >
+            <button @click="odustani(k)" v-if="userRole==='KUPAC' && k.status=='REZERVISANA'" type="button" style="margin-bottom:10px" class="btn btn-danger" >
 			Odustani <span class="glyphicon glyphicon-cancel" aria-hidden="true"></span>
 			</button>
 
@@ -173,16 +174,16 @@ Vue.component("karte-view", {
 			let k2Fix=""
 			switch(this.sortirajPo) {
 				case "Naziv manifestacije":
-				  k1Fix=k1.naziv.toUpperCase()
-				  k2Fix=k2.naziv.toUpperCase()
+				  k1Fix=k1.nazivManifestacije.toUpperCase()
+				  k2Fix=k2.nazivManifestacije.toUpperCase()
 				  break;
 				case "Cena":
 					k1Fix=k1.cena
 					k2Fix=k2.cena
 				  break;
 				case "Datum":
-					k1Fix=k1.datumPocetak
-					k2Fix=k2.datumPocetak
+					k1Fix=k1.datumVremeOdrzavanja
+					k2Fix=k2.datumVremeOdrzavanja
 				  break;
 				default:	  
 			}
@@ -213,9 +214,9 @@ Vue.component("karte-view", {
 			    this.redSortiranja="Bez reda"
             }
 
-			this.karteZaPrikaz =this.karte.filter(k=>k.naziv.toUpperCase().includes(this.pretragaNaziv.toUpperCase()))
+			this.karteZaPrikaz =this.karte.filter(k=>k.nazivManifestacije.toUpperCase().includes(this.pretragaNaziv.toUpperCase()))
 			this.karteZaPrikaz =this.karteZaPrikaz.filter(k=>k.cena<=this.pretragaCenaDo && k.cena>=this.pretragaCenaOd)
-			this.karteZaPrikaz =this.karteZaPrikaz.filter(k=>k.datumPocetak<=this.pretragaDatumDo && k.datumPocetak>=this.pretragaDatumOd)
+			this.karteZaPrikaz =this.karteZaPrikaz.filter(k=>k.datumVremeOdrzavanja<=this.pretragaDatumDo && k.datumVremeOdrzavanja>=this.pretragaDatumOd)
 		},
         reset1(){
             this.pretrazeno=false
@@ -238,87 +239,94 @@ Vue.component("karte-view", {
             k.status="Odustanak"
         },
 	},
-	mounted() {
+	async mounted() {
 
         this.userRole=window.localStorage.getItem('uloga')
 
         //TO DO: ucitavanje karata na osnovu user role
 
-        if(this.userRole==="KUPAC" || this.userRole==="ADMINISTRATOR"){
-            this.karte.push({
-                id:1,
-                naziv:"Test 1",
-                datumPocetak: 1630620000000,
-                brojKarata: 5,
-                cena: 5000,
-                tip: "Regular",
-                status: "Rezervisana",
-            })
-            
-            this.karte.push({
-                id:2,
-                naziv:"Test 2",
-                datumPocetak: 1630620000000,
-                brojKarata: 3,
-                cena: 6000,
-                tip: "VIP",
-                status: "Odustanak",
-            })
-    
-            this.karte.push({
-                id:3,
-                naziv:"Test 3",
-                datumPocetak: 1630620000000,
-                brojKarata: 3,
-                cena: 9000,
-                tip: "VIP",
-                status: "Odustanak",
-            })
-    
-            this.karte.push({
-                id:4,
-                naziv:"Test 4",
-                datumPocetak: 1630620000000,
-                brojKarata: 4,
-                cena: 8000,
-                tip: "Fan Pit",
-                status: "Odustanak",
-            })
-    
-            this.karte.push({
-                id:5,
-                naziv:"Test 5",
-                datumPocetak: 1630620000000,
-                brojKarata: 4,
-                cena: 16000,
-                tip: "VIP",
-                status: "Rezervisana",
-            })
-    
-        }else{
-            this.karte.push({
-                id:1,
-                naziv:"Test 1",
-                datumPocetak: 1630620000000,
-                brojKarata: 5,
-                cena: 5000,
-                tip: "Regular",
-                status: "Rezervisana",
-            })
-
-            this.karte.push({
-                id:5,
-                naziv:"Test 5",
-                datumPocetak: 1630620000000,
-                brojKarata: 4,
-                cena: 16000,
-                tip: "VIP",
-                status: "Rezervisana",
-            })
+        switch(this.userRole){
+            case "KUPAC":
+                await axios.get(`/kupci/mojeKarte/`+window.localStorage.getItem('username')).then(response=>{
+                    const kar=[]
+                    
+                    response.data.forEach(element => {
+                        console.log(element.datumVremeOdrzavanja)
+                        kar.push({
+                           id:element.id,
+                           manifestacijaId:element.manifestacijaId,
+                           datumVremeOdrzavanja:element.datumVremeOdrzavanja,
+                           brojKarata:element.brojKarata,
+                           cena: element.cena,
+                           kupacUsername: element.kupacUsername,
+                           status: element.status,
+                           tip: element.tip,
+                           nazivManifestacije: element.nazivManifestacije,
+                        })
+                        
+                    });
+                    this.karte=kar
+                    fixDate(this.karte)
+                    this.karteZaPrikaz = [...this.karte]
+                
+                })
+                break
+            case "PRODAVAC":
+                await axios.get(`/prodavci/mojeKarte/`+window.localStorage.getItem('username')).then(response=>{
+                    const kar=[]
+                    
+                    response.data.forEach(element => {
+                        console.log(element.datumVremeOdrzavanja)
+                        kar.push({
+                           id:element.id,
+                           manifestacijaId:element.manifestacijaId,
+                           datumVremeOdrzavanja:element.datumVremeOdrzavanja,
+                           brojKarata:element.brojKarata,
+                           cena: element.cena,
+                           kupacUsername: element.kupacUsername,
+                           status: element.status,
+                           tip: element.tip,
+                           nazivManifestacije: element.nazivManifestacije,
+                        })
+                        
+                    });
+                    this.karte=kar
+                    fixDate(this.karte)
+                    this.karteZaPrikaz = [...this.karte]
+                
+                })
+                break
+            case "ADMINISTRATOR":
+                await axios.get(`/karte`).then(response=>{
+                    const kar=[]
+                    
+                    response.data.forEach(element => {
+                        console.log(element.datumVremeOdrzavanja)
+                        kar.push({
+                           id:element.id,
+                           manifestacijaId:element.manifestacijaId,
+                           datumVremeOdrzavanja:element.datumVremeOdrzavanja,
+                           brojKarata:element.brojKarata,
+                           cena: element.cena,
+                           kupacUsername: element.kupacUsername,
+                           status: element.status,
+                           tip: element.tip,
+                           nazivManifestacije: element.nazivManifestacije,
+                        })
+                        
+                    });
+                    this.karte=kar
+                    fixDate(this.karte)
+                    this.karteZaPrikaz = [...this.karte]
+                
+                })
+                break
+            default:
         }
 
         
-        this.karteZaPrikaz = [...this.karte]
+
+        
 	},
     filters: {
 		dateFormat: function (value, format) {

@@ -111,8 +111,8 @@ Vue.component("account-view", {
             default:
         }
 
-        //this.user.datumRodjenja=moment.utc(this.user.datumRodjenja.year+'-'+this.user.datumRodjenja.month+'-'+this.user.datumRodjenja.day)
-        this.user.datumRodjenja=new Date(this.user.datumRodjenja.year,this.user.datumRodjenja.month-1,this.user.datumRodjenja.day)
+        this.user.datumRodjenja=new Date(parseInt(this.user.datumRodjenja))
+
 	},
 	components:{
 		vuejsDatepicker,
