@@ -32,6 +32,8 @@ Vue.component("man-view-user", {
 			ukupnaCena: 0,
 			editVreme:"",
 			editDatum:"",
+			textKomentar:"",
+			ocenaKomentar:0.0,
 			novaManifestacija:{
 				tip: "Koncert"
 			},
@@ -195,6 +197,15 @@ Vue.component("man-view-user", {
 						<br/>
 
 						<h3>Komentari:</h3>
+
+						<form :id="'formKomentar'+m.id" v-if="userRole==='KUPAC'">
+							<textarea v-model="textKomentar" id="'textA'+m.id" rows="4" cols="50" required>
+							</textarea>
+							<br/>
+							<p><div style="margin:auto;"><star-rating style="justify:center;" v-model="ocenaKomentar" :increment="0.5" :round-start-rating="false" :star-size="25"></star-rating></div></p>
+							<br/>
+							<button class="btn btn-lg btn-primary" style="margin:20px" type="submit" @click="komentarisi(m)">Komentariši</button>
+						</form>
 
 					</div>
 					<div class="modal-footer">
@@ -455,6 +466,16 @@ Vue.component("man-view-user", {
 					
 				});
 				this.pripremi()
+			}
+		},
+		komentarisi(m){
+			if ( $('#formKomentar'+m.id)[0].checkValidity() ) {
+				$('#formKomentar'+m.id).submit(function (evt) {
+					evt.preventDefault();
+				});
+				alert(this.textKomentar)
+				this.textKomentar=""
+				this.ocenaKomentar=0
 			}
 		},
 		submitMan(){
