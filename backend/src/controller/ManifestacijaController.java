@@ -46,13 +46,13 @@ public class ManifestacijaController {
 			CrudManifestacijaDTO dto = jsonb.fromJson(payload, CrudManifestacijaDTO.class);
 			
 			//provera tokena
-			if (dto.getNaziv() == null || dto.getDatum() == null || dto.getBrojMesta() == 0 || dto.getCena() == 0 || dto.getTip() == null || dto.getSlikaPath()==null) {
+			if (dto.getNaziv() == null || dto.getDatumVremeOdrzavanja() == null || dto.getBrojMesta() == 0 || dto.getCenaRegular() == 0 || dto.getTip() == null || dto.getSlikaPath()==null) {
 				res.status(400);
 				return "Nedostaju podaci.";
-			}else if (dto.getBrojMesta() <= 0 || dto.getCena() <= 0){
+			}else if (dto.getBrojMesta() <= 0 || dto.getCenaRegular() <= 0){
 				res.status(400);
 				return "Brojne vrednosti su negativne.";
-			}else if (dto.getDatum().isBefore(LocalDateTime.now())){
+			}else if (dto.getDatumVremeOdrzavanja().isBefore(LocalDateTime.now())){
 				res.status(400);
 				return "Datum je u proslosti.";
 			}
@@ -81,13 +81,13 @@ public class ManifestacijaController {
 				return null;
 			}
 			
-			if (dto.getNaziv() == null || dto.getDatum() == null || dto.getBrojMesta() == 0 || dto.getCena() == 0 || dto.getTip() == null || dto.getSlikaPath()==null) {
+			if (dto.getNaziv() == null || dto.getDatumVremeOdrzavanja()== null || dto.getBrojMesta() == 0 || dto.getCenaRegular() == 0 || dto.getTip() == null || dto.getSlikaPath()==null) {
 				res.status(400);
 				return null;
-			}else if (dto.getBrojMesta() <= 0 || dto.getCena() <= 0){
+			}else if (dto.getBrojMesta() <= 0 || dto.getCenaRegular() <= 0){
 				res.status(400);
 				return null;
-			}else if (dto.getDatum().isBefore(LocalDateTime.now())){
+			}else if (dto.getDatumVremeOdrzavanja().isBefore(LocalDateTime.now())){
 				res.status(400);
 				return null;
 			}

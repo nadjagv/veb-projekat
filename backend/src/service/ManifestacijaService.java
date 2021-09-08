@@ -40,11 +40,11 @@ public ArrayList<Manifestacija> preuzmiSveNeobrisane() {
 	}
 	
 	public Manifestacija napraviManifestaciju(CrudManifestacijaDTO dto) {
-		if (dto.getNaziv() == null || dto.getDatum() == null || dto.getBrojMesta() == 0 || dto.getCena() == 0 || dto.getTip() == null || dto.getSlikaPath()==null) {
+		if (dto.getNaziv() == null || dto.getDatumVremeOdrzavanja() == null || dto.getBrojMesta() == 0 || dto.getCenaRegular() == 0 || dto.getTip() == null || dto.getSlikaPath()==null) {
 			return null;
-		}else if (dto.getBrojMesta() <= 0 || dto.getCena() <= 0){
+		}else if (dto.getBrojMesta() <= 0 || dto.getCenaRegular() <= 0){
 			return null;
-		}else if (dto.getDatum().isBefore(LocalDateTime.now())){
+		}else if (dto.getDatumVremeOdrzavanja().isBefore(LocalDateTime.now())){
 			return null;
 		}
 		
@@ -55,9 +55,9 @@ public ArrayList<Manifestacija> preuzmiSveNeobrisane() {
 		
 		Manifestacija nova = new Manifestacija();
 		nova.setNaziv(dto.getNaziv());
-		nova.setDatumVremeOdrzavanja(dto.getDatum());
+		nova.setDatumVremeOdrzavanja(dto.getDatumVremeOdrzavanja());
 		nova.setBrojMesta(dto.getBrojMesta());
-		nova.setCenaRegular(dto.getCena());
+		nova.setCenaRegular(dto.getCenaRegular());
 		nova.setTip(dto.getTip());
 		
 		nova.setSlikaPath(dto.getSlikaPath());
@@ -71,7 +71,14 @@ public ArrayList<Manifestacija> preuzmiSveNeobrisane() {
 		
 		nova.setLokacija(l);
 		
-		nova.setId(StringGenerator.generateRandomString(10));
+		
+		String id;
+		while (true) {
+			id = StringGenerator.generateRandomString(10);
+			if (manifestacijaRep.getOneById(id) == null)
+				break;
+		}
+		nova.setId(id);
 		nova.setAktivna(false);
 		nova.setObrisana(false);
 		nova.setSlobodnaMesta(dto.getBrojMesta());
@@ -92,11 +99,11 @@ public ArrayList<Manifestacija> preuzmiSveNeobrisane() {
 			return null;
 		}
 		
-		if (dto.getNaziv() == null || dto.getDatum() == null || dto.getBrojMesta() == 0 || dto.getCena() == 0 || dto.getTip() == null || dto.getSlikaPath()==null) {
+		if (dto.getNaziv() == null || dto.getDatumVremeOdrzavanja() == null || dto.getBrojMesta() == 0 || dto.getCenaRegular() == 0 || dto.getTip() == null || dto.getSlikaPath()==null) {
 			return null;
-		}else if (dto.getBrojMesta() <= 0 || dto.getCena() <= 0){
+		}else if (dto.getBrojMesta() <= 0 || dto.getCenaRegular() <= 0){
 			return null;
-		}else if (dto.getDatum().isBefore(LocalDateTime.now())){
+		}else if (dto.getDatumVremeOdrzavanja().isBefore(LocalDateTime.now())){
 			return null;
 		}
 		
@@ -113,9 +120,9 @@ public ArrayList<Manifestacija> preuzmiSveNeobrisane() {
 		m.setSlobodnaMesta(noviBrojSlobodnih);
 		
 		m.setNaziv(dto.getNaziv());
-		m.setDatumVremeOdrzavanja(dto.getDatum());
+		m.setDatumVremeOdrzavanja(dto.getDatumVremeOdrzavanja());
 		m.setBrojMesta(dto.getBrojMesta());
-		m.setCenaRegular(dto.getCena());
+		m.setCenaRegular(dto.getCenaRegular());
 		m.setTip(dto.getTip());
 		
 		m.setSlikaPath(dto.getSlikaPath());
@@ -157,7 +164,7 @@ public ArrayList<Manifestacija> preuzmiSveNeobrisane() {
 		l.setPostanskiBroj(dto.getPostanskiBroj());
 		l.setKucniBroj(dto.getKucniBroj());
 		
-		LocalDateTime pocetak = dto.getDatum();
+		LocalDateTime pocetak = dto.getDatumVremeOdrzavanja();
 		LocalDateTime kraj = pocetak.plusHours(3);
 		
 		for (Manifestacija m : manifestacije) {

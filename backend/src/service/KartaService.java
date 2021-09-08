@@ -68,7 +68,14 @@ public class KartaService {
 		nova.setBrojKarata(karta.getBrojKarata());
 		nova.setKupacUsername(karta.getKupacUsername());
 		nova.setDatumVremeOdrzavanja(m.getDatumVremeOdrzavanja());
-		nova.setId(StringGenerator.generateRandomString(10));
+		
+		String id;
+		while (true) {
+			id = StringGenerator.generateRandomString(10);
+			if (kartaRep.getOneById(id) == null)
+				break;
+		}
+		nova.setId(id);
 		nova.setManifestacijaId(m.getId());
 		nova.setNazivManifestacije(m.getNaziv());
 		nova.setStatus(StatusKarte.REZERVISANA);

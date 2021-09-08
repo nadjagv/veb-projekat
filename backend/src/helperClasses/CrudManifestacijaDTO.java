@@ -17,8 +17,8 @@ public class CrudManifestacijaDTO {
 	private String kucniBroj;
 	private TipManifestacije tip;
 	@JsonbDateFormat(JsonbDateFormat.TIME_IN_MILLIS)
-	private LocalDateTime datum;
-	private double cena;
+	private LocalDateTime datumVremeOdrzavanja;
+	private double cenaRegular;
 	private int brojMesta;
 	private String slikaPath;  
 	private String prodavacUsername;
@@ -30,7 +30,7 @@ public class CrudManifestacijaDTO {
 
 
 	public CrudManifestacijaDTO(String naziv, String grad, String drzava, String postanskiBroj, String ulica,
-			String kucniBroj, TipManifestacije tip, LocalDateTime datum, double cena, int brojMesta,
+			String kucniBroj, TipManifestacije tip, LocalDateTime datumVremeOdrzavanja, double cenaRegular, int brojMesta,
 			String slikaPath, String prodavacUsername) {
 		super();
 		this.naziv = naziv;
@@ -40,15 +40,15 @@ public class CrudManifestacijaDTO {
 		this.ulica = ulica;
 		this.kucniBroj = kucniBroj;
 		this.tip = tip;
-		this.datum = datum;
-		this.cena = cena;
+		this.datumVremeOdrzavanja = datumVremeOdrzavanja;
+		this.cenaRegular = cenaRegular;
 		this.brojMesta = brojMesta;
 		this.slikaPath = slikaPath;
 	}
 
 
 	public CrudManifestacijaDTO(String id, String naziv, String grad, String drzava, String postanskiBroj, String ulica,
-			String kucniBroj, TipManifestacije tip, LocalDateTime datum, double cena, int brojMesta, String slikaPath, String prodavacUsername) {
+			String kucniBroj, TipManifestacije tip, LocalDateTime datumVremeOdrzavanja, double cenaRegular, int brojMesta, String slikaPath, String prodavacUsername) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
@@ -58,8 +58,8 @@ public class CrudManifestacijaDTO {
 		this.ulica = ulica;
 		this.kucniBroj = kucniBroj;
 		this.tip = tip;
-		this.datum = datum;
-		this.cena = cena;
+		this.datumVremeOdrzavanja = datumVremeOdrzavanja;
+		this.cenaRegular = cenaRegular;
 		this.brojMesta = brojMesta;
 		this.slikaPath = slikaPath;
 		this.prodavacUsername = prodavacUsername;
@@ -146,24 +146,6 @@ public class CrudManifestacijaDTO {
 	}
 
 
-	public LocalDateTime getDatum() {
-		return datum;
-	}
-
-
-	public void setDatum(LocalDateTime datum) {
-		this.datum = datum;
-	}
-
-
-	public double getCena() {
-		return cena;
-	}
-
-
-	public void setCena(double cena) {
-		this.cena = cena;
-	}
 
 
 	public int getBrojMesta() {
@@ -193,6 +175,26 @@ public class CrudManifestacijaDTO {
 
 	public void setProdavacUsername(String prodavacUsername) {
 		this.prodavacUsername = prodavacUsername;
+	}
+
+
+	public LocalDateTime getDatumVremeOdrzavanja() {
+		return datumVremeOdrzavanja;
+	}
+
+
+	public void setDatumVremeOdrzavanja(LocalDateTime datumVremeOdrzavanja) {
+		this.datumVremeOdrzavanja = datumVremeOdrzavanja;
+	}
+
+
+	public double getCenaRegular() {
+		return cenaRegular;
+	}
+
+
+	public void setCenaRegular(double cenaRegular) {
+		this.cenaRegular = cenaRegular;
 	}
 
 
