@@ -18,6 +18,7 @@ public class CrudManifestacijaDTO {
 	private double cena;
 	private int brojMesta;
 	private String slikaPath;  
+	private String prodavacUsername;
 	
 
 	public CrudManifestacijaDTO() {
@@ -27,7 +28,7 @@ public class CrudManifestacijaDTO {
 
 	public CrudManifestacijaDTO(String naziv, String grad, String drzava, String postanskiBroj, String ulica,
 			String kucniBroj, TipManifestacije tip, LocalDateTime datum, double cena, int brojMesta,
-			String slikaPath) {
+			String slikaPath, String prodavacUsername) {
 		super();
 		this.naziv = naziv;
 		this.grad = grad;
@@ -44,7 +45,7 @@ public class CrudManifestacijaDTO {
 
 
 	public CrudManifestacijaDTO(String id, String naziv, String grad, String drzava, String postanskiBroj, String ulica,
-			String kucniBroj, TipManifestacije tip, LocalDateTime datum, double cena, int brojMesta, String slikaPath) {
+			String kucniBroj, TipManifestacije tip, LocalDateTime datum, double cena, int brojMesta, String slikaPath, String prodavacUsername) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
@@ -58,6 +59,7 @@ public class CrudManifestacijaDTO {
 		this.cena = cena;
 		this.brojMesta = brojMesta;
 		this.slikaPath = slikaPath;
+		this.prodavacUsername = prodavacUsername;
 	}
 
 
@@ -178,6 +180,16 @@ public class CrudManifestacijaDTO {
 
 	public void setSlikaPath(String slikaPath) {
 		this.slikaPath = slikaPath;
+	}
+
+
+	public String getProdavacUsername() {
+		return prodavacUsername;
+	}
+
+
+	public void setProdavacUsername(String prodavacUsername) {
+		this.prodavacUsername = prodavacUsername;
 	}
 	
 	

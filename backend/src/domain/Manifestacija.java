@@ -20,6 +20,7 @@ public class Manifestacija {
 	private String slikaPath;
 	private boolean obrisana;
 	private double ocena;
+	private String prodavacUsername;
 	
 
 	public Manifestacija() {
@@ -32,7 +33,7 @@ public class Manifestacija {
 
 	public Manifestacija(String id, String naziv, TipManifestacije tip, int brojMesta,
 			LocalDateTime datumVremeOdrzavanja, double cenaRegular, boolean aktivna, Lokacija lokacija,
-			String slikaPath, boolean obrisana, double ocena) {
+			String slikaPath, boolean obrisana, double ocena, String prodavacUsername) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
@@ -46,11 +47,12 @@ public class Manifestacija {
 		this.slikaPath = slikaPath;
 		this.obrisana = obrisana;
 		this.ocena = ocena;
+		this.prodavacUsername = prodavacUsername;
 	}
 	
 	public Manifestacija(String id, String naziv, TipManifestacije tip, int brojMesta, int slobodnaMesta,
 			LocalDateTime datumVremeOdrzavanja, double cenaRegular, boolean aktivna, Lokacija lokacija,
-			String slikaPath, boolean obrisana, double ocena) {
+			String slikaPath, boolean obrisana, double ocena, String prodavacUsername) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
@@ -64,6 +66,7 @@ public class Manifestacija {
 		this.slikaPath = slikaPath;
 		this.obrisana = obrisana;
 		this.ocena = ocena;
+		this.prodavacUsername = prodavacUsername;
 	}
 
 
@@ -196,6 +199,22 @@ public class Manifestacija {
 
 	public void setSlobodnaMesta(int slobodnaMesta) {
 		this.slobodnaMesta = slobodnaMesta;
+	}
+
+
+
+
+
+	public String getProdavacUsername() {
+		return prodavacUsername;
+	}
+
+
+
+
+
+	public void setProdavacUsername(String prodavacUsername) {
+		this.prodavacUsername = prodavacUsername;
 	}
 	
 	

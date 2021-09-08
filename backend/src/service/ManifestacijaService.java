@@ -5,15 +5,19 @@ import java.util.ArrayList;
 
 import domain.Lokacija;
 import domain.Manifestacija;
+import domain.Prodavac;
 import helperClasses.CrudManifestacijaDTO;
 import repositories.ManifestacijaRepository;
+import repositories.ProdavacRepository;
 import utils.StringGenerator;
 
 public class ManifestacijaService {
 	ManifestacijaRepository manifestacijaRep;
+	ProdavacRepository prodavacRep;
 
 	public ManifestacijaService() {
 		manifestacijaRep = ManifestacijaRepository.getInstance();
+		prodavacRep = ProdavacRepository.getInstance();
 	}
 	
 	public ArrayList<Manifestacija> preuzmiSve() {
@@ -71,8 +75,13 @@ public ArrayList<Manifestacija> preuzmiSveNeobrisane() {
 		nova.setAktivna(false);
 		nova.setObrisana(false);
 		nova.setSlobodnaMesta(dto.getBrojMesta());
+		nova.setProdavacUsername(dto.getProdavacUsername());
 		
 		manifestacijaRep.add(nova);
+		
+		Prodavac p = prodavacRep.getOneByUsername(dto.getProdavacUsername());
+		
+		p.getManifestacijeIds().add(nova.getId());
 		
 		return nova;
 	}
@@ -137,6 +146,7 @@ public ArrayList<Manifestacija> preuzmiSveNeobrisane() {
 		manifestacijaRep.save();
 		return true;
 	}
+
 	
 	public boolean preklapaSeDatumMesto(CrudManifestacijaDTO dto) {
 		ArrayList<Manifestacija> manifestacije = preuzmiSveNeobrisane();
@@ -162,6 +172,17 @@ public ArrayList<Manifestacija> preuzmiSveNeobrisane() {
 			
 		} 
 		return false;
+	}
+	
+	public boolean aktivirajManifestaciju(String id) {
+		Manifestacija m = manifestacijaRep.getOneById(id);
+		if (!m.isObrisana()) {
+			m.setAktivna(true);
+			manifestacijaRep.save();
+			return true;
+		}
+		return false;
+		
 	}
 
 }

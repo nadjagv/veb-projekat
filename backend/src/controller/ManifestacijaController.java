@@ -133,6 +133,25 @@ public class ManifestacijaController {
 			return "Uspeh";
 		});
 		
+		
+		post("/manifestacije/aktiviraj/:id", (req, res) -> {
+			
+			String id = req.params("id");
+			
+			Manifestacija m = manService.preuzmiPoId(id);
+			if (m == null) {
+				res.status(400);
+				return "Neuspesno aktiviranje.";
+			}
+			if (manService.aktivirajManifestaciju(id)) {
+				res.status(200);
+				return "Uspeh";
+			}
+			
+			res.status(400);
+			return "Neuspesno aktiviranje.";
+		});
+		
 	}
 
 }
