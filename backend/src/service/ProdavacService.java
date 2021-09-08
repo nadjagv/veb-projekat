@@ -50,30 +50,42 @@ public class ProdavacService {
 		return rezultat;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public ArrayList<Karta> preuzmiRezKarteManifestacije(String manId){
-		return (ArrayList<Karta>) kartaRep.getKarte().stream()
-				.filter(k -> k.getManifestacijaId().contentEquals(manId) && k.getStatus().equals(StatusKarte.REZERVISANA));
+		ArrayList<Karta> sve = kartaRep.getKarte();
+		ArrayList<Karta> rezultat = new ArrayList<Karta>();
+		for (Karta k : sve) {
+			if(k.getManifestacijaId().contentEquals(manId) && k.getStatus().equals(StatusKarte.REZERVISANA)) {
+				rezultat.add(k);
+			}
+		}
 		
+		return rezultat;
 	}
 	
 	public ArrayList<Karta> preuzmiRezKarteProdavca(String username){
 		ArrayList<Manifestacija> man = preuzmiManifestacijeProdavca(username);
 		ArrayList<Karta> rezultat = new ArrayList<Karta>();
-		man.stream().forEach(m -> {
+		for (Manifestacija m : man) {
 			rezultat.addAll(preuzmiRezKarteManifestacije(m.getId()));
-		});
+		}
+		
 		return rezultat;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public ArrayList<Kupac> preuzmiKupceRezKarataProdavca(String username){
 		ArrayList<Karta> karte = preuzmiRezKarteProdavca(username);
 		ArrayList<Kupac> rezultat = new ArrayList<Kupac>();
-		karte.stream().forEach(k -> {
-			rezultat.add(kupacRep.getOneByUsername(k.getKupacUsername()));
-		});
-		return (ArrayList<Kupac>) rezultat.stream().distinct();
+		ArrayList<String> usernames = new ArrayList<String>();
+		for (Karta k : karte) {
+			Kupac kupac = kupacRep.getOneByUsername(k.getKupacUsername());
+			
+			if(!usernames.contains(kupac.getUsername())) {
+				rezultat.add(kupac);
+				usernames.add(kupac.getUsername());
+			}
+			
+		}
+		return rezultat;
 	}
 
 }

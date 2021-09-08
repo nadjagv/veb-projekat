@@ -34,7 +34,6 @@ public class KorisnikService {
 			return pronadjen;
 		}
 		
-		System.out.println(pronadjen.getUsername());
 		
 		return null;
 	}

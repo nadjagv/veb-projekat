@@ -6,18 +6,22 @@ import java.util.ArrayList;
 import domain.Karta;
 import domain.Korisnik;
 import domain.Kupac;
+import domain.Manifestacija;
 import enums.StatusKarte;
 import repositories.KartaRepository;
 import repositories.KupacRepository;
+import repositories.ManifestacijaRepository;
 
 public class KupacService {
 	
 	KupacRepository kupacRep;
 	KartaRepository kartaRep;
+	ManifestacijaRepository manifestacijaRep;
 
 	public KupacService() {
 		kupacRep = KupacRepository.getInstance();
 		kartaRep = KartaRepository.getInstance();
+		manifestacijaRep = ManifestacijaRepository.getInstance();
 	}
 	
 	public ArrayList<Kupac> preuzmiSve() {
@@ -52,5 +56,13 @@ public class KupacService {
 		return rezultat;
 	}
 	
+	public ArrayList<Manifestacija> preuzmiManifestacijeKupca(String username){
+		ArrayList<Karta> karte = preuzmiRezervisaneKarteKupca(username);
+		ArrayList<Manifestacija> rezultat = new ArrayList<Manifestacija>();
+		for (Karta k : karte ) {
+			rezultat.add(manifestacijaRep.getOneById(k.getManifestacijaId()));
+		}
+		return rezultat;
+	}
 
 }

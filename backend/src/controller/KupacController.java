@@ -39,6 +39,20 @@ public class KupacController {
 			res.status(200);
 			return jsonb.toJson(kupacService.preuzmiRezervisaneKarteKupca(username));
 		});
+		
+		get("/kupci/mojeManifestacije/:username", (req, res) -> {
+			String username = req.params("username");
+			Kupac k = kupacService.preuzmiPoUsername(username);
+			
+			//dodati proveru tokena
+			if( k == null) {
+				res.status(400);
+				return "Nepostojeci kupac.";
+			}
+			res.status(200);
+			return jsonb.toJson(kupacService.preuzmiManifestacijeKupca(username));
+		});
+		
 	}
 
 }
