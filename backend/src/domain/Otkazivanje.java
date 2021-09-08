@@ -2,6 +2,8 @@ package domain;
 
 import java.time.LocalDateTime;
 
+import javax.json.bind.annotation.JsonbDateFormat;
+
 public class Otkazivanje {
 	LocalDateTime datum;
 	String kupacUsername;

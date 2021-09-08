@@ -46,7 +46,6 @@ public class ManifestacijaController {
 			CrudManifestacijaDTO dto = jsonb.fromJson(payload, CrudManifestacijaDTO.class);
 			
 			//provera tokena
-			
 			if (dto.getNaziv() == null || dto.getDatum() == null || dto.getBrojMesta() == 0 || dto.getCena() == 0 || dto.getTip() == null || dto.getSlikaPath()==null) {
 				res.status(400);
 				return "Nedostaju podaci.";

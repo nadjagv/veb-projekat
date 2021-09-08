@@ -20,7 +20,7 @@
     "slikaPath" : "koncert-v.png",
     "obrisana" : false,
     "ocena" : 0.0,
-	"prodavacUsername":"joca"
+    "prodavacUsername" : "joca"
   }, {
     "id" : "prosla1111",
     "naziv" : "Mali koncert",
@@ -42,7 +42,7 @@
     "slikaPath" : "koncert.jpg",
     "obrisana" : false,
     "ocena" : 4.5,
-	"prodavacUsername":"joca"
+    "prodavacUsername" : "joca"
   }, {
     "id" : "aaaaa1111",
     "naziv" : "Radovan III",
@@ -64,7 +64,7 @@
     "slikaPath" : "man4.jpg",
     "obrisana" : false,
     "ocena" : 0.0,
-	"prodavacUsername":"joca"
+    "prodavacUsername" : "joca"
   }, {
     "id" : "bbbbb1111",
     "naziv" : "Žurka",
@@ -86,7 +86,7 @@
     "slikaPath" : "car1.jpg",
     "obrisana" : false,
     "ocena" : 0.0,
-	"prodavacUsername":"joca"
+    "prodavacUsername" : "joca"
   }, {
     "id" : "prosla2222",
     "naziv" : "Koncert klasične muzike",
@@ -108,7 +108,7 @@
     "slikaPath" : "car2.jpg",
     "obrisana" : false,
     "ocena" : 3.7,
-	"prodavacUsername":"filip"
+    "prodavacUsername" : "filip"
   }, {
     "id" : "ccccc1111",
     "naziv" : "Umetnička izložba",
@@ -130,6 +130,28 @@
     "slikaPath" : "car3.jpg",
     "obrisana" : false,
     "ocena" : 0.0,
-	"prodavacUsername":"filip"
+    "prodavacUsername" : "filip"
+  }, {
+    "id" : "1jeYjQNE1j",
+    "naziv" : "Veliki koncert",
+    "tip" : "KONCERT",
+    "brojMesta" : 3000,
+    "slobodnaMesta" : 3000,
+    "datumVremeOdrzavanja" : [ 2021, 11, 11, 2, 0 ],
+    "cenaRegular" : 700.0,
+    "aktivna" : false,
+    "lokacija" : {
+      "geoDuzina" : 0.0,
+      "geoSirina" : 0.0,
+      "ulica" : null,
+      "grad" : null,
+      "drzava" : null,
+      "postanskiBroj" : null,
+      "kucniBroj" : null
+    },
+    "slikaPath" : "koncert-v.png",
+    "obrisana" : false,
+    "ocena" : 0.0,
+    "prodavacUsername" : "joca"
   } ]
 }

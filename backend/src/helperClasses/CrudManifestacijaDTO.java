@@ -2,6 +2,8 @@ package helperClasses;
 
 import java.time.LocalDateTime;
 
+import javax.json.bind.annotation.JsonbDateFormat;
+
 import enums.TipManifestacije;
 
 public class CrudManifestacijaDTO {
@@ -14,6 +16,7 @@ public class CrudManifestacijaDTO {
 	private String ulica;
 	private String kucniBroj;
 	private TipManifestacije tip;
+	@JsonbDateFormat(JsonbDateFormat.TIME_IN_MILLIS)
 	private LocalDateTime datum;
 	private double cena;
 	private int brojMesta;
@@ -190,6 +193,13 @@ public class CrudManifestacijaDTO {
 
 	public void setProdavacUsername(String prodavacUsername) {
 		this.prodavacUsername = prodavacUsername;
+	}
+
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return super.toString();
 	}
 	
 	
