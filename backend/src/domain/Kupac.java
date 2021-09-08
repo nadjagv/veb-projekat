@@ -10,6 +10,7 @@ import enums.Uloga;
 public class Kupac extends Korisnik {
 	
 	private ArrayList<String> karteIds;
+	private ArrayList<Otkazivanje> otkazivanja;
 	private double brojBodova;
 	private ImeTipaKupca tip;
 	private boolean blokiran;
@@ -62,6 +63,14 @@ public class Kupac extends Korisnik {
 
 	public void setTip(ImeTipaKupca tip) {
 		this.tip = tip;
+	}
+
+	public ArrayList<Otkazivanje> getOtkazivanja() {
+		return otkazivanja;
+	}
+
+	public void setOtkazivanja(ArrayList<Otkazivanje> otkazivanja) {
+		this.otkazivanja = otkazivanja;
 	}
 
 	

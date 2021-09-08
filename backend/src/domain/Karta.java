@@ -12,19 +12,23 @@ public class Karta {
 	private String manifestacijaId;
 	private String nazivManifestacije;
 	@JsonbDateFormat(JsonbDateFormat.TIME_IN_MILLIS)
-	private LocalDateTime datumVremeOdrzavanja; //redundantno
+	private LocalDateTime datumVremeOdrzavanja; 
 	private double cena;
 	private String kupacUsername;
 	private StatusKarte status;
 	private TipKarte tip;
+	private int brojKarata;
 
 	public Karta() {
 		
 	}
 
 
+	
+
+
 	public Karta(String id, String manifestacijaId, String nazivManifestacije, LocalDateTime datumVremeOdrzavanja,
-			double cena, String kupacUsername, StatusKarte status, TipKarte tip) {
+			double cena, String kupacUsername, StatusKarte status, TipKarte tip, int brojKarata) {
 		super();
 		this.id = id;
 		this.manifestacijaId = manifestacijaId;
@@ -34,7 +38,11 @@ public class Karta {
 		this.kupacUsername = kupacUsername;
 		this.status = status;
 		this.tip = tip;
+		this.brojKarata = brojKarata;
 	}
+
+
+
 
 
 	public String getManifestacijaId() {
@@ -113,6 +121,22 @@ public class Karta {
 
 	public void setNazivManifestacije(String nazivManifestacije) {
 		this.nazivManifestacije = nazivManifestacije;
+	}
+
+
+
+
+
+	public int getBrojKarata() {
+		return brojKarata;
+	}
+
+
+
+
+
+	public void setBrojKarata(int brojKarata) {
+		this.brojKarata = brojKarata;
 	}
 	
 	
