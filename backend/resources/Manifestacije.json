@@ -132,7 +132,7 @@
     "ocena" : 0.0,
     "prodavacUsername" : "filip"
   }, {
-    "id" : "1jeYjQNE1j",
+    "id" : "U2ApmAHSVT",
     "naziv" : "Veliki koncert",
     "tip" : "KONCERT",
     "brojMesta" : 3000,
@@ -143,11 +143,11 @@
     "lokacija" : {
       "geoDuzina" : 0.0,
       "geoSirina" : 0.0,
-      "ulica" : null,
-      "grad" : null,
-      "drzava" : null,
-      "postanskiBroj" : null,
-      "kucniBroj" : null
+      "ulica" : "Bulevar",
+      "grad" : "Novi Sad",
+      "drzava" : "Srbija",
+      "postanskiBroj" : "21000",
+      "kucniBroj" : "2"
     },
     "slikaPath" : "koncert-v.png",
     "obrisana" : false,
