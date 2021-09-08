@@ -12,7 +12,22 @@
 		"blokiran": false,
 		"manifestacijeIds" : 
 			[
-			"mmmmm11111", "prosla1111"
+			"mmmmm11111", "prosla1111","bbbbb1111","aaaaa1111"
+			]
+	},
+	{
+		"username" : "filip",
+		"password" : "filip",
+		"ime" : "Filip",
+		"prezime" : "Filipović",
+		"pol" : "MUSKI",
+		"datumRodjenja" : "1990-12-24",
+		"uloga": "PRODAVAC",
+		"obrisan": false,
+		"blokiran": false,
+		"manifestacijeIds" : 
+			[
+			"ccccc1111", "prosla2222"
 			]
 	}
 	]

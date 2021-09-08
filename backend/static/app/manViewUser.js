@@ -1,6 +1,6 @@
 function fixDate(man) {
 	for (var m of man) {
-		m.datumPocetak = new Date(parseInt(m.datumPocetak));
+		m.datumVremeOdrzavanja= new Date(parseInt(m.datumVremeOdrzavanja));
 	}
 	return man;
 }
@@ -38,6 +38,7 @@ Vue.component("man-view-user", {
 				tip: "Koncert"
 			},
 			userRole: "",
+			username:"",
 		}
 	},
 	props:{
@@ -139,12 +140,12 @@ Vue.component("man-view-user", {
 
       <div class="row-cols-3 justify-content-center">
         <div class="col-lg-3" v-for="m in manifestacijeZaPrikaz" style="margin:20px">
-            <img class="img-circle" :src="'images/'+m.slika" alt="Generic placeholder image" width="140" height="140">
+            <img class="img-circle" :src="'images/'+m.slikaPath" alt="Generic placeholder image" width="140" height="140">
             <h2>{{m.naziv}}</h2>
             <h3>{{m.tip}}</h3>
             <p>Lokacija: {{m.grad}}, {{m.drzava}}</p>
-            <p >Datum: {{m.datumPocetak | dateFormat('HH:mm DD.MM.YYYY')}}</p>
-            <p>Cena: {{m.cena}}RSD </p>
+            <p >Datum: {{m.datumVremeOdrzavanja | dateFormat('HH:mm DD.MM.YYYY')}}</p>
+            <p>Cena: {{m.cenaRegular}}RSD </p>
 			<p><div style="margin:auto;"><star-rating style="justify:center;" v-model="m.ocena" v-if="m.prosla" :increment="0.5" :read-only="true" :round-start-rating="false" :star-size="25"></star-rating></div></p>
 			<button type="button" class="btn btn-primary" data-toggle="modal" :data-target="'#info'+m.id">
 			Prikaži detalje &raquo;
@@ -154,7 +155,7 @@ Vue.component("man-view-user", {
 			Rezerviši karte &raquo;
 			</button>
 
-			<button v-if="userRole==='PRODAVAC'" @click="pripremiEditModal(m)" type="button" style="margin-top:10px" class="btn btn-primary" data-toggle="modal" :data-target="'#editModal'+m.id">
+			<button v-if="userRole==='PRODAVAC' && m.prodavacUsername===username" @click="pripremiEditModal(m)" type="button" style="margin-top:10px" class="btn btn-primary" data-toggle="modal" :data-target="'#editModal'+m.id">
 			Izmeni informacije &raquo;
 			</button>
 
@@ -177,13 +178,13 @@ Vue.component("man-view-user", {
 						<div class="container-fluid">
 						<div class="row">
 							<div class="col-md-4" >
-								<img class="img-thumbnail" :src="'images/'+m.slika" alt="Generic placeholder image" width="140" height="140">
+								<img class="img-thumbnail" :src="'images/'+m.slikaPath" alt="Generic placeholder image" width="140" height="140">
 							</div>
 							<div class="col-md-4 ml-auto" >
 								<p>Broj mesta: {{m.brojMesta}}</p>
 								<p>Preostali broj karata: {{m.slobodnaMesta}}</p>
-								<p >Datum: {{m.datumPocetak | dateFormat('HH:mm DD.MM.YYYY')}}</p>
-								<p>Cena: {{m.cena}}RSD </p>
+								<p >Datum: {{m.datumVremeOdrzavanja | dateFormat('HH:mm DD.MM.YYYY')}}</p>
+								<p>Cena: {{m.cenaRegular}}RSD </p>
 								<p v-if="!m.aktivna">Status: Neaktivno <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></p>
 								<p v-if="m.aktivna">Status: Aktivno <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></p>
 								<p>Lokacija: {{m.grad}}, {{m.drzava}}</p>
@@ -271,7 +272,7 @@ Vue.component("man-view-user", {
 
 						<div class="form-group">
 							<label :for="'inputCena'+m.id" class="control-label">Cena karte</label>
-							<input type="number" v-model="m.cena" min="100" max="10000" maxlength="15" class="form-control" :id="'inputCena'+m.id"  data-error="Polje ne sme biti prazno" required>
+							<input type="number" v-model="m.cenaRegular" min="100" max="10000" maxlength="15" class="form-control" :id="'inputCena'+m.id"  data-error="Polje ne sme biti prazno" required>
 							<div class="help-block with-errors"></div>
 						</div>
 
@@ -307,12 +308,12 @@ Vue.component("man-view-user", {
 						<div class="container-fluid">
 						<div class="row">
 							<div class="col-md-4" >
-								<img class="img-thumbnail" :src="'images/'+m.slika" alt="Generic placeholder image" width="140" height="140">
+								<img class="img-thumbnail" :src="'images/'+m.slikaPath" alt="Generic placeholder image" width="140" height="140">
 							</div>
 							<div class="col-md-4 ml-auto" >
                                 <p>Broj mesta: {{m.brojMesta}}</p>
                                 <p>Preostali broj karata: {{m.slobodnaMesta}}</p>
-                                <p >Datum: {{m.datumPocetak | dateFormat('HH:mm DD.MM.YYYY')}}</p>
+                                <p >Datum: {{m.datumVremeOdrzavanja | dateFormat('HH:mm DD.MM.YYYY')}}</p>
                                 <p>Lokacija: {{m.grad}}, {{m.drzava}}</p>
 
                                 
@@ -320,9 +321,9 @@ Vue.component("man-view-user", {
 
                             <h3>Cenovnik:</h3>
 
-                                <p>Regular karta: {{m.cena}}RSD</p>
-                                <p>Fan pit: {{m.cena * 2}}RSD</p>
-                                <p>VIP: {{m.cena * 4}}RSD</p>
+                                <p>Regular karta: {{m.cenaRegular}}RSD</p>
+                                <p>Fan pit: {{m.cenaRegular * 2}}RSD</p>
+                                <p>VIP: {{m.cenaRegular * 4}}RSD</p>
 
                                 <div class="col-md-4 ml-auto" >
                                     <label for="brojKarataInput" class="control-label">Broj karata:</label>
@@ -399,7 +400,7 @@ Vue.component("man-view-user", {
 
 								<div class="form-group">
 									<label for="datePickeAddr">Datum:</label>
-									<input type="date" id="datePickerAdd" v-model="novaManifestacija.datumPocetak"
+									<input type="date" id="datePickerAdd" v-model="novaManifestacija.datumVremeOdrzavanja"
 										min="1900-01-01" data-error="Polje ne sme biti prazno" required>
 										<div class="help-block with-errors"></div>
 								</div>
@@ -413,7 +414,7 @@ Vue.component("man-view-user", {
 
 								<div class="form-group">
 									<label for="inputCenaAdd" class="control-label">Cena karte</label>
-									<input type="number" v-model="novaManifestacija.cena" min="100" max="10000" maxlength="15" class="form-control" id="inputCenaAdd"  data-error="Polje ne sme biti prazno" required>
+									<input type="number" v-model="novaManifestacija.cenaRegular" min="100" max="10000" maxlength="15" class="form-control" id="inputCenaAdd"  data-error="Polje ne sme biti prazno" required>
 									<div class="help-block with-errors"></div>
 								</div>
 
@@ -448,7 +449,7 @@ Vue.component("man-view-user", {
 	,
 	methods: {
 		pripremiEditModal(m){
-			var parsed = moment(m.datumPocetak);
+			var parsed = moment(m.datumVremeOdrzavanja);
 			this.editDatum= parsed.format('YYYY-MM-DD');
 			this.editVreme=parsed.format('HH:mm');
 			console.log(this.editDatum)
@@ -459,7 +460,7 @@ Vue.component("man-view-user", {
 		submitIzmene(m){
 			//TO DO poslati izmene na backend
 			if ( $('#formEdit'+m.id)[0].checkValidity() ) {
-				m.datumPocetak=new Date(parseInt(new Date(this.editDatum + " " + this.editVreme).getTime()))
+				m.datumVremeOdrzavanja=new Date(parseInt(new Date(this.editDatum + " " + this.editVreme).getTime()))
 				$('#formEdit'+m.id).submit(function (evt) {
 					evt.preventDefault();
 					
@@ -490,7 +491,8 @@ Vue.component("man-view-user", {
 				this.novaManifestacija.id=this.manifestacije.length+1
 				this.novaManifestacija.slobodnaMesta=this.novaManifestacija.brojMesta
 				this.novaManifestacija.aktivna=false
-				this.novaManifestacija.datumPocetak=new Date(parseInt(new Date(this.novaManifestacija.datumPocetak + " " + this.novaManifestacija.vreme).getTime()))
+				this.novaManifestacija.prodavacUsername=this.username
+				this.novaManifestacija.datumVremeOdrzavanja=new Date(parseInt(new Date(this.novaManifestacija.datumVremeOdrzavanja + " " + this.novaManifestacija.vreme).getTime()))
 				console.log(this.novaManifestacija)
 				this.manifestacije.push(this.novaManifestacija)
 				this.novaManifestacija={tip:"Koncert"}
@@ -524,16 +526,16 @@ Vue.component("man-view-user", {
 				  m2Fix=m2.naziv.toUpperCase()
 				  break;
 				case "Cena":
-					m1Fix=m1.cena
-					m2Fix=m2.cena
+					m1Fix=m1.cenaRegular
+					m2Fix=m2.cenaRegular
 				  break;
 				case "Lokacija":
 				  m1Fix=m1Fix.concat(m1.grad.toUpperCase(),m1.drzava.toUpperCase())
 				  m2Fix=m2Fix.concat(m2.grad.toUpperCase(),m2.drzava.toUpperCase())
 				  break;
 				case "Datum":
-					m1Fix=m1.datumPocetak
-					m2Fix=m2.datumPocetak
+					m1Fix=m1.datumVremeOdrzavanja
+					m2Fix=m2.datumVremeOdrzavanja
 				  break;
 				default:	  
 			}
@@ -551,8 +553,8 @@ Vue.component("man-view-user", {
 			}
 		},
 		porediManifestacijePocetak(m1,m2){
-			let m1Fix=m1.datumPocetak
-			let m2Fix=m2.datumPocetak
+			let m1Fix=m1.datumVremeOdrzavanja
+			let m2Fix=m2.datumVremeOdrzavanja
 			let now = Date.now();
 			let comparison = 0;
 			if (Math.abs(m1Fix-now) > Math.abs(m2Fix-now)) {
@@ -576,9 +578,9 @@ Vue.component("man-view-user", {
 				this.sortirajPo="Naziv"
 				this.redSortiranja="Bez reda"
 			}
-			this.manifestacijeZaPrikaz =this.manifestacije.filter(m=>m.naziv.toUpperCase().includes(this.pretragaNaziv.toUpperCase()) && m.grad.toUpperCase().includes(this.pretragaGrad.toUpperCase()) && m.drzava.toUpperCase().includes(this.pretragaDrzava.toUpperCase()))
-			this.manifestacijeZaPrikaz =this.manifestacijeZaPrikaz.filter(m=>m.cena<=this.pretragaCenaDo && m.cena>=this.pretragaCenaOd)
-			this.manifestacijeZaPrikaz =this.manifestacijeZaPrikaz.filter(m=>m.datumPocetak<=this.pretragaDatumDo && m.datumPocetak>=this.pretragaDatumOd)
+			this.manifestacijeZaPrikaz =this.manifestacije.filter(m=>m.naziv.toUpperCase().includes(this.pretragaNaziv.toUpperCase()) && m.grad.toUpperCase().includes(this.pretragaGrad.toUpperCase()) && m.lokacija.drzava.toUpperCase().includes(this.pretragaDrzava.toUpperCase()))
+			this.manifestacijeZaPrikaz =this.manifestacijeZaPrikaz.filter(m=>m.cenaRegular<=this.pretragaCenaDo && m.cenaRegular>=this.pretragaCenaOd)
+			this.manifestacijeZaPrikaz =this.manifestacijeZaPrikaz.filter(m=>m.datumVremeOdrzavanja<=this.pretragaDatumDo && m.datumVremeOdrzavanja>=this.pretragaDatumOd)
 		},
 		reset(){
 			this.pretrazeno=false
@@ -611,13 +613,13 @@ Vue.component("man-view-user", {
 		racunajCenu(m){
 			switch(this.tipKarte){
 				case "Regular":
-					this.ukupnaCena=m.cena*this.brojKarata
+					this.ukupnaCena=m.cenaRegular*this.brojKarata
 					break
 				case "Fan Pit":
-					this.ukupnaCena=m.cena*this.brojKarata*2
+					this.ukupnaCena=m.cenaRegular*this.brojKarata*2
 					break
 				case "VIP":
-					this.ukupnaCena=m.cena*this.brojKarata*4
+					this.ukupnaCena=m.cenaRegular*this.brojKarata*4
 					break
 				default:
 
@@ -648,6 +650,7 @@ Vue.component("man-view-user", {
 		//TO DO: izvrsiti ucitavnja na osnovu user role 
 
 		this.userRole=window.localStorage.getItem('uloga')
+		this.username=window.localStorage.getItem('username')
 		
 		await axios.get(`/manifestacije`).then(response=>{
                      const man=[]
@@ -657,16 +660,17 @@ Vue.component("man-view-user", {
                          man.push({
                         	id:element.id,
                  			naziv: element.naziv,
-                 			grad: element.lokacija.grad,
+							grad: element.lokacija.grad,
                  			drzava: element.lokacija.drzava,
-                 			slika: element.slikaPath,
+                 			slikaPath: element.slikaPath,
                  			tip: element.tip,
-                 			datumPocetak: element.datumVremeOdrzavanja,
-                 			cena: element.cenaRegular,
+                 			datumVremeOdrzavanja: element.datumVremeOdrzavanja,
+                 			cenaRegular: element.cenaRegular,
                  			ocena: element.ocena,
                  			brojMesta: element.brojMesta,
                  			slobodnaMesta: element.slobodnaMesta,
                  			aktivna: element.aktivna,
+							prodavacUsername: element.prodavacUsername,
                          })
                          
                      });
@@ -676,31 +680,7 @@ Vue.component("man-view-user", {
              		this.manifestacijeZaPrikaz = [...this.manifestacije]
              	
                  })
-		/*if(this.userRole==="PRODAVAC"){
-			await axios.get(`/prodavci/mojeMan/`+window.localStorage.getItem('username')).then(response=>{
-				const manP=[]
 
-				response.data.forEach(element => {
-					manP.push({
-					   id:element.id,
-						naziv: element.naziv,
-						grad: element.lokacija.grad,
-						drzava: element.lokacija.drzava,
-						slika: element.slikaPath,
-						tip: element.tip,
-						datumPocetak: element.datumVremeOdrzavanja,
-						cena: element.cenaRegular,
-						ocena: element.ocena,
-						brojMesta: element.brojMesta,
-						slobodnaMesta: element.slobodnaMesta,
-						aktivna: element.aktivna,
-					})
-					
-				});
-				this.manifestacijeProdavca=manP
-				fixDate(this.manifestacijeProdavca)
-			})
-		}*/
 	},
 	filters: {
 		dateFormat: function (value, format) {

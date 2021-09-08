@@ -19,7 +19,8 @@
     },
     "slikaPath" : "koncert-v.png",
     "obrisana" : false,
-    "ocena" : 0.0
+    "ocena" : 0.0,
+	"prodavacUsername":"joca"
   }, {
     "id" : "prosla1111",
     "naziv" : "Mali koncert",
@@ -40,7 +41,8 @@
     },
     "slikaPath" : "koncert.jpg",
     "obrisana" : false,
-    "ocena" : 4.5
+    "ocena" : 4.5,
+	"prodavacUsername":"joca"
   }, {
     "id" : "aaaaa1111",
     "naziv" : "Radovan III",
@@ -61,7 +63,8 @@
     },
     "slikaPath" : "man4.jpg",
     "obrisana" : false,
-    "ocena" : 0.0
+    "ocena" : 0.0,
+	"prodavacUsername":"joca"
   }, {
     "id" : "bbbbb1111",
     "naziv" : "Žurka",
@@ -82,7 +85,8 @@
     },
     "slikaPath" : "car1.jpg",
     "obrisana" : false,
-    "ocena" : 0.0
+    "ocena" : 0.0,
+	"prodavacUsername":"joca"
   }, {
     "id" : "prosla2222",
     "naziv" : "Koncert klasične muzike",
@@ -103,7 +107,8 @@
     },
     "slikaPath" : "car2.jpg",
     "obrisana" : false,
-    "ocena" : 3.7
+    "ocena" : 3.7,
+	"prodavacUsername":"filip"
   }, {
     "id" : "ccccc1111",
     "naziv" : "Umetnička izložba",
@@ -124,6 +129,7 @@
     },
     "slikaPath" : "car3.jpg",
     "obrisana" : false,
-    "ocena" : 0.0
+    "ocena" : 0.0,
+	"prodavacUsername":"filip"
   } ]
 }
