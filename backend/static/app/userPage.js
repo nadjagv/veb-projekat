@@ -1,8 +1,4 @@
-const TestPage = { template: '<test-page></test-page>' }
-const ManView = { template: '<man-view-user></man-view-user>' }
-const AccountView = { template: '<account-view></account-view>' }
-const KarteView = { template: '<karte-view></karte-view>' }
-const UserListView = { template: '<user-list-view></user-list-view>' }
+
 
 
 Vue.component("user-page", {
@@ -22,7 +18,7 @@ Vue.component("user-page", {
 				  <li class="active"><a @click="prikaziHome()"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a></li>
 				  <li class="active"><a @click="prikaziAccount()"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Korisnički nalog</a></li>
 				  <li class="active"><a @click="prikaziKarte()"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> Karte</a></li>
-                  <li class="active navbar-right"><a href="javascript:history.back()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Log out</a></li>
+                  <li class="active navbar-right"><a @click="logOut()" href="javascript:history.back()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Log out</a></li>
 				</ul>
 
 
@@ -57,6 +53,11 @@ Vue.component("user-page", {
 		prikaziKarte(){
 			this.prikaz="Karte"
 		},
+		logOut(){
+			window.localStorage.removeItem('uloga')
+			window.localStorage.removeItem('username')
+			window.localStorage.removeItem('jwt')
+		}
 	},
 	mounted() {
 		

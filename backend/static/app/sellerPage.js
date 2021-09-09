@@ -16,7 +16,7 @@ Vue.component("seller-page", {
 				  <li class="active"><a @click="prikaziAccount()"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Korisnički nalog</a></li>
 				  <li class="active"><a @click="prikaziKarte()"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> Karte</a></li>
 				  <li class="active"><a @click="prikaziUser()"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> Korisnici</a></li>
-                  <li class="active navbar-right"><a href="javascript:history.back()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Log out</a></li>
+                  <li class="active navbar-right"><a @click="logOut()" href="javascript:history.back()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Log out</a></li>
 				</ul>
 
 
@@ -54,6 +54,11 @@ Vue.component("seller-page", {
 		prikaziUser(){
 			this.prikaz="UserList"
 		},
+		logOut(){
+			window.localStorage.removeItem('uloga')
+			window.localStorage.removeItem('username')
+			window.localStorage.removeItem('jwt')
+		}
 	},
 	mounted() {
 		

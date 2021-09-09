@@ -247,7 +247,7 @@ Vue.component("karte-view", {
 
         switch(this.userRole){
             case "KUPAC":
-                await axios.get(`/kupci/mojeKarte/`+window.localStorage.getItem('username')).then(response=>{
+                await axios.get(`/kupci/mojeKarteSve/`+window.localStorage.getItem('username')).then(response=>{
                     const kar=[]
                     
                     response.data.forEach(element => {

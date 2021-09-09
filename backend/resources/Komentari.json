@@ -1,12 +1,31 @@
-{"komentari":
-	[
-	{
-		"id":"komentar01",
-		"kupacUsername":"maja",
-		"manifestacijaId":"prosla1111",
-		"tekst":"Super koncert, sjajna muzika.",
-		"ocena":5.0,
-		"status":"PRIHVACEN"
-	}
-	]
+{
+  "komentari" : [ {
+    "id" : "komentar01",
+    "kupacUsername" : "maja",
+    "manifestacijaId" : "prosla1111",
+    "tekst" : "Super koncert, sjajna muzika.",
+    "ocena" : 5.0,
+    "status" : "PRIHVACEN"
+  }, {
+    "id" : "komentar02",
+    "kupacUsername" : "marko",
+    "manifestacijaId" : "prosla1111",
+    "tekst" : "Nita posebno.",
+    "ocena" : 3.0,
+    "status" : "KREIRAN"
+  }, {
+    "id" : "komentar03",
+    "kupacUsername" : "maja",
+    "manifestacijaId" : "prosla1111",
+    "tekst" : "Uas.",
+    "ocena" : 1.0,
+    "status" : "ODBIJEN"
+  }, {
+    "id" : "tGeiZhHuRX",
+    "kupacUsername" : "maja",
+    "manifestacijaId" : "prosla1111",
+    "tekst" : "test",
+    "ocena" : 3.5,
+    "status" : "KREIRAN"
+  } ]
 }
