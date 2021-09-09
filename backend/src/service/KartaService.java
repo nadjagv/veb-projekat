@@ -127,11 +127,13 @@ public class KartaService {
 		
 	}
 	
-	public boolean otkaziKartu(Karta karta) {
+	public boolean otkaziKartu(Karta k) {
+		Karta karta = kartaRep.getOneById(k.getId());
+		if (karta == null || karta.isObrisana()) {
+			return false;
+		}
 		
 		if (karta.getDatumVremeOdrzavanja().minusDays(7).isBefore(LocalDateTime.now())) {
-			return false;
-		}else if (karta.isObrisana()) {
 			return false;
 		}
 		
@@ -165,6 +167,9 @@ public class KartaService {
 		
 		Otkazivanje o = new Otkazivanje(LocalDateTime.now(), kupac.getUsername());
 		
+		if (kupac.getOtkazivanja() == null) {
+			kupac.setOtkazivanja(new ArrayList<Otkazivanje>());
+		}
 		kupac.getOtkazivanja().add(o);
 		
 		kupacRep.save();
