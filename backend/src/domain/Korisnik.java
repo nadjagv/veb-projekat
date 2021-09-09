@@ -7,7 +7,7 @@ import javax.json.bind.annotation.JsonbDateFormat;
 import enums.Pol;
 import enums.Uloga;
 
-public abstract class Korisnik {
+public class Korisnik {
 	
 	private String username, password, ime, prezime;
 	private Pol pol;

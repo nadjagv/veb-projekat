@@ -76,6 +76,29 @@ public class KorisnikController {
 			res.status(200);
 			return "Uspeh";
 		});
+		
+		
+		post("/korisnici/izmena", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			Korisnik kor = jsonb.fromJson(payload, Korisnik.class);
+			
+			if(kor.getIme() == null || kor.getPrezime() == null || kor.getDatumRodjenja() == null || kor.getPassword() == null
+					||kor.getPol() == null || kor.getUloga() == null) {
+				res.status(400);
+				return "Nedostaju podaci.";
+			}
+			
+			Korisnik k = korisnikService.izmeniPodatke(kor);
+			if (k != null) {
+				res.status(200);
+				return jsonb.toJson(k);
+			}
+			
+			res.status(400);
+			return "Pogresni podaci.";
+		});
+		
 	}
 
 }

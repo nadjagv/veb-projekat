@@ -1,6 +1,7 @@
 package service;
 
 import domain.Korisnik;
+import enums.Uloga;
 import helperClasses.Kredencijali;
 import repositories.AdministratorRepository;
 import repositories.KupacRepository;
@@ -47,6 +48,30 @@ public class KorisnikService {
 			return korisnik;
 		}
 		return null;
+	}
+	
+	public Korisnik izmeniPodatke(Korisnik k) {
+		Korisnik korisnik = pretraziPoUsername(k.getUsername());
+		
+		if (korisnik == null || korisnik.isObrisan())
+			return null;
+		
+		korisnik.setIme(k.getIme());
+		korisnik.setPrezime(k.getPrezime());
+		korisnik.setPassword(k.getPassword());
+		korisnik.setPol(k.getPol());
+		korisnik.setDatumRodjenja(k.getDatumRodjenja());
+		
+		if (k.getUloga().equals(Uloga.ADMINISTRATOR)) {
+			administratorRep.save();
+			System.out.println("lol");
+		}else if (k.getUloga().equals(Uloga.KUPAC)) {
+			kupacRep.save();
+		}else {
+			prodavacRep.save();
+		}
+		
+		return korisnik;
 	}
 	
 	
