@@ -1,8 +1,16 @@
+function fixDate(kor) {
+	for (var k of kor) {
+		k.datumRodjenja= new Date(parseInt(k.datumRodjenja));
+	}
+	return kor;
+}
+
 Vue.component("user-list-view", {
 	data: function () {
 		return {
             korisnici:[],
             korisniciZaPrikaz:[],
+            sumnjiviKorisnici:[],
             ulogaZaPrikaz:"Sve",
             tipZaPrikaz:"Svi",
             uloge: ["Sve","KUPAC","PRODAVAC","ADMINISTRATOR"],
@@ -119,12 +127,12 @@ Vue.component("user-list-view", {
 
 	<div class="row-cols-3 justify-content-center">
         <div class="col-lg-3" v-for="k in korisniciZaPrikaz" style="margin:20px;border-style:solid">
-            <h2>{{k.ime}} {{k.prezime}}</h2>
+            <h2>{{k.ime}} {{k.prezime}} <span v-if="userRole==='ADMINISTRATOR' && proveriSumnjiv(k)" class="badge">!</span></h2>
             <h3>{{k.uloga}}</h3>
             <h3>{{k.status}}</h3>
 
             <p>Korisničko ime: {{k.username}}</p>
-            <p>Datum rođenja: {{k.datum | dateFormat('DD.MM.YYYY')}}</p>
+            <p>Datum rođenja: {{k.datumRodjenja | dateFormat('DD.MM.YYYY')}}</p>
 
             <p v-if="k.uloga==='KUPAC'">Tip kupca:{{k.tip}}</p>
             <p v-if="k.uloga==='KUPAC'">Broj bodova:{{k.bodovi}}</p>
@@ -135,7 +143,7 @@ Vue.component("user-list-view", {
 			Blokiraj <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
 			</button>
 
-            <button @click="obrisi(k)" v-if="userRole==='ADMINISTRATOR'" type="button" style="margin-bottom:10px" class="btn btn-danger" >
+            <button @click="obrisi(k)" v-if="userRole==='ADMINISTRATOR' && k.uloga!=='ADMINISTRATOR'" type="button" style="margin-bottom:10px" class="btn btn-danger" >
 			Obriši <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 			</button>
 
@@ -212,7 +220,7 @@ Vue.component("user-list-view", {
 
                         <div class="form-group">
                             <label for="datePicker">Datum rođenja</label>
-                            <vuejs-datepicker id="datePicker" data-error="Polje ne sme biti prazno" v-model="noviProdavac.datum" format="dd.MM.yyyy" required></vuejs-datepicker> 
+                            <vuejs-datepicker id="datePicker" data-error="Polje ne sme biti prazno" v-model="noviProdavac.datumRodjenja" format="dd.MM.yyyy" required></vuejs-datepicker> 
                         </div>
 
 
@@ -238,14 +246,29 @@ Vue.component("user-list-view", {
 `
 	,
 	methods: {
-        dodajProdavca(){
+        async dodajProdavca(){
             if ( $('#formNew')[0].checkValidity() ) {
-                alert("Uspesna dodat prodavac")
                 $('#formNew').submit(function (evt) {
                     evt.preventDefault();
                     
                 });
-                console.log(this.noviProdavac.datumRodjenja)
+                this.noviProdavac.datumRodjenja=this.noviProdavac.datumRodjenja.getTime()
+
+                await axios.post(`korisnici/registracija`,{
+                    ime: this.noviProdavac.ime,
+                    prezime: this.noviProdavac.prezime,
+                    username: this.noviProdavac.username,
+                    password:this.noviProdavac.password,
+                    pol: this.noviProdavac.pol,
+                    datumRodjenja: this.noviProdavac.datumRodjenja,
+                    uloga: "PRODAVAC",
+                }).then(response=>{
+                    alert("Uspešno dodat prodavac!")
+                }).catch(err=>{
+                    alert("Došlo je do greške!")
+                })
+
+
                 this.korisnici.push(Object.assign({},this.noviProdavac))
                 this.pripremi()
                 this.noviProdavac={uloga:"PRODAVAC"}
@@ -254,10 +277,12 @@ Vue.component("user-list-view", {
         openModal(){
 			$('#modalNew').modal();
 		},
-        blokiraj(k){
+        async blokiraj(k){
+            await axios.put(`kupci/sumnjivi/blokiraj/`+k.username)
             k.blokiran=true
         },
-        obrisi(k){
+        async obrisi(k){
+            await axios.delete(`korisnici/`+k.username)
             this.korisnici=this.korisnici.filter(kor=>kor.username!=k.username)
             this.korisniciZaPrikaz=this.korisniciZaPrikaz.filter(kor=>kor.username!=k.username)
         },
@@ -357,6 +382,15 @@ Vue.component("user-list-view", {
             $("#pretragaIcon").toggleClass("glyphicon-arrow-down");
 			$("#pretragaIcon").toggleClass("glyphicon-arrow-up");
         },
+        proveriSumnjiv(k){
+            let provera=false
+            this.sumnjiviKorisnici.forEach(element=>{
+                if(element.username===k.username){
+                    provera=true;
+                }
+            })
+            return provera
+        },
         
 	},
 	async mounted() {
@@ -372,7 +406,7 @@ Vue.component("user-list-view", {
                         prezime: element.prezime,
                         uloga: element.uloga,
                         username: element.username,
-                        datum: moment.utc(element.datumRodjenja.year+'-'+element.datumRodjenja.month+'-'+element.datumRodjenja.day),
+                        datumRodjenja: element.datumRodjenja,
                     })
                 })
             })
@@ -384,7 +418,22 @@ Vue.component("user-list-view", {
                         prezime: element.prezime,
                         uloga: element.uloga,
                         username: element.username,
-                        datum: moment.utc(element.datumRodjenja.year+'-'+element.datumRodjenja.month+'-'+element.datumRodjenja.day),
+                        datumRodjenja:element.datumRodjenja,
+                        tip: element.tip,
+                        bodovi: element.brojBodova,
+                        blokiran: element.blokiran,
+                    })
+                })
+            })
+
+            await axios.get(`/kupci/sumnjivi/pregled`).then(response=>{
+                response.data.forEach(element=>{
+                    this.sumnjiviKorisnici.push({
+                        ime: element.ime,
+                        prezime: element.prezime,
+                        uloga: element.uloga,
+                        username: element.username,
+                        datumRodjenja:element.datumRodjenja,
                         tip: element.tip,
                         bodovi: element.brojBodova,
                         blokiran: element.blokiran,
@@ -399,7 +448,7 @@ Vue.component("user-list-view", {
                         prezime: element.prezime,
                         uloga: element.uloga,
                         username: element.username,
-                        datum: moment.utc(element.datumRodjenja.year+'-'+element.datumRodjenja.month+'-'+element.datumRodjenja.day),
+                        datumRodjenja: element.datumRodjenja,
                     })
                 })
             })
@@ -415,7 +464,7 @@ Vue.component("user-list-view", {
                         prezime: element.prezime,
                         uloga: element.uloga,
                         username: element.username,
-                        datum: element.datumRodjenja,
+                        datumRodjenja: element.datumRodjenja,
                         tip: element.tip,
                         bodovi: element.brojBodova,
                         blokiran: element.blokiran,
@@ -424,6 +473,7 @@ Vue.component("user-list-view", {
             })
         }
 
+        fixDate(this.korisnici)
         this.korisniciZaPrikaz = [...this.korisnici]
 	},
     filters: {

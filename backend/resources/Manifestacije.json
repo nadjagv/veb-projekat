@@ -53,13 +53,13 @@
     "cenaRegular" : 1500.0,
     "aktivna" : true,
     "lokacija" : {
-      "geoDuzina" : 19.8453,
-      "geoSirina" : 45.247,
-      "ulica" : "Sutjeska",
+      "geoDuzina" : 0.0,
+      "geoSirina" : 0.0,
+      "ulica" : "",
       "grad" : "Novi Sad",
       "drzava" : "Srbija",
-      "postanskiBroj" : "21000",
-      "kucniBroj" : "2"
+      "postanskiBroj" : "",
+      "kucniBroj" : ""
     },
     "slikaPath" : "man4.jpg",
     "obrisana" : false,
@@ -75,13 +75,13 @@
     "cenaRegular" : 1000.0,
     "aktivna" : false,
     "lokacija" : {
-      "geoDuzina" : 19.8453,
-      "geoSirina" : 45.247,
-      "ulica" : "Sutjeska",
+      "geoDuzina" : 0.0,
+      "geoSirina" : 0.0,
+      "ulica" : "",
       "grad" : "Novi Sad",
       "drzava" : "Srbija",
-      "postanskiBroj" : "21000",
-      "kucniBroj" : "2"
+      "postanskiBroj" : "",
+      "kucniBroj" : ""
     },
     "slikaPath" : "car1.jpg",
     "obrisana" : false,
