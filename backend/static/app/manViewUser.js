@@ -24,6 +24,7 @@ Vue.component("man-view-user", {
 			pretragaNaziv:"",
 			pretragaGrad:"",
 			pretragaDrzava:"",
+			komentari:[],
 			pretragaCenaOd:0,
 			pretragaCenaDo:10000,
 			pretragaDatumOd: Date.now(),
@@ -139,19 +140,19 @@ Vue.component("man-view-user", {
 		</div>
 
       <div class="row-cols-3 justify-content-center">
-        <div class="col-lg-3" v-for="m in manifestacijeZaPrikaz" style="margin:20px">
-            <img class="img-circle" :src="'images/'+m.slikaPath" alt="Generic placeholder image" width="140" height="140">
-            <h2>{{m.naziv}}</h2>
+        <div class="col-lg-3"  v-for="m in manifestacijeZaPrikaz" style="margin:20px">
+            <img class="img-circle"  :src="'images/'+m.slikaPath" alt="Generic placeholder image" width="140" height="140">
+            <h2>{{m.naziv}}<span v-if="userRole==='PRODAVAC' && m.prodavacUsername===username" class="badge">MM</span></h2>
             <h3>{{m.tip}}</h3>
             <p>Lokacija: {{m.grad}}, {{m.drzava}}</p>
             <p >Datum: {{m.datumVremeOdrzavanja | dateFormat('HH:mm DD.MM.YYYY')}}</p>
             <p>Cena: {{m.cenaRegular}}RSD </p>
-			<p><div style="margin:auto;"><star-rating style="justify:center;" v-model="m.ocena" v-if="m.prosla" :increment="0.5" :read-only="true" :round-start-rating="false" :star-size="25"></star-rating></div></p>
-			<button type="button" class="btn btn-primary" data-toggle="modal" :data-target="'#info'+m.id">
+			<p><div style="margin:auto;"><star-rating style="justify:center;" v-model="m.ocena" v-if="manProsla(m)" :increment="0.5" :read-only="true" :round-start-rating="false" :star-size="25"></star-rating></div></p>
+			<button @click="ucitajKomentare(m)" type="button" class="btn btn-primary" data-toggle="modal" :data-target="'#info'+m.id">
 			Prikaži detalje &raquo;
 			</button>
 
-            <button @click="pripremiModal(m)" v-if="userRole==='KUPAC' && m.slobodnaMesta!=0 && m.aktivna && !m.prosla" type="button" style="margin-top:10px" class="btn btn-primary" data-toggle="modal" :data-target="'#karteModal'+m.id">
+            <button @click="pripremiModal(m)" v-if="userRole==='KUPAC' && m.slobodnaMesta!=0 && m.aktivna && !manProsla(m)" type="button" style="margin-top:10px" class="btn btn-primary" data-toggle="modal" :data-target="'#karteModal'+m.id">
 			Rezerviši karte &raquo;
 			</button>
 
@@ -188,7 +189,7 @@ Vue.component("man-view-user", {
 								<p v-if="!m.aktivna">Status: Neaktivno <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></p>
 								<p v-if="m.aktivna">Status: Aktivno <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></p>
 								<p>Lokacija: {{m.grad}}, {{m.drzava}}</p>
-								<p><div style="margin:auto;"><star-rating style="justify:center;" v-model="m.ocena" v-if="m.prosla" :increment="0.5" :read-only="true" :round-start-rating="false" :star-size="25"></star-rating></div></p>
+								<p><div style="margin:auto;"><star-rating style="justify:center;" v-model="m.ocena" v-if="manProsla(m)" :increment="0.5" :read-only="true" :round-start-rating="false" :star-size="25"></star-rating></div></p>
 							</div>
 							
 						</div>
@@ -207,6 +208,32 @@ Vue.component("man-view-user", {
 							<br/>
 							<button class="btn btn-lg btn-primary" style="margin:20px" type="submit" @click="komentarisi(m)">Komentariši</button>
 						</form>
+
+						<div v-for="komentar in komentari">
+							<div v-if="!((userRole==='PRODAVAC' && m.prodavacUsername!==username) && (komentar.status==='ODBIJEN' || komentar.status==='KREIRAN'))">
+								<p>{{komentar.kupacUsername}} 
+								<div v-if="((userRole==='PRODAVAC' && m.prodavacUsername===username) || userRole==='ADMINISTRATOR') && komentar.status==='ODBIJEN'">ODBIJEN</div>
+								<div v-if="((userRole==='PRODAVAC' && m.prodavacUsername===username)  || userRole==='ADMINISTRATOR') && komentar.status==='PRIHVACEN'">PRIHVAĆEN</div>
+								<div v-if="((userRole==='PRODAVAC' && m.prodavacUsername===username)  || userRole==='ADMINISTRATOR') && komentar.status==='KREIRAN'">KREIRAN</div>
+								</p>
+								<textarea v-model="komentar.tekst" rows="4" cols="50" readonly>
+								</textarea>
+								<p><div style="margin:auto;"><star-rating style="justify:center;" v-model="komentar.ocena" :increment="0.5" :read-only="true" :round-start-rating="false" :star-size="25"></star-rating></div></p>
+								<br/>
+
+								<div v-if="(userRole==='PRODAVAC' && m.prodavacUsername===username)  && komentar.status==='KREIRAN'">
+									<div class="row">
+
+										<button @click="prihvatiKomentar(komentar)" type="button" style="margin-left:10px" class="btn btn-success">Prihavti</button>
+										<button @click="odbijKomentar(komentar)" type="button" style="margin-left:10px" class="btn btn-danger">Odbij</button>
+
+									</div>
+								</div>
+
+								<br/>
+							</div>
+
+						</div>
 
 					</div>
 					<div class="modal-footer">
@@ -448,11 +475,56 @@ Vue.component("man-view-user", {
 `
 	,
 	methods: {
+		async prihvatiKomentar(k){
+			k.status="PRIHVACEN"
+			await axios.post(`komentari/prihvati/`+k.id)
+		},
+		async odbijKomentar(k){
+			k.status="ODBIJEN"
+			await axios.post(`komentari/odbij/`+k.id)
+		},
 		pripremiEditModal(m){
 			var parsed = moment(m.datumVremeOdrzavanja);
 			this.editDatum= parsed.format('YYYY-MM-DD');
 			this.editVreme=parsed.format('HH:mm');
 			console.log(this.editDatum)
+		},
+		async ucitajKomentare(m){
+			this.komentari=[]
+			if(this.userRole==="ADMINISTRATOR" || this.userRole==="PRODAVAC"){
+				await axios.get(`/komentari/manifestacija/svi/`+m.id).then(response=>{
+					const kom=[]
+					response.data.forEach(element=>{
+						kom.push({
+							id:element.id,
+							kupacUsername: element.kupacUsername,
+							manifestacijaId:element.manifestacijaId,
+							tekst:element.tekst,
+							ocena:element.ocena,
+							status:element.status,
+						})
+					})
+					this.komentari=kom
+				})
+			}else{
+				await axios.get(`/komentari/manifestacija/prihvaceni/`+m.id).then(response=>{
+					const kom=[]
+					response.data.forEach(element=>{
+						kom.push({
+							id:element.id,
+							kupacUsername: element.kupacUsername,
+							manifestacijaId:element.manifestacijaId,
+							tekst:element.tekst,
+							ocena:element.ocena,
+							status:element.status,
+						})
+					})
+					this.komentari=kom
+				})
+			}
+		},
+		manProsla(m){
+			return m.datumVremeOdrzavanja<Date.now()
 		},
 		openModal(){
 			$('#modal1').modal();
@@ -469,12 +541,20 @@ Vue.component("man-view-user", {
 				this.pripremi()
 			}
 		},
-		komentarisi(m){
+		async komentarisi(m){
 			if ( $('#formKomentar'+m.id)[0].checkValidity() ) {
 				$('#formKomentar'+m.id).submit(function (evt) {
 					evt.preventDefault();
 				});
-				alert(this.textKomentar)
+				let noviKomentar={
+					tekst:this.textKomentar,
+					ocena:this.ocenaKomentar,
+					manifestacijaId:m.id,
+					kupacUsername:this.username
+				}
+
+				await axios.post(`/komentari`,noviKomentar)
+
 				this.textKomentar=""
 				this.ocenaKomentar=0
 			}
