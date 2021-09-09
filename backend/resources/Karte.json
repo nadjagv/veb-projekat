@@ -43,5 +43,16 @@
     "tip" : "REGULAR",
     "brojKarata" : 4,
     "obrisana" : false
+  }, {
+    "id" : "ZutS5ChfGN",
+    "manifestacijaId" : "aaaaa1111",
+    "nazivManifestacije" : "Radovan III",
+    "datumVremeOdrzavanja" : [ 2021, 9, 25, 19, 0 ],
+    "cena" : 60000.0,
+    "kupacUsername" : "maja",
+    "status" : "REZERVISANA",
+    "tip" : "FAN_PIT",
+    "brojKarata" : 20,
+    "obrisana" : false
   } ]
 }

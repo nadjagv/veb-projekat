@@ -14,8 +14,8 @@ Vue.component("man-view-user", {
 			prikazRasprodatih: true,
 			tipZaPrikaz: "Svi",
 			tipovi: ["Svi", "KONCERT", "FESTIVAL", "PREDSTAVA", "SPORT", "OSTALO"],
-			tipKarata: ["Regular","Fan Pit","VIP"],
-			tipKarte:"Regular",
+			tipKarata: ["REGULAR","FAN_PIT","VIP"],
+			tipKarte:"REGULAR",
 			redSortiranjaOpcije:["Bez reda","Opadajuće","Rastuće"],
 			redSortiranja:"Bez reda",
 			sortirajPoOpcije:["Naziv","Datum","Cena","Lokacija"],
@@ -35,6 +35,7 @@ Vue.component("man-view-user", {
 			editDatum:"",
 			textKomentar:"",
 			ocenaKomentar:0.0,
+			kupacTip:"",
 			novaManifestacija:{
 				tip: "Koncert"
 			},
@@ -158,6 +159,12 @@ Vue.component("man-view-user", {
 
 			<button v-if="userRole==='PRODAVAC' && m.prodavacUsername===username" @click="pripremiEditModal(m)" type="button" style="margin-top:10px" class="btn btn-primary" data-toggle="modal" :data-target="'#editModal'+m.id">
 			Izmeni informacije &raquo;
+			</button>
+
+			<br/>
+
+			<button v-if="userRole==='PRODAVAC' && m.prodavacUsername===username" @click="obrisiMan(m)" type="button" style="margin-top:10px" class="btn btn-danger" data-toggle="modal" :data-target="'#editModal'+m.id">
+			Obriši &raquo;
 			</button>
 
 			<button @click="aktiviraj(m)" v-if="userRole==='ADMINISTRATOR' && !m.aktivna" type="button" style="margin-bottom:10px" class="btn btn-success" >
@@ -553,6 +560,11 @@ Vue.component("man-view-user", {
 				this.pripremi()
 			}
 		},
+		async obrisiMan(m){
+			await axios.delete(`manifestacije/`+m.id)
+            this.manifestacije=this.manifestacije.filter(man=>man.id!=m.id)
+            this.manifestacijeZaPrikaz=this.manifestacijeZaPrikaz.filter(man=>man.id!=m.id)
+		},
 		async komentarisi(m){
 			if ( $('#formKomentar'+m.id)[0].checkValidity() ) {
 				$('#formKomentar'+m.id).submit(function (evt) {
@@ -598,7 +610,11 @@ Vue.component("man-view-user", {
 				this.novaManifestacija.slobodnaMesta=this.novaManifestacija.brojMesta
 				console.log(this.novaManifestacija.datumVremeOdrzavanja)
 
-				await axios.post(`/manifestacije`,this.novaManifestacija)
+				await axios.post(`/manifestacije`,this.novaManifestacija).then(response=>{
+					alert("Uspešno kreiranan manifestacija!")
+				}).catch(err=>{
+					alert("Došlo je do greške!")
+				})
 
 				this.novaManifestacija={tip:"Koncert"}
 				this.pripremi()
@@ -707,7 +723,7 @@ Vue.component("man-view-user", {
 			$("#pretragaIcon").toggleClass("glyphicon-arrow-up");
 		},
 		pripremiModal(m){
-			this.tipKarte="Regular"
+			this.tipKarte="REGULAR"
 			this.brojKarata=0
 			this.racunajCenu(m)
 		},
@@ -718,10 +734,10 @@ Vue.component("man-view-user", {
 		},
 		racunajCenu(m){
 			switch(this.tipKarte){
-				case "Regular":
+				case "REGULAR":
 					this.ukupnaCena=m.cenaRegular*this.brojKarata
 					break
-				case "Fan Pit":
+				case "FAN_PIT":
 					this.ukupnaCena=m.cenaRegular*this.brojKarata*2
 					break
 				case "VIP":
@@ -730,11 +746,34 @@ Vue.component("man-view-user", {
 				default:
 
 			}
+
+			switch(this.kupacTip){
+				case "BRONZANI":
+					this.ukupnaCena=this.ukupnaCena*0.97
+					break
+				case "SREBRNI":
+					this.ukupnaCena=this.ukupnaCena*0.95
+					break
+				case "ZLATNI":
+					this.ukupnaCena=this.ukupnaCena*0.9
+					break
+				default:
+			}
 		},
-		kupiKarte(m){
+		async kupiKarte(m){
 			if(this.brojKarata==0){
 				alert("Nije moguće kupiti 0 karata")
 			}else{
+				await axios.post(`karte/rezervisi`,{
+					manifestacijaId: m.id,
+					nazivManifestacije:m.naziv,
+					datumVremeOdrzavanja:m.datumVremeOdrzavanja.getTime(),
+					cena: this.ukupnaCena,
+					kupacUsername:this.username,
+					tip: this.tipKarte,
+					brojKarata: this.brojKarata,
+				})
+
 				m.slobodnaMesta-=this.brojKarata
 				this.pripremiModal(m)
 				alert("KUPLJENO")
@@ -757,6 +796,12 @@ Vue.component("man-view-user", {
 
 		this.userRole=window.localStorage.getItem('uloga')
 		this.username=window.localStorage.getItem('username')
+
+		if(this.userRole==="KUPAC"){
+			await axios.get(`kupci/`+window.localStorage.getItem('username')).then(response=>{
+				this.kupacTip=response.data.tip
+			})
+		}
 		
 		await axios.get(`/manifestacije`).then(response=>{
                      const man=[]

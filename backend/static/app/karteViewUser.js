@@ -235,7 +235,16 @@ Vue.component("karte-view", {
             $("#pretragaIcon").toggleClass("glyphicon-arrow-down");
 			$("#pretragaIcon").toggleClass("glyphicon-arrow-up");
         },
-        odustani(k){
+        async odustani(k){
+            await axios.post(`/karte/otkazi`,{
+                manifestacijaId: k.manifestacijaId,
+				nazivManifestacije:k.nazivManifestacije,
+				datumVremeOdrzavanja:k.datumVremeOdrzavanja.getTime(),
+				cena: k.cena,
+				kupacUsername:k.kupacUsername,
+				tip: k.tip,
+				brojKarata: k.brojKarata,
+            })
             k.status="Odustanak"
         },
 	},
@@ -247,6 +256,7 @@ Vue.component("karte-view", {
 
         switch(this.userRole){
             case "KUPAC":
+                
                 await axios.get(`/kupci/mojeKarteSve/`+window.localStorage.getItem('username')).then(response=>{
                     const kar=[]
                     

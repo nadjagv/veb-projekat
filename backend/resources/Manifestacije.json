@@ -48,7 +48,7 @@
     "naziv" : "Radovan III",
     "tip" : "PREDSTAVA",
     "brojMesta" : 250,
-    "slobodnaMesta" : 122,
+    "slobodnaMesta" : 102,
     "datumVremeOdrzavanja" : [ 2021, 9, 25, 19, 0 ],
     "cenaRegular" : 1500.0,
     "aktivna" : true,
@@ -151,6 +151,28 @@
     },
     "slikaPath" : "koncert-v.png",
     "obrisana" : false,
+    "ocena" : 0.0,
+    "prodavacUsername" : "joca"
+  }, {
+    "id" : "vEoZ4I9NlK",
+    "naziv" : "dsad",
+    "tip" : "PREDSTAVA",
+    "brojMesta" : 10,
+    "slobodnaMesta" : 10,
+    "datumVremeOdrzavanja" : [ 2021, 9, 24, 16, 23 ],
+    "cenaRegular" : 100.0,
+    "aktivna" : false,
+    "lokacija" : {
+      "geoDuzina" : 0.0,
+      "geoSirina" : 0.0,
+      "ulica" : "",
+      "grad" : "dsadsa",
+      "drzava" : "dsadsa",
+      "postanskiBroj" : "",
+      "kucniBroj" : ""
+    },
+    "slikaPath" : "",
+    "obrisana" : true,
     "ocena" : 0.0,
     "prodavacUsername" : "joca"
   } ]
