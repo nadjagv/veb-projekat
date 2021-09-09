@@ -7,6 +7,7 @@ import domain.Karta;
 import domain.Komentar;
 import domain.Korisnik;
 import domain.Kupac;
+import domain.Manifestacija;
 import enums.StatusKarte;
 import enums.StatusKomentara;
 import repositories.KartaRepository;
@@ -20,11 +21,13 @@ public class KomentarService {
 	KomentarRepository komentarRep;
 	KupacRepository kupacRep;
 	KartaRepository kartaRep;
+	ManifestacijaRepository manifestacijaRep;
 
 	public KomentarService() {
 		komentarRep = KomentarRepository.getInstance();
 		kupacRep = KupacRepository.getInstance();
 		kartaRep = KartaRepository.getInstance();
+		manifestacijaRep = ManifestacijaRepository.getInstance();
 	}
 	
 	public ArrayList<Komentar> preuzmiSve() {
@@ -74,6 +77,11 @@ public class KomentarService {
 			return null;
 		}
 		
+		Manifestacija m = manifestacijaRep.getOneById(kom.getManifestacijaId());
+		if (m == null) {
+			return null;
+		}
+		
 		String id;
 		while (true) {
 			id = StringGenerator.generateRandomString(10);
@@ -116,6 +124,20 @@ public class KomentarService {
 		Komentar kom = komentarRep.getOneById(id);
 		if (kom == null || kom.isObrisan())
 			return false;
+		
+		Manifestacija m = manifestacijaRep.getOneById(kom.getManifestacijaId());
+		if (m == null) {
+			return false;
+		}
+		
+		if (m.getBrojOcena() == 0) {
+			m.setOcena(kom.getOcena());
+		}else {
+			m.setOcena((m.getOcena() * m.getBrojOcena() + kom.getOcena()) / (m.getBrojOcena() + 1));
+		}
+		m.setBrojOcena(m.getBrojOcena() + 1);
+		
+		manifestacijaRep.save();
 		
 		kom.setStatus(StatusKomentara.PRIHVACEN);
 		komentarRep.save();

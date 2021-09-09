@@ -21,6 +21,7 @@ public class Manifestacija {
 	private boolean obrisana;
 	private double ocena;
 	private String prodavacUsername;
+	private int brojOcena;
 	
 
 	public Manifestacija() {
@@ -33,7 +34,7 @@ public class Manifestacija {
 
 	public Manifestacija(String id, String naziv, TipManifestacije tip, int brojMesta,
 			LocalDateTime datumVremeOdrzavanja, double cenaRegular, boolean aktivna, Lokacija lokacija,
-			String slikaPath, boolean obrisana, double ocena, String prodavacUsername) {
+			String slikaPath, boolean obrisana, double ocena, String prodavacUsername, int brojOcena) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
@@ -48,11 +49,12 @@ public class Manifestacija {
 		this.obrisana = obrisana;
 		this.ocena = ocena;
 		this.prodavacUsername = prodavacUsername;
+		this.brojOcena = brojOcena;
 	}
 	
 	public Manifestacija(String id, String naziv, TipManifestacije tip, int brojMesta, int slobodnaMesta,
 			LocalDateTime datumVremeOdrzavanja, double cenaRegular, boolean aktivna, Lokacija lokacija,
-			String slikaPath, boolean obrisana, double ocena, String prodavacUsername) {
+			String slikaPath, boolean obrisana, double ocena, String prodavacUsername, int brojOcena) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
@@ -67,6 +69,7 @@ public class Manifestacija {
 		this.obrisana = obrisana;
 		this.ocena = ocena;
 		this.prodavacUsername = prodavacUsername;
+		this.brojOcena = brojOcena;
 	}
 
 
@@ -215,6 +218,22 @@ public class Manifestacija {
 
 	public void setProdavacUsername(String prodavacUsername) {
 		this.prodavacUsername = prodavacUsername;
+	}
+
+
+
+
+
+	public int getBrojOcena() {
+		return brojOcena;
+	}
+
+
+
+
+
+	public void setBrojOcena(int brojOcena) {
+		this.brojOcena = brojOcena;
 	}
 	
 	
