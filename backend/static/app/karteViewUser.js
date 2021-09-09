@@ -1,6 +1,6 @@
-function fixDate(karte) {
+function fixDateKarte(karte) {
 	for (var k of karte) {
-		k.datumPocetak = new Date(parseInt(k.datumVremeOdrzavanja));
+		k.datumVremeOdrzavanja = new Date(parseInt(k.datumVremeOdrzavanja));
 	}
 	return karte;
 }
@@ -266,7 +266,7 @@ Vue.component("karte-view", {
                         
                     });
                     this.karte=kar
-                    fixDate(this.karte)
+                    fixDateKarte(this.karte)
                     this.karteZaPrikaz = [...this.karte]
                 
                 })
@@ -291,7 +291,7 @@ Vue.component("karte-view", {
                         
                     });
                     this.karte=kar
-                    fixDate(this.karte)
+                    fixDateKarte(this.karte)
                     this.karteZaPrikaz = [...this.karte]
                 
                 })
@@ -316,7 +316,7 @@ Vue.component("karte-view", {
                         
                     });
                     this.karte=kar
-                    fixDate(this.karte)
+                    fixDateKarte(this.karte)
                     this.karteZaPrikaz = [...this.karte]
                 
                 })

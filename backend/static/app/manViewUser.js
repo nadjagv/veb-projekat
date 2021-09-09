@@ -1,4 +1,4 @@
-function fixDate(man) {
+function fixDateMan(man) {
 	for (var m of man) {
 		m.datumVremeOdrzavanja= new Date(parseInt(m.datumVremeOdrzavanja));
 	}
@@ -529,15 +529,27 @@ Vue.component("man-view-user", {
 		openModal(){
 			$('#modal1').modal();
 		},
-		submitIzmene(m){
+		async submitIzmene(m){
 			//TO DO poslati izmene na backend
 			if ( $('#formEdit'+m.id)[0].checkValidity() ) {
-				m.datumVremeOdrzavanja=new Date(parseInt(new Date(this.editDatum + " " + this.editVreme).getTime()))
+				m.datumVremeOdrzavanja=new Date(this.editDatum + " " + this.editVreme).getTime()
 				$('#formEdit'+m.id).submit(function (evt) {
 					evt.preventDefault();
 					
 					
 				});
+
+				m.postanskiBroj=""
+				m.ulica=""
+				m.kucniBroj=""
+
+				await axios.put(`/manifestacije`,m).then(response=>{
+					alert("Izmene uspešno sačuvane!")
+				}).catch(err=>{
+					alert("Došlo je do greške!")
+				})
+					
+				m.datumVremeOdrzavanja=new Date(parseInt(new Date(this.editDatum + " " + this.editVreme).getTime()))
 				this.pripremi()
 			}
 		},
@@ -552,6 +564,8 @@ Vue.component("man-view-user", {
 					manifestacijaId:m.id,
 					kupacUsername:this.username
 				}
+
+				
 
 				await axios.post(`/komentari`,noviKomentar)
 
@@ -767,7 +781,7 @@ Vue.component("man-view-user", {
                          
                      });
                      this.manifestacije=man
-					 fixDate(this.manifestacije)
+					 fixDateMan(this.manifestacije)
                      this.manifestacije=this.manifestacije.sort(this.porediManifestacijePocetak)
              		this.manifestacijeZaPrikaz = [...this.manifestacije]
              	
