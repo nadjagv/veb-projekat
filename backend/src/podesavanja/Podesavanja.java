@@ -9,19 +9,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import domain.TipKupca;
 
 public class Podesavanja {
-	private TipKupca srebrni, zlatni;
+	private TipKupca srebrni, zlatni, bronzani;
 	private static Podesavanja instance = null;
 
 	private Podesavanja() {
 		// TODO Auto-generated constructor stub
 	}
 
-	private Podesavanja(TipKupca srebrni, TipKupca zlatni) {
+	private Podesavanja(TipKupca srebrni, TipKupca zlatni, TipKupca bronzani) {
 		super();
 		this.srebrni = srebrni;
 		this.zlatni = zlatni;
+		this.bronzani = bronzani;
 	}
-	
+
 	public static Podesavanja getInstance() {
 		if (instance == null) {
 			instance = new Podesavanja();
@@ -45,6 +46,14 @@ public class Podesavanja {
 		this.zlatni = zlatni;
 	}
 	
+	public TipKupca getBronzani() {
+		return bronzani;
+	}
+
+	public void setBronzani(TipKupca bronzani) {
+		this.bronzani = bronzani;
+	}
+
 	public static void loadData() {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);

@@ -106,6 +106,8 @@ public class KartaService {
 			popust = podesavanja.getSrebrni().getPopust();
 		}else if (k.getTip().equals(ImeTipaKupca.ZLATNI)) {
 			popust = podesavanja.getZlatni().getPopust();
+		}else if (k.getTip().equals(ImeTipaKupca.BRONZANI)) {
+			popust = podesavanja.getBronzani().getPopust();
 		}
 		
 		double ukupnaCena = karta.getBrojKarata()* m.getCenaRegular() * multiplier * popust;
@@ -115,6 +117,15 @@ public class KartaService {
 		
 		
 		k.setBrojBodova(k.getBrojBodova() + bodovi);
+		
+		if (k.getBrojBodova() >= podesavanja.getZlatni().getPotrebniBodovi()) {
+			k.setTip(ImeTipaKupca.ZLATNI);
+		}else if (k.getBrojBodova() >= podesavanja.getSrebrni().getPotrebniBodovi()) {
+			k.setTip(ImeTipaKupca.SREBRNI);
+		}else if (k.getBrojBodova() >= podesavanja.getBronzani().getPotrebniBodovi()) {
+			k.setTip(ImeTipaKupca.BRONZANI);
+		}
+		
 		k.getKarteIds().add(nova.getId());
 		kupacRep.save();
 		
@@ -147,6 +158,7 @@ public class KartaService {
 		
 		kupac.setBrojBodova(kupac.getBrojBodova() - izgubljeniBodovi);
 		
+		
 		if (kupac.getTip().equals(ImeTipaKupca.ZLATNI)) {
 			if (kupac.getBrojBodova() < podesavanja.getZlatni().getPotrebniBodovi()) {
 				kupac.setTip(ImeTipaKupca.SREBRNI);
@@ -159,12 +171,20 @@ public class KartaService {
 			}
 		}
 		
+		if (kupac.getTip().equals(ImeTipaKupca.BRONZANI)) {
+			if (kupac.getBrojBodova() < podesavanja.getBronzani().getPotrebniBodovi()) {
+				kupac.setTip(ImeTipaKupca.NOVI);
+			}
+		}
+		
 		Manifestacija m = manifestacijaRep.getOneById(karta.getManifestacijaId());
 		if (m == null || m.isObrisana()) {
 			return false;
 		}
 		m.setSlobodnaMesta(m.getSlobodnaMesta() + karta.getBrojKarata());
-		
+		if (m.getSlobodnaMesta() > m.getBrojMesta()) {
+			m.setSlobodnaMesta(m.getBrojMesta());
+		}
 		Otkazivanje o = new Otkazivanje(LocalDateTime.now(), kupac.getUsername());
 		
 		if (kupac.getOtkazivanja() == null) {
