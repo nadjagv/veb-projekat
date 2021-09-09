@@ -697,8 +697,9 @@ Vue.component("man-view-user", {
 			this.brojKarata=0
 			this.racunajCenu(m)
 		},
-		aktiviraj(m){
+		async aktiviraj(m){
 			m.aktivna=true
+			await axios.post(`manifestacije/aktiviraj/`+m.id)
 			this.pripremi()
 		},
 		racunajCenu(m){

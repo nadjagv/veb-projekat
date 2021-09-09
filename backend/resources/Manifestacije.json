@@ -29,7 +29,7 @@
     "slobodnaMesta" : 2999,
     "datumVremeOdrzavanja" : [ 2021, 8, 25, 19, 0 ],
     "cenaRegular" : 500.0,
-    "aktivna" : false,
+    "aktivna" : true,
     "lokacija" : {
       "geoDuzina" : 19.8453,
       "geoSirina" : 45.247,
@@ -95,7 +95,7 @@
     "slobodnaMesta" : 50,
     "datumVremeOdrzavanja" : [ 2021, 8, 20, 19, 0 ],
     "cenaRegular" : 2000.0,
-    "aktivna" : false,
+    "aktivna" : true,
     "lokacija" : {
       "geoDuzina" : 19.8453,
       "geoSirina" : 45.247,

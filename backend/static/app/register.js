@@ -1,6 +1,7 @@
 Vue.component("register", {
 	data: function () {
 		return {
+            newUser:{}
 		}
 	},
 	template: `
@@ -13,19 +14,19 @@ Vue.component("register", {
 
                 <div class="form-group">
                 <label for="inputName" class="control-label">Ime</label>
-                <input type="text" class="form-control" id="inputName" data-error="Polje ne sme biti prazno" required>
+                <input type="text" class="form-control" id="inputName" v-model="newUser.ime" data-error="Polje ne sme biti prazno" required>
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                 <label for="inputLastName" class="control-label">Prezime</label>
-                <input type="text" class="form-control" id="inputLastName" data-error="Polje ne sme biti prazno" required>
+                <input type="text" class="form-control" id="inputLastName" v-model="newUser.prezime" data-error="Polje ne sme biti prazno" required>
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label for="inputUsername" class="control-label">Korisničko ime</label>
-                    <input type="text" pattern="^[_A-z0-9]{1,}$" maxlength="15" class="form-control" id="inputUsername"  data-error="Polje ne sme biti prazno" required>
+                    <input type="text" autocomplete="new-username" pattern="^[_A-z0-9]{1,}$" maxlength="15" v-model="newUser.username" class="form-control" id="inputUsername"  data-error="Polje ne sme biti prazno" required>
                     <div class="help-block with-errors"></div>
                 </div>
 
@@ -33,7 +34,7 @@ Vue.component("register", {
                     <label for="inputPassword" class="control-label">Password</label>
                     <div class="form-inline row">
                     <div class="form-group col-sm-6">
-                        <input type="password" data-minlength="6" class="form-control" id="inputPassword" placeholder="Šifra" data-error="Polje ne sme biti prazno" required>
+                        <input type="password" autocomplete="new-password" data-minlength="6" v-model="newUser.password" class="form-control" id="inputPassword" placeholder="Šifra" data-error="Polje ne sme biti prazno" required>
                         <div class="help-block">Minimum 6 karaktera</div>
                     </div>
                     <div class="form-group col-sm-6">
@@ -50,7 +51,7 @@ Vue.component("register", {
                         <div class="form-group col-sm-4">
                             <div class="radio">
                             <label>
-                                <input type="radio" name="pol" required>
+                                <input type="radio" value="MUSKI" v-model="newUser.pol" name="pol" required>
                                 Muški
                             </label>
                             </div>
@@ -58,7 +59,7 @@ Vue.component("register", {
                         <div class="form-group col-sm-6">
                         <div class="radio">
                             <label>
-                                <input type="radio" name="pol" required>
+                                <input type="radio" value="ZENSKI" v-model="newUser.pol" name="pol" required>
                                 Ženski
                             </label>
                             </div>
@@ -68,9 +69,8 @@ Vue.component("register", {
 
                 <div class="form-group">
                     <label for="datePicker">Datum rođenja</label>
-                    <input type="date" id="datePicker" 
-                        min="1900-01-01" data-error="Polje ne sme biti prazno" required>
-                        <div class="help-block with-errors"></div>
+                    <vuejs-datepicker id="datePicker" data-error="Polje ne sme biti prazno"  v-model="newUser.datumRodjenja" format="dd.MM.yyyy" required></vuejs-datepicker> 
+                    <div class="help-block with-errors"></div>
                 </div>
 
 
@@ -84,13 +84,27 @@ Vue.component("register", {
 	,
 
 	methods: {
-        submitReg(){
+        async submitReg(){
             if ( $('#formRegister')[0].checkValidity() ) {
-                alert("Uspesna registracija")
                 $('#formRegister').submit(function (evt) {
                     evt.preventDefault();
-                    window.history.back();
                 });
+
+
+                await axios.post(`korisnici/registracija`,{
+                    ime: this.newUser.ime,
+                    prezime: this.newUser.prezime,
+                    username: this.newUser.username,
+                    password:this.newUser.password,
+                    pol: this.newUser.pol,
+                    datumRodjenja: this.newUser.datumRodjenja.getTime(),
+                    uloga: "KUPAC",
+                }).then(response=>{
+                    alert("Uspešna registracija!")
+                    window.history.back();
+                }).catch(err=>{
+                    alert("Došlo je do greške!")
+                })
             }
         },
 	},

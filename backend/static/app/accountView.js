@@ -75,13 +75,26 @@ Vue.component("account-view", {
 `
 	,
 	methods: {
-        saveChanges(){
+        async saveChanges(){
             if ( $('#formChange')[0].checkValidity() ) {
                 $('#formChange').submit(function (evt) {
                     evt.preventDefault();
                     
                 });
-                alert(this.user.datumRodjenja)
+                await axios.post(`korisnici/izmena`,{
+                    ime:this.user.ime,
+                    prezime:this.user.prezime,
+                    datumRodjenja:this.user.datumRodjenja.getTime(),
+                    password:this.user.password,
+                    username: window.localStorage.getItem("username"),
+                    pol: this.user.pol,
+                    uloga:this.userRole
+                }).then(response=>{
+                    alert("Izmene uspešno sačuvane!")
+                }).catch(err=>{
+                    alert("Došlo je do greške!")
+                })
+                    
             }
         },
 	},
