@@ -1,5 +1,6 @@
 package service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import domain.Karta;
@@ -103,6 +104,25 @@ public class ProdavacService {
 			
 		}
 		return rezultat;
+	}
+	
+	public boolean blokirajProdavca(String username) {
+		Prodavac p = prodavacRep.getOneByUsername(username);
+		if (p == null || p.isObrisan()) {
+			return false;
+		}
+		
+		ArrayList<String> manIds = p.getManifestacijeIds();
+		for (String string : manIds) {
+			Manifestacija m = manifestacijaRep.getOneById(string);
+			if (m != null && !m.isObrisana() && m.getDatumVremeOdrzavanja().isAfter(LocalDateTime.now())) {
+				return false;
+			}
+		}
+		
+		p.setBlokiran(true);
+		prodavacRep.save();
+		return true;
 	}
 
 }

@@ -140,6 +140,7 @@ public class KupacService {
 		}
 		if(pronadjen) {
 			kupac.setBlokiran(true);
+			kupacRep.save();
 			return true;
 		}
 		return false;
