@@ -1,6 +1,8 @@
 package controller;
 
+import static spark.Spark.delete;
 import static spark.Spark.post;
+import static spark.Spark.put;
 
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
@@ -8,6 +10,7 @@ import javax.json.bind.JsonbBuilder;
 import com.google.gson.Gson;
 
 import domain.Korisnik;
+import domain.Manifestacija;
 import enums.Uloga;
 import helperClasses.Kredencijali;
 import service.KorisnikService;
@@ -97,6 +100,28 @@ public class KorisnikController {
 			
 			res.status(400);
 			return "Pogresni podaci.";
+		});
+		
+		delete("/korisnici/:username", (req, res) -> {
+			
+			//provera tokena
+			
+			String username = req.params("username");
+			
+			Korisnik m = korisnikService.pretraziPoUsername(username);
+			if (m == null) {
+				res.status(400);
+				return null;
+			}
+			
+			boolean obrisano = korisnikService.obrisi(username);
+			if (obrisano == false) {
+				res.status(400);
+				return "Neuspesno brisanje.";
+			}
+			
+			res.status(200);
+			return "Uspeh";
 		});
 		
 	}

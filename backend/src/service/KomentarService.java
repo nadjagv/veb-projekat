@@ -133,5 +133,22 @@ public class KomentarService {
 		
 		return true;
 	}
+	
+	public boolean obrisiKomentar(String komId, String username) {
+		Kupac kupac = kupacRep.getOneByUsername(username);
+		if (kupac == null || kupac.isObrisan()) {
+			return false;
+		}
+		
+		Komentar komentar = komentarRep.getOneById(komId);
+		if (komentar == null || komentar.isObrisan() || !komentar.getStatus().equals(StatusKomentara.KREIRAN)) {
+			return false;
+		}
+		
+		komentar.setObrisan(true);
+		
+		return true;
+		
+	}
 
 }

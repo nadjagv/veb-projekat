@@ -1,5 +1,6 @@
 package controller;
 
+import static spark.Spark.delete;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
@@ -8,6 +9,7 @@ import javax.json.bind.JsonbBuilder;
 
 
 import domain.Komentar;
+import domain.Manifestacija;
 import helperClasses.CrudManifestacijaDTO;
 import service.KomentarService;
 
@@ -88,6 +90,28 @@ public class KomentarController {
 			}
 			res.status(400);
 			return "Greska.";
+		});
+		
+		delete("/komentari/:id/:username", (req, res) -> {
+			
+			//provera tokena
+			
+			String id = req.params("id");
+			String username = req.params("username");
+			Komentar m = komentarService.preuzmiPoId(id);
+			if (m == null) {
+				res.status(400);
+				return null;
+			}
+			
+			boolean obrisano = komentarService.obrisiKomentar(id, username);
+			if (obrisano == false) {
+				res.status(400);
+				return "Neuspesno brisanje.";
+			}
+			
+			res.status(200);
+			return "Uspeh";
 		});
 		
 		
