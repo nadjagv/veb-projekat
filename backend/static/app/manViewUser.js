@@ -140,9 +140,9 @@ Vue.component("man-view-user", {
 		</div>
 
       <div class="row-cols-3 justify-content-center">
-        <div class="col-lg-3" v-for="m in manifestacijeZaPrikaz" style="margin:20px">
-            <img class="img-circle" :src="'images/'+m.slikaPath" alt="Generic placeholder image" width="140" height="140">
-            <h2>{{m.naziv}}</h2>
+        <div class="col-lg-3"  v-for="m in manifestacijeZaPrikaz" style="margin:20px">
+            <img class="img-circle"  :src="'images/'+m.slikaPath" alt="Generic placeholder image" width="140" height="140">
+            <h2>{{m.naziv}}<span v-if="userRole==='PRODAVAC' && m.prodavacUsername===username" class="badge">MM</span></h2>
             <h3>{{m.tip}}</h3>
             <p>Lokacija: {{m.grad}}, {{m.drzava}}</p>
             <p >Datum: {{m.datumVremeOdrzavanja | dateFormat('HH:mm DD.MM.YYYY')}}</p>
@@ -210,12 +210,28 @@ Vue.component("man-view-user", {
 						</form>
 
 						<div v-for="komentar in komentari">
+							<div v-if="!((userRole==='PRODAVAC' && m.prodavacUsername!==username) && (komentar.status==='ODBIJEN' || komentar.status==='KREIRAN'))">
+								<p>{{komentar.kupacUsername}} 
+								<div v-if="((userRole==='PRODAVAC' && m.prodavacUsername===username) || userRole==='ADMINISTRATOR') && komentar.status==='ODBIJEN'">ODBIJEN</div>
+								<div v-if="((userRole==='PRODAVAC' && m.prodavacUsername===username)  || userRole==='ADMINISTRATOR') && komentar.status==='PRIHVACEN'">PRIHVAĆEN</div>
+								<div v-if="((userRole==='PRODAVAC' && m.prodavacUsername===username)  || userRole==='ADMINISTRATOR') && komentar.status==='KREIRAN'">KREIRAN</div>
+								</p>
+								<textarea v-model="komentar.tekst" rows="4" cols="50" readonly>
+								</textarea>
+								<p><div style="margin:auto;"><star-rating style="justify:center;" v-model="komentar.ocena" :increment="0.5" :read-only="true" :round-start-rating="false" :star-size="25"></star-rating></div></p>
+								<br/>
 
-							<p>{{komentar.kupacUsername}}</p>
-							<textarea v-model="komentar.tekst" rows="4" cols="50" readonly>
-							</textarea>
-							<p><div style="margin:auto;"><star-rating style="justify:center;" v-model="komentar.ocena" :increment="0.5" :read-only="true" :round-start-rating="false" :star-size="25"></star-rating></div></p>
-							<br/>
+								<div v-if="(userRole==='PRODAVAC' && m.prodavacUsername===username)  && komentar.status==='KREIRAN'">
+									<div class="row">
+
+										<button @click="prihvatiKomentar(komentar)" type="button" style="margin-left:10px" class="btn btn-success">Prihavti</button>
+										<button @click="odbijKomentar(komentar)" type="button" style="margin-left:10px" class="btn btn-danger">Odbij</button>
+
+									</div>
+								</div>
+
+								<br/>
+							</div>
 
 						</div>
 
@@ -459,6 +475,14 @@ Vue.component("man-view-user", {
 `
 	,
 	methods: {
+		async prihvatiKomentar(k){
+			k.status="PRIHVACEN"
+			await axios.post(`komentari/prihvati/`+k.id)
+		},
+		async odbijKomentar(k){
+			k.status="ODBIJEN"
+			await axios.post(`komentari/odbij/`+k.id)
+		},
 		pripremiEditModal(m){
 			var parsed = moment(m.datumVremeOdrzavanja);
 			this.editDatum= parsed.format('YYYY-MM-DD');

@@ -12,7 +12,7 @@
     "manifestacijaId" : "prosla1111",
     "tekst" : "Nita posebno.",
     "ocena" : 3.0,
-    "status" : "KREIRAN"
+    "status" : "PRIHVACEN"
   }, {
     "id" : "komentar03",
     "kupacUsername" : "maja",
@@ -26,6 +26,34 @@
     "manifestacijaId" : "prosla1111",
     "tekst" : "test",
     "ocena" : 3.5,
+    "status" : "ODBIJEN"
+  }, {
+    "id" : "komentar04",
+    "kupacUsername" : "maja",
+    "manifestacijaId" : "prosla2222",
+    "tekst" : "test",
+    "ocena" : 4.5,
+    "status" : "KREIRAN"
+  }, {
+    "id" : "komentar05",
+    "kupacUsername" : "marko",
+    "manifestacijaId" : "prosla2222",
+    "tekst" : "test",
+    "ocena" : 3.5,
+    "status" : "PRIHVACEN"
+  }, {
+    "id" : "komentar06",
+    "kupacUsername" : "maja",
+    "manifestacijaId" : "prosla2222",
+    "tekst" : "test",
+    "ocena" : 2.7,
+    "status" : "ODBIJEN"
+  }, {
+    "id" : "6Zu8Uk8huU",
+    "kupacUsername" : "maja",
+    "manifestacijaId" : "prosla1111",
+    "tekst" : "test test",
+    "ocena" : 4.0,
     "status" : "KREIRAN"
   } ]
 }
