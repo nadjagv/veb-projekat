@@ -28,18 +28,29 @@ public class KomentarService {
 	}
 	
 	public ArrayList<Komentar> preuzmiSve() {
-		return komentarRep.getKomentari();
-	}
-	
-	public Komentar preuzmiPoId(String id) {
-		return komentarRep.getOneById(id);
-	}
-	
-	public ArrayList<Komentar> preuzmiSveZaManifestaciju(String id){
 		ArrayList<Komentar> svi = komentarRep.getKomentari();
 		ArrayList<Komentar> rezultat = new ArrayList<Komentar>();
 		for (Komentar k : svi) {
-			if (k.getManifestacijaId().equalsIgnoreCase(id)) {
+			if (!k.isObrisan()) {
+				rezultat.add(k);
+			}
+		}
+		return rezultat;
+	}
+	
+	public Komentar preuzmiPoId(String id) {
+		Komentar k = komentarRep.getOneById(id);
+		if (k.isObrisan()) {
+			return null;
+		}
+		return k;
+	}
+	
+	public ArrayList<Komentar> preuzmiSveZaManifestaciju(String id){
+		ArrayList<Komentar> svi = preuzmiSve();
+		ArrayList<Komentar> rezultat = new ArrayList<Komentar>();
+		for (Komentar k : svi) {
+			if (k.getManifestacijaId().equalsIgnoreCase(id) && !k.isObrisan()) {
 				rezultat.add(k);
 			}
 		}
@@ -47,10 +58,10 @@ public class KomentarService {
 	}
 	
 	public ArrayList<Komentar> preuzmiPrihvaceneZaManifestaciju(String id){
-		ArrayList<Komentar> svi = komentarRep.getKomentari();
+		ArrayList<Komentar> svi = preuzmiSve();
 		ArrayList<Komentar> rezultat = new ArrayList<Komentar>();
 		for (Komentar k : svi) {
-			if (k.getManifestacijaId().equalsIgnoreCase(id) && k.getStatus().equals(StatusKomentara.PRIHVACEN)) {
+			if (k.getManifestacijaId().equalsIgnoreCase(id) && k.getStatus().equals(StatusKomentara.PRIHVACEN) && !k.isObrisan()) {
 				rezultat.add(k);
 			}
 		}
@@ -84,13 +95,13 @@ public class KomentarService {
 	
 	public boolean dozvoljenoKomentarisanje(Komentar kom) {
 		Kupac kupac = kupacRep.getOneByUsername(kom.getKupacUsername());
-		if (kupac == null)
+		if (kupac == null || kupac.isObrisan())
 			return false;
 		
 		ArrayList<String> karteIds = kupac.getKarteIds();
 		for (String string : karteIds) {
 			Karta karta = kartaRep.getOneById(string);
-			if (karta != null) {
+			if (karta != null && !karta.isObrisana()) {
 				if (karta.getDatumVremeOdrzavanja().isBefore(LocalDateTime.now()) 
 						&& karta.getStatus().equals(StatusKarte.REZERVISANA) 
 						&& karta.getManifestacijaId().equalsIgnoreCase(kom.getManifestacijaId())) {
@@ -103,7 +114,7 @@ public class KomentarService {
 	
 	public boolean prihvatiKomentar(String id) {
 		Komentar kom = komentarRep.getOneById(id);
-		if (kom == null)
+		if (kom == null || kom.isObrisan())
 			return false;
 		
 		kom.setStatus(StatusKomentara.PRIHVACEN);
@@ -114,7 +125,7 @@ public class KomentarService {
 	
 	public boolean odbijKomentar(String id) {
 		Komentar kom = komentarRep.getOneById(id);
-		if (kom == null)
+		if (kom == null || kom.isObrisan())
 			return false;
 		
 		kom.setStatus(StatusKomentara.ODBIJEN);

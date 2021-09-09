@@ -18,17 +18,15 @@ public class Karta {
 	private StatusKarte status;
 	private TipKarte tip;
 	private int brojKarata;
+	private boolean obrisana;
 
 	public Karta() {
 		
 	}
 
 
-	
-
-
 	public Karta(String id, String manifestacijaId, String nazivManifestacije, LocalDateTime datumVremeOdrzavanja,
-			double cena, String kupacUsername, StatusKarte status, TipKarte tip, int brojKarata) {
+			double cena, String kupacUsername, StatusKarte status, TipKarte tip, int brojKarata, boolean obrisana) {
 		super();
 		this.id = id;
 		this.manifestacijaId = manifestacijaId;
@@ -39,10 +37,8 @@ public class Karta {
 		this.status = status;
 		this.tip = tip;
 		this.brojKarata = brojKarata;
+		this.obrisana = obrisana;
 	}
-
-
-
 
 
 	public String getManifestacijaId() {
@@ -137,6 +133,16 @@ public class Karta {
 
 	public void setBrojKarata(int brojKarata) {
 		this.brojKarata = brojKarata;
+	}
+
+
+	public boolean isObrisana() {
+		return obrisana;
+	}
+
+
+	public void setObrisana(boolean obrisana) {
+		this.obrisana = obrisana;
 	}
 	
 	

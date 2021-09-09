@@ -9,15 +9,15 @@ public class Komentar {
 	private String tekst;
 	private double ocena;
 	private StatusKomentara status;
+	private boolean obrisan;
 
 	public Komentar() {
 		// TODO Auto-generated constructor stub
 	}
 
 
-
 	public Komentar(String id, String kupacUsername, String manifestacijaId, String tekst, double ocena,
-			StatusKomentara status) {
+			StatusKomentara status, boolean obrisan) {
 		super();
 		this.id = id;
 		this.kupacUsername = kupacUsername;
@@ -25,8 +25,8 @@ public class Komentar {
 		this.tekst = tekst;
 		this.ocena = ocena;
 		this.status = status;
+		this.obrisan = obrisan;
 	}
-
 
 
 	public StatusKomentara getStatus() {
@@ -85,6 +85,16 @@ public class Komentar {
 
 	public void setOcena(double ocena) {
 		this.ocena = ocena;
+	}
+
+
+	public boolean isObrisan() {
+		return obrisan;
+	}
+
+
+	public void setObrisan(boolean obrisan) {
+		this.obrisan = obrisan;
 	}
 	
 

@@ -1,48 +1,47 @@
-{"karte":
-	[
-	{
-	"id":"aaaaa11111",
-	"manifestacijaId":"mmmmm11111",
-	"datumVremeOdrzavanja":[2021,9,26,19,0,0,0],
-	"cena":3500.0,
-	"kupacUsername":"maja",
-	"status":"REZERVISANA",
-  "tip": "REGULAR",
-  "nazivManifestacije":"Veliki koncert",
-	"brojKarata":7
-	},
-	{
-	"id":"bilaa22222",
-	"manifestacijaId":"prosla1111",
-	"datumVremeOdrzavanja":[2021,8,25,19,0,0,0],
-	"cena":1500.0,
-	"kupacUsername":"maja",
-	"status":"REZERVISANA",
-  "tip": "REGULAR",
-  "nazivManifestacije":"Mali koncert",
-	"brojKarata":3
-	},
-	{
-	"id":"aaaaa22222",
-	"manifestacijaId":"mmmmm11111",
-	"datumVremeOdrzavanja":[2021,9,26,19,0,0,0],
-	"cena":10000.0,
-	"kupacUsername":"marko",
-	"status":"REZERVISANA",
-  "tip": "VIP",
-  "nazivManifestacije":"Veliki koncert",
-	"brojKarata":5
-	},
-	{
-	"id":"aaaaa33333",
-	"manifestacijaId":"ccccc1111",
-	"datumVremeOdrzavanja":[ 2021, 9, 23, 19, 0 ],
-	"cena":1200.0,
-	"kupacUsername":"marko",
-	"status":"ODUSTANAK",
-  "tip": "REGULAR",
-  "nazivManifestacije":"Umetnička izložba",
-	"brojKarata":4
-	}
-	]
+{
+  "karte" : [ {
+    "id" : "aaaaa11111",
+    "manifestacijaId" : "mmmmm11111",
+    "nazivManifestacije" : "Veliki koncert",
+    "datumVremeOdrzavanja" : [ 2021, 9, 26, 19, 0 ],
+    "cena" : 3500.0,
+    "kupacUsername" : "maja",
+    "status" : "REZERVISANA",
+    "tip" : "REGULAR",
+    "brojKarata" : 7,
+    "obrisana" : false
+  }, {
+    "id" : "bilaa22222",
+    "manifestacijaId" : "prosla1111",
+    "nazivManifestacije" : "Mali koncert",
+    "datumVremeOdrzavanja" : [ 2021, 8, 25, 19, 0 ],
+    "cena" : 1500.0,
+    "kupacUsername" : "maja",
+    "status" : "REZERVISANA",
+    "tip" : "REGULAR",
+    "brojKarata" : 3,
+    "obrisana" : false
+  }, {
+    "id" : "aaaaa22222",
+    "manifestacijaId" : "mmmmm11111",
+    "nazivManifestacije" : "Veliki koncert",
+    "datumVremeOdrzavanja" : [ 2021, 9, 26, 19, 0 ],
+    "cena" : 10000.0,
+    "kupacUsername" : "marko",
+    "status" : "REZERVISANA",
+    "tip" : "VIP",
+    "brojKarata" : 5,
+    "obrisana" : false
+  }, {
+    "id" : "aaaaa33333",
+    "manifestacijaId" : "ccccc1111",
+    "nazivManifestacije" : "Umetnička izložba",
+    "datumVremeOdrzavanja" : [ 2021, 9, 23, 19, 0 ],
+    "cena" : 1200.0,
+    "kupacUsername" : "marko",
+    "status" : "ODUSTANAK",
+    "tip" : "REGULAR",
+    "brojKarata" : 4,
+    "obrisana" : false
+  } ]
 }

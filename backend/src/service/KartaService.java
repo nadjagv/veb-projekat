@@ -32,11 +32,24 @@ public class KartaService {
 	}
 	
 	public ArrayList<Karta> preuzmiSve() {
-		return kartaRep.getKarte();
+		ArrayList<Karta> sve = kartaRep.getKarte();
+		ArrayList<Karta> rezultat = new ArrayList<Karta>();
+		
+		for (Karta karta : sve) {
+			if (!karta.isObrisana()) {
+				rezultat.add(karta);
+			}
+		}
+		
+		return rezultat;
 	}
 	
 	public Karta preuzmiPoId(String id) {
-		return kartaRep.getOneById(id);
+		Karta k = kartaRep.getOneById(id);
+		if (k.isObrisana()) {
+			return null;
+		}
+		return k;
 	}
 	
 	public ArrayList<Karta> preuzmiSveRezervisane() {
@@ -44,7 +57,7 @@ public class KartaService {
 		ArrayList<Karta> rezultat = new ArrayList<Karta>();
 		
 		for (Karta karta : sve) {
-			if (karta.getStatus().equals(StatusKarte.REZERVISANA)) {
+			if (karta.getStatus().equals(StatusKarte.REZERVISANA) && !karta.isObrisana()) {
 				rezultat.add(karta);
 			}
 		}
@@ -56,12 +69,12 @@ public class KartaService {
 		Karta nova = new Karta();
 		
 		Kupac k = kupacRep.getOneByUsername(karta.getKupacUsername());
-		if (k == null) {
+		if (k == null || k.isObrisan()) {
 			return false;
 		}
 		
 		Manifestacija m = manifestacijaRep.getOneById(karta.getManifestacijaId());
-		if (m == null || !m.isAktivna() || m.getSlobodnaMesta() < karta.getBrojKarata()) {
+		if (m == null || !m.isAktivna() || m.getSlobodnaMesta() < karta.getBrojKarata() || m.isObrisana()) {
 			return false;
 		}
 		
@@ -118,9 +131,14 @@ public class KartaService {
 		
 		if (karta.getDatumVremeOdrzavanja().minusDays(7).isBefore(LocalDateTime.now())) {
 			return false;
+		}else if (karta.isObrisana()) {
+			return false;
 		}
 		
 		Kupac kupac = kupacRep.getOneByUsername(karta.getKupacUsername());
+		if (kupac == null || kupac.isObrisan()) {
+			return false;
+		}
 		double izgubljeniBodovi = karta.getBrojKarata() * karta.getCena() / (1000*133*4);
 		
 		karta.setStatus(StatusKarte.ODUSTANAK);
@@ -140,6 +158,9 @@ public class KartaService {
 		}
 		
 		Manifestacija m = manifestacijaRep.getOneById(karta.getManifestacijaId());
+		if (m == null || m.isObrisana()) {
+			return false;
+		}
 		m.setSlobodnaMesta(m.getSlobodnaMesta() + karta.getBrojKarata());
 		
 		Otkazivanje o = new Otkazivanje(LocalDateTime.now(), kupac.getUsername());

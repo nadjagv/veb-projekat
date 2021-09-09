@@ -3,10 +3,14 @@ package service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import domain.Karta;
+import domain.Komentar;
 import domain.Lokacija;
 import domain.Manifestacija;
 import domain.Prodavac;
 import helperClasses.CrudManifestacijaDTO;
+import repositories.KartaRepository;
+import repositories.KomentarRepository;
 import repositories.ManifestacijaRepository;
 import repositories.ProdavacRepository;
 import utils.StringGenerator;
@@ -14,10 +18,14 @@ import utils.StringGenerator;
 public class ManifestacijaService {
 	ManifestacijaRepository manifestacijaRep;
 	ProdavacRepository prodavacRep;
+	KartaRepository kartaRep;
+	KomentarRepository komentarRep;
 
 	public ManifestacijaService() {
 		manifestacijaRep = ManifestacijaRepository.getInstance();
 		prodavacRep = ProdavacRepository.getInstance();
+		kartaRep = KartaRepository.getInstance();
+		komentarRep = KomentarRepository.getInstance();
 	}
 	
 	public ArrayList<Manifestacija> preuzmiSve() {
@@ -36,7 +44,11 @@ public ArrayList<Manifestacija> preuzmiSveNeobrisane() {
 	}
 	
 	public Manifestacija preuzmiPoId(String id) {
-		return manifestacijaRep.getOneById(id);
+		Manifestacija m = manifestacijaRep.getOneById(id);
+		if (m.isObrisana()) {
+			return null;
+		}
+		return m;
 	}
 	
 	public Manifestacija napraviManifestaciju(CrudManifestacijaDTO dto) {
@@ -87,7 +99,9 @@ public ArrayList<Manifestacija> preuzmiSveNeobrisane() {
 		manifestacijaRep.add(nova);
 		
 		Prodavac p = prodavacRep.getOneByUsername(dto.getProdavacUsername());
-		
+		if (p == null || p.isObrisan()) {
+			return null;
+		}
 		p.getManifestacijeIds().add(nova.getId());
 		
 		return nova;
@@ -95,7 +109,7 @@ public ArrayList<Manifestacija> preuzmiSveNeobrisane() {
 	
 	public Manifestacija izmeniManifestaciju(CrudManifestacijaDTO dto) {
 		Manifestacija m = manifestacijaRep.getOneById(dto.getId());
-		if (m == null) {
+		if (m == null || m.isObrisana()) {
 			return null;
 		}
 		
@@ -142,13 +156,28 @@ public ArrayList<Manifestacija> preuzmiSveNeobrisane() {
 	}
 	
 	public boolean obrisiManifestaciju(String id) {
-		//proveriti uslove brisanja
 		
 		Manifestacija m = manifestacijaRep.getOneById(id);
-		if (m == null) {
+		if (m == null || m.isObrisana()) {
 			return false;
 		}
 		m.setObrisana(true);
+		
+		ArrayList<Karta> karte = kartaRep.getKarte();
+		for (Karta karta : karte) {
+			if (karta.getManifestacijaId().equals(id)) {
+				karta.setObrisana(true);
+			}
+		}
+		kartaRep.save();
+		
+		ArrayList<Komentar> komentari = komentarRep.getKomentari();
+		for (Komentar komentar : komentari) {
+			if (komentar.getManifestacijaId().equals(id)) {
+				komentar.setObrisan(true);
+			}
+		}
+		komentarRep.save();
 		
 		manifestacijaRep.save();
 		return true;
@@ -183,12 +212,12 @@ public ArrayList<Manifestacija> preuzmiSveNeobrisane() {
 	
 	public boolean aktivirajManifestaciju(String id) {
 		Manifestacija m = manifestacijaRep.getOneById(id);
-		if (!m.isObrisana()) {
-			m.setAktivna(true);
-			manifestacijaRep.save();
-			return true;
+		if (m == null || m.isObrisana()) {
+			return false;
 		}
-		return false;
+		m.setAktivna(true);
+		manifestacijaRep.save();
+		return true;
 		
 	}
 
