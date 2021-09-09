@@ -40,7 +40,7 @@ public class KupacRepository {
 	
 	public Kupac getOneByUsername(String username) {
 		return kupci.stream()
-				.filter(kupac -> kupac.getUsername().contentEquals(username))
+				.filter(kupac -> kupac.getUsername().equals(username))
 				.findAny()
 				.orElse(null);
 	}

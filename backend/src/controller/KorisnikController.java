@@ -61,7 +61,7 @@ public class KorisnikController {
 			String payload = req.body();
 			Korisnik k = jsonb.fromJson(payload, Korisnik.class);
 			
-			Korisnik pronadjen = korisnikService.pretraziPoUsername(req.params("username"));
+			Korisnik pronadjen = korisnikService.pretraziPoUsername(k.getUsername());
 			if (pronadjen != null) {
 				res.status(400);
 				return "Username zauzet.";

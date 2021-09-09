@@ -7,6 +7,7 @@ import domain.Karta;
 import domain.Korisnik;
 import domain.Kupac;
 import domain.Manifestacija;
+import domain.Prodavac;
 import enums.StatusKarte;
 import repositories.KartaRepository;
 import repositories.KupacRepository;
@@ -25,11 +26,22 @@ public class KupacService {
 	}
 	
 	public ArrayList<Kupac> preuzmiSve() {
-		return kupacRep.getKupci();
+		ArrayList<Kupac> svi = kupacRep.getKupci();
+		ArrayList<Kupac> rezultat = new ArrayList<Kupac>();
+		for (Kupac kupac : svi) {
+			if (!kupac.isObrisan()) {
+				rezultat.add(kupac);
+			}
+		}
+		return rezultat;
 	}
 	
 	public Kupac preuzmiPoUsername(String username) {
-		return kupacRep.getOneByUsername(username);
+		Kupac p = kupacRep.getOneByUsername(username);
+		if (p == null || p.isObrisan()) {
+			return null;
+		}
+		return p;
 	}
 	
 	public Kupac registruj(Korisnik k) {

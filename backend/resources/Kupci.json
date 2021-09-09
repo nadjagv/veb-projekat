@@ -1,36 +1,33 @@
-{ "kupci":
-	[
-	{
-		"username" : "maja",
-		"password" : "maja",
-		"ime" : "Maja",
-		"prezime" : "Majić",
-		"pol" : "ZENSKI",
-		"datumRodjenja" : "1999-12-04",
-		"uloga": "KUPAC",
-		"obrisan": false,
-		"blokiran": false,
-		"brojBodova" : 200.0,
-		"tip" : "BRONZANI",
-		"karteIds" : 
-			[
-			"aaaaa11111", "bilaa22222"
-			]
-	},
-	{
-		"username" : "marko",
-		"password" : "marko",
-		"ime" : "Marko",
-		"prezime" : "Markov",
-		"pol" : "MUSKI",
-		"datumRodjenja" : "2000-11-02",
-		"uloga": "KUPAC",
-		"brojBodova" : 200.0,
-		"tip" : "BRONZANI",
-		"karteIds" : 
-			[
-			"aaaaa22222"
-			]
-	}
-	]
+{
+  "kupci" : [ {
+    "username" : "maja",
+    "password" : "maja",
+    "ime" : "Maja",
+    "prezime" : "Majić",
+    "pol" : "ZENSKI",
+    "datumRodjenja" : [ 1999, 12, 4 ],
+    "uloga" : "KUPAC",
+    "obrisan" : false,
+    "karteIds" : [ "aaaaa11111", "bilaa22222" ],
+    "otkazivanja" : null,
+    "brojBodova" : 200.0,
+    "tip" : "BRONZANI",
+    "blokiran" : false,
+    "jwttoken" : null
+  }, {
+    "username" : "marko",
+    "password" : "marko",
+    "ime" : "Marko",
+    "prezime" : "Markov",
+    "pol" : "MUSKI",
+    "datumRodjenja" : [ 2000, 11, 2 ],
+    "uloga" : "KUPAC",
+    "obrisan" : false,
+    "karteIds" : [ "aaaaa22222" ],
+    "otkazivanja" : null,
+    "brojBodova" : 200.0,
+    "tip" : "BRONZANI",
+    "blokiran" : false,
+    "jwttoken" : null
+  } ]
 }

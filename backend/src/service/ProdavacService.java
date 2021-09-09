@@ -28,11 +28,22 @@ public class ProdavacService {
 	}
 	
 	public ArrayList<Prodavac> preuzmiSve() {
-		return prodavacRep.getProdavci();
+		ArrayList<Prodavac> svi = prodavacRep.getProdavci();
+		ArrayList<Prodavac> rezultat = new ArrayList<Prodavac>();
+		for (Prodavac prodavac : svi) {
+			if (!prodavac.isObrisan()) {
+				rezultat.add(prodavac);
+			}
+		}
+		return rezultat;
 	}
 	
 	public Prodavac preuzmiPoUsername(String username) {
-		return prodavacRep.getOneByUsername(username);
+		Prodavac p = prodavacRep.getOneByUsername(username);
+		if (p == null || p.isObrisan()) {
+			return null;
+		}
+		return p;
 	}
 	
 	public Prodavac registruj(Korisnik k) {
@@ -44,10 +55,15 @@ public class ProdavacService {
 	public ArrayList<Manifestacija> preuzmiManifestacijeProdavca(String username){
 		Prodavac p = prodavacRep.getOneByUsername(username);
 		ArrayList<String> manId = p.getManifestacijeIds();
+
 		ArrayList<Manifestacija> rezultat = new ArrayList<Manifestacija>();
-		manId.stream().forEach(m -> {
-			rezultat.add(manifestacijaRep.getOneById(m));
-		});
+		for (String string : manId) {
+			Manifestacija m = manifestacijaRep.getOneById(string);
+			if (m != null && !m.isObrisana()) {
+				rezultat.add(m);
+			}
+			
+		}
 		return rezultat;
 	}
 	
