@@ -3,10 +3,13 @@ package service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import javax.swing.text.StyledEditorKit.BoldAction;
+
 import domain.Karta;
 import domain.Korisnik;
 import domain.Kupac;
 import domain.Manifestacija;
+import domain.Otkazivanje;
 import domain.Prodavac;
 import enums.StatusKarte;
 import repositories.KartaRepository;
@@ -93,6 +96,53 @@ public class KupacService {
 			rezultat.add(manifestacijaRep.getOneById(k.getManifestacijaId()));
 		}
 		return rezultat;
+	}
+	
+	public ArrayList<Kupac> preuzmiSumnjiveKupce(){
+		ArrayList<Kupac> svi = preuzmiSve();
+		ArrayList<Kupac> sumnjivi = new ArrayList<Kupac>();
+		for (Kupac kupac : svi) {
+			ArrayList<Otkazivanje> otkazivanja = kupac.getOtkazivanja();
+			if (otkazivanja == null || otkazivanja.size() <= 5) {
+				continue;
+			}
+			
+			int brojac = 0;
+			for (Otkazivanje o : otkazivanja) {
+				
+				if (o.getDatum().isAfter(LocalDateTime.now().minusMonths(1))) {
+					brojac++;
+				}
+			}
+			
+			if (brojac > 5) {
+				sumnjivi.add(kupac);
+			}
+		}
+		
+		return sumnjivi;
+		
+	}
+	
+	public boolean blokirajKupca(String username) {
+		Kupac kupac = kupacRep.getOneByUsername(username);
+		if (kupac == null || kupac.isObrisan()) {
+			return false;
+		}
+		
+		ArrayList<Kupac> sumnjivi = preuzmiSumnjiveKupce();
+		boolean pronadjen = false;
+		for (Kupac s : sumnjivi) {
+			if (s.getUsername().equals(username) && !s.isObrisan()) {
+				pronadjen = true;
+				break;
+			}
+		}
+		if(pronadjen) {
+			kupac.setBlokiran(true);
+			return true;
+		}
+		return false;
 	}
 
 }

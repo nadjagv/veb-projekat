@@ -5,8 +5,12 @@ import java.time.LocalDateTime;
 import javax.json.bind.annotation.JsonbDateFormat;
 
 public class Otkazivanje {
+	@JsonbDateFormat(JsonbDateFormat.TIME_IN_MILLIS)
 	LocalDateTime datum;
 	String kupacUsername;
+	
+	public Otkazivanje() {
+	}
 	
 	public Otkazivanje(LocalDateTime datum, String kupacUsername) {
 		super();

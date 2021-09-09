@@ -1,26 +1,44 @@
 {
-  "kupci" : [ {
-    "username" : "maja",
-    "password" : "maja",
-    "ime" : "Maja",
-    "prezime" : "Majić",
-    "pol" : "ZENSKI",
-    "datumRodjenja" : [ 1999, 12, 4 ],
-    "uloga" : "KUPAC",
-    "obrisan" : false,
-    "karteIds" : [ "aaaaa11111", "bilaa22222" ],
-    "otkazivanja" : null,
-    "brojBodova" : 200.0,
-    "tip" : "BRONZANI",
-    "blokiran" : false,
-    "jwttoken" : null
-  }, {
-    "username" : "marko",
-    "password" : "marko",
-    "ime" : "Marko",
-    "prezime" : "Markov",
+  "kupci": [
+    {
+      "username": "maja",
+      "password": "maja",
+      "ime": "Maja",
+      "prezime": "Majić",
+      "pol": "ZENSKI",
+      "datumRodjenja": [ 1999, 12, 4 ],
+      "uloga": "KUPAC",
+      "obrisan": false,
+      "karteIds": [ "aaaaa11111", "bilaa22222" ],
+      "otkazivanja": null,
+      "brojBodova": 200.0,
+      "tip": "BRONZANI",
+      "blokiran": false,
+      "jwttoken": null
+    },
+    {
+      "username": "marko",
+      "password": "marko",
+      "ime": "Marko",
+      "prezime": "Markov",
+      "pol": "MUSKI",
+      "datumRodjenja": [ 2000, 11, 2 ],
+      "uloga": "KUPAC",
+      "obrisan": false,
+      "karteIds": [ "aaaaa22222" ],
+      "otkazivanja": null,
+      "brojBodova": 200.0,
+      "tip": "BRONZANI",
+      "blokiran": false,
+      "jwttoken": null
+    },
+  {
+    "username" : "sumnjivko",
+    "password" : "sumnjivko",
+    "ime" : "Sumnjivko",
+    "prezime" : "Sumnjic",
     "pol" : "MUSKI",
-    "datumRodjenja" : [ 2000, 11, 2 ],
+    "datumRodjenja" : [ 2000, 1, 2 ],
     "uloga" : "KUPAC",
     "obrisan" : false,
     "karteIds" : [ "aaaaa22222" ],
@@ -28,6 +46,32 @@
     "brojBodova" : 200.0,
     "tip" : "BRONZANI",
     "blokiran" : false,
-    "jwttoken" : null
+    "jwttoken": null,
+    "otkazivanja": [
+      {
+        "datum": [ 2021, 9, 7 , 19, 0],
+        "kupacUsername": "sumnjivko"
+      },
+      {
+        "datum": [ 2021, 9, 7, 19, 0 ],
+        "kupacUsername": "sumnjivko"
+      },
+      {
+        "datum": [ 2021, 9, 7, 19, 0 ],
+        "kupacUsername": "sumnjivko"
+      },
+      {
+        "datum": [ 2021, 9, 7, 19, 0 ],
+        "kupacUsername": "sumnjivko"
+      },
+      {
+        "datum": [ 2021, 9, 7, 19, 0 ],
+        "kupacUsername": "sumnjivko"
+      },
+       {
+        "datum": [ 2021, 9, 7, 19, 0 ],
+        "kupacUsername": "sumnjivko"
+      }
+    ]
   } ]
 }

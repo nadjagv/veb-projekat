@@ -56,6 +56,20 @@ public class KorisnikService {
 		Korisnik korisnik = pretraziPoUsername(kred.getUsername());
 		if (korisnik == null || korisnik.isObrisan())
 			return null;
+		
+		if (korisnik.getUloga().equals(Uloga.PRODAVAC)) {
+			Prodavac p = (Prodavac) korisnik;
+			if (p.isBlokiran()) {
+				return null;
+			}
+		}else if (korisnik.getUloga().equals(Uloga.KUPAC)) {
+			Kupac k = (Kupac) korisnik;
+			if (k.isBlokiran()) {
+				return null;
+			}
+		}
+		
+		
 		if (korisnik.getPassword().equals(kred.getPassword())) {
 			TokenUtils.napraviToken(korisnik);
 			return korisnik;
