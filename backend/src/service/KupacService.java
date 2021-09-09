@@ -56,6 +56,24 @@ public class KupacService {
 		return rezultat;
 	}
 	
+	public ArrayList<Karta> preuzmiSveKarteKupca(String username) {
+		ArrayList<Karta> rezultat = new ArrayList<Karta>();
+		Kupac k = kupacRep.getOneByUsername(username);
+		if (k == null || k.isObrisan()) {
+			return null;
+		}
+		
+		ArrayList<String> karteIds = k.getKarteIds();
+		for (String id : karteIds) {
+			Karta karta = kartaRep.getOneById(id);
+			
+			rezultat.add(karta);
+				
+		}
+		
+		return rezultat;
+	}
+	
 	public ArrayList<Manifestacija> preuzmiManifestacijeKupca(String username){
 		ArrayList<Karta> karte = preuzmiRezervisaneKarteKupca(username);
 		ArrayList<Manifestacija> rezultat = new ArrayList<Manifestacija>();

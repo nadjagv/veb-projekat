@@ -24,6 +24,7 @@ public class ProdavacService {
 		prodavacRep = ProdavacRepository.getInstance();
 		manifestacijaRep = ManifestacijaRepository.getInstance();
 		kartaRep = KartaRepository.getInstance();
+		kupacRep = KupacRepository.getInstance();
 	}
 	
 	public ArrayList<Prodavac> preuzmiSve() {
