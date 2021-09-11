@@ -5,15 +5,26 @@ import static spark.Spark.post;
 import static spark.Spark.put;
 import static spark.Spark.delete;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
+import javax.imageio.ImageIO;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.http.Part;
 
 import com.google.gson.Gson;
 
 import domain.Manifestacija;
 import helperClasses.CrudManifestacijaDTO;
+import repositories.ManifestacijaRepository;
 import service.ManifestacijaService;
 
 public class ManifestacijaController {
@@ -46,7 +57,7 @@ public class ManifestacijaController {
 			CrudManifestacijaDTO dto = jsonb.fromJson(payload, CrudManifestacijaDTO.class);
 			
 			//provera tokena
-			if (dto.getNaziv() == null || dto.getDatumVremeOdrzavanja() == null || dto.getBrojMesta() == 0 || dto.getCenaRegular() == 0 || dto.getTip() == null || dto.getSlikaPath()==null) {
+			if (dto.getNaziv() == null || dto.getDatumVremeOdrzavanja() == null || dto.getBrojMesta() == 0 || dto.getCenaRegular() == 0 || dto.getTip() == null) {
 				res.status(400);
 				return "Nedostaju podaci.";
 			}else if (dto.getBrojMesta() <= 0 || dto.getCenaRegular() <= 0){
@@ -81,7 +92,7 @@ public class ManifestacijaController {
 				return null;
 			}
 			
-			if (dto.getNaziv() == null || dto.getDatumVremeOdrzavanja()== null || dto.getBrojMesta() == 0 || dto.getCenaRegular() == 0 || dto.getTip() == null || dto.getSlikaPath()==null) {
+			if (dto.getNaziv() == null || dto.getDatumVremeOdrzavanja()== null || dto.getBrojMesta() == 0 || dto.getCenaRegular() == 0 || dto.getTip() == null) {
 				res.status(400);
 				return null;
 			}else if (dto.getBrojMesta() <= 0 || dto.getCenaRegular() <= 0){
@@ -150,6 +161,47 @@ public class ManifestacijaController {
 			res.status(400);
 			return "Neuspesno aktiviranje.";
 		});
+		
+		
+		put("/manifestacije/slika/:id", (req, res) -> {
+
+			res.type( "multipart/form-data");
+			String location = "image";          // the directory location where files will be stored
+			long maxFileSize = 100000000;       // the maximum size allowed for uploaded files
+			long maxRequestSize = 100000000;    // the maximum size allowed for multipart/form-data requests
+			int fileSizeThreshold = 1024;       // the size threshold after which files will be written to disk
+			String manifestacijaId = req.params("id");
+			
+			
+			MultipartConfigElement multipartConfigElement = new MultipartConfigElement(
+			     location, maxFileSize, maxRequestSize, fileSizeThreshold);
+			 req.raw().setAttribute("org.eclipse.jetty.multipartConfig",
+			     multipartConfigElement);
+			 
+			String fName = req.raw().getPart("file").getSubmittedFileName();
+			String[] tokeni = fName.split("\\.");
+			String ext = tokeni[1];
+			
+			String filename = manifestacijaId + "." + ext;
+
+			Part uploadedFile = req.raw().getPart("file");
+			Path out = Paths.get("static/images/" + filename);
+			try (final InputStream in = uploadedFile.getInputStream()) {
+			   Files.copy(in, out);
+			   uploadedFile.delete();
+			}
+			
+			Manifestacija m = manService.preuzmiPoId(manifestacijaId);
+			if (m == null) {
+				res.status(400);
+				return "Neuspesno uploadovanje.";
+			}
+			
+			manService.promeniSliku(manifestacijaId, filename);
+			
+
+			return "OK";
+			});
 		
 	}
 

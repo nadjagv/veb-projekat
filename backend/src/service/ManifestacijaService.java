@@ -52,7 +52,7 @@ public ArrayList<Manifestacija> preuzmiSveNeobrisane() {
 	}
 	
 	public Manifestacija napraviManifestaciju(CrudManifestacijaDTO dto) {
-		if (dto.getNaziv() == null || dto.getDatumVremeOdrzavanja() == null || dto.getBrojMesta() == 0 || dto.getCenaRegular() == 0 || dto.getTip() == null || dto.getSlikaPath()==null) {
+		if (dto.getNaziv() == null || dto.getDatumVremeOdrzavanja() == null || dto.getBrojMesta() == 0 || dto.getCenaRegular() == 0 || dto.getTip() == null) {
 			return null;
 		}else if (dto.getBrojMesta() <= 0 || dto.getCenaRegular() <= 0){
 			return null;
@@ -71,8 +71,6 @@ public ArrayList<Manifestacija> preuzmiSveNeobrisane() {
 		nova.setBrojMesta(dto.getBrojMesta());
 		nova.setCenaRegular(dto.getCenaRegular());
 		nova.setTip(dto.getTip());
-		
-		nova.setSlikaPath(dto.getSlikaPath());
 		
 		Lokacija l = new Lokacija();
 		l.setDrzava(dto.getDrzava());
@@ -115,7 +113,7 @@ public ArrayList<Manifestacija> preuzmiSveNeobrisane() {
 			return null;
 		}
 		
-		if (dto.getNaziv() == null || dto.getDatumVremeOdrzavanja() == null || dto.getBrojMesta() == 0 || dto.getCenaRegular() == 0 || dto.getTip() == null || dto.getSlikaPath()==null) {
+		if (dto.getNaziv() == null || dto.getDatumVremeOdrzavanja() == null || dto.getBrojMesta() == 0 || dto.getCenaRegular() == 0 || dto.getTip() == null) {
 			return null;
 		}else if (dto.getBrojMesta() <= 0 || dto.getCenaRegular() <= 0){
 			return null;
@@ -141,7 +139,6 @@ public ArrayList<Manifestacija> preuzmiSveNeobrisane() {
 		m.setCenaRegular(dto.getCenaRegular());
 		m.setTip(dto.getTip());
 		
-		m.setSlikaPath(dto.getSlikaPath());
 		
 		Lokacija l = new Lokacija();
 		l.setDrzava(dto.getDrzava());
@@ -224,5 +221,20 @@ public ArrayList<Manifestacija> preuzmiSveNeobrisane() {
 		return true;
 		
 	}
+	
+	public boolean promeniSliku(String id, String filename) {
+		Manifestacija m = manifestacijaRep.getOneById(id);
+		if (m == null || m.isObrisana()) {
+			return false;
+		}
+		m.setSlikaPath(filename);
+		manifestacijaRep.save();
+		return true;
+		
+	}
+	
+	
+	
+	
 
 }
