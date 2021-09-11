@@ -22,6 +22,8 @@ public class CrudManifestacijaDTO {
 	private int brojMesta;
 	private String slikaPath;  
 	private String prodavacUsername;
+	private double geoDuzina;
+	private double geoSirina;
 	
 
 	public CrudManifestacijaDTO() {
@@ -31,7 +33,7 @@ public class CrudManifestacijaDTO {
 
 	public CrudManifestacijaDTO(String naziv, String grad, String drzava, String postanskiBroj, String ulica,
 			String kucniBroj, TipManifestacije tip, LocalDateTime datumVremeOdrzavanja, double cenaRegular, int brojMesta,
-			String slikaPath, String prodavacUsername) {
+			String slikaPath, String prodavacUsername, double geoDuzina, double geoSirina) {
 		super();
 		this.naziv = naziv;
 		this.grad = grad;
@@ -44,11 +46,14 @@ public class CrudManifestacijaDTO {
 		this.cenaRegular = cenaRegular;
 		this.brojMesta = brojMesta;
 		this.slikaPath = slikaPath;
+		this.geoDuzina = geoDuzina;
+		this.geoSirina = geoSirina;
 	}
 
 
 	public CrudManifestacijaDTO(String id, String naziv, String grad, String drzava, String postanskiBroj, String ulica,
-			String kucniBroj, TipManifestacije tip, LocalDateTime datumVremeOdrzavanja, double cenaRegular, int brojMesta, String slikaPath, String prodavacUsername) {
+			String kucniBroj, TipManifestacije tip, LocalDateTime datumVremeOdrzavanja, double cenaRegular, int brojMesta,
+			String slikaPath, String prodavacUsername, double geoDuzina, double geoSirina) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
@@ -195,6 +200,26 @@ public class CrudManifestacijaDTO {
 
 	public void setCenaRegular(double cenaRegular) {
 		this.cenaRegular = cenaRegular;
+	}
+
+
+	public double getGeoDuzina() {
+		return geoDuzina;
+	}
+
+
+	public void setGeoDuzina(double geoDuzina) {
+		this.geoDuzina = geoDuzina;
+	}
+
+
+	public double getGeoSirina() {
+		return geoSirina;
+	}
+
+
+	public void setGeoSirina(double geoSirina) {
+		this.geoSirina = geoSirina;
 	}
 
 

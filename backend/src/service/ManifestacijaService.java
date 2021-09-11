@@ -80,6 +80,8 @@ public ArrayList<Manifestacija> preuzmiSveNeobrisane() {
 		l.setUlica(dto.getUlica());
 		l.setPostanskiBroj(dto.getPostanskiBroj());
 		l.setKucniBroj(dto.getKucniBroj());
+		l.setGeoDuzina(dto.getGeoDuzina());
+		l.setGeoSirina(dto.getGeoSirina());
 		
 		nova.setLokacija(l);
 		
@@ -147,6 +149,8 @@ public ArrayList<Manifestacija> preuzmiSveNeobrisane() {
 		l.setUlica(dto.getUlica());
 		l.setPostanskiBroj(dto.getPostanskiBroj());
 		l.setKucniBroj(dto.getKucniBroj());
+		l.setGeoDuzina(dto.getGeoDuzina());
+		l.setGeoSirina(dto.getGeoSirina());
 		
 		m.setLokacija(l);
 		
