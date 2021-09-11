@@ -197,10 +197,17 @@ Vue.component("man-view-user", {
 								<p v-if="m.aktivna">Status: Aktivno <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></p>
 								<p>Lokacija: {{m.grad}}, {{m.drzava}}</p>
 								<p><div style="margin:auto;"><star-rating style="justify:center;" v-model="m.ocena" v-if="manProsla(m)" :increment="0.5" :read-only="true" :round-start-rating="false" :star-size="25"></star-rating></div></p>
+								
 							</div>
+
+							
 							
 						</div>
 						</div>
+
+						<google-map :center="{lat: m.geoSirina, lng: m.geoDuzina}" :zoom="16" style="width: 100%; height: 300px">
+							<google-marker :position="{lat: m.geoSirina, lng: m.geoDuzina}" ></google-marker>
+						</google-map>
 
 						<br/>
 						<br/>
@@ -277,7 +284,25 @@ Vue.component("man-view-user", {
 
 						<div class="form-group">
 							<label :for="'inputDrzava'+m.id" class="control-label">Država</label>
-							<input type="text" v-model="m.drzava" pattern="^[_A-z0-9]{1,}$" maxlength="15" class="form-control" :id="'inputDrzava'+m.id"  data-error="Polje ne sme biti prazno" required>
+							<input type="text" v-model="m.drzava" class="form-control" :id="'inputDrzava'+m.id"  data-error="Polje ne sme biti prazno" required>
+							<div class="help-block with-errors"></div>
+						</div>
+
+						<div class="form-group">
+							<label :for="'inputUlica'+m.id" class="control-label">Ulica</label>
+							<input type="text" v-model="m.ulica"  class="form-control" :id="'inputUlica'+m.id"  data-error="Polje ne sme biti prazno" required>
+							<div class="help-block with-errors"></div>
+						</div>
+
+						<div class="form-group">
+							<label :for="'inputKBroj'+m.id" class="control-label">Kućni broj</label>
+							<input type="text" v-model="m.kucniBroj" class="form-control" :id="'inputKBroj'+m.id"  data-error="Polje ne sme biti prazno" required>
+							<div class="help-block with-errors"></div>
+						</div>
+
+						<div class="form-group">
+							<label :for="'inputPBroj'+m.id" class="control-label">Poštanski broj</label>
+							<input type="text" v-model="m.postanskiBroj"  class="form-control" :id="'inputPBroj'+m.id"  data-error="Polje ne sme biti prazno" required>
 							<div class="help-block with-errors"></div>
 						</div>
 
@@ -313,6 +338,12 @@ Vue.component("man-view-user", {
 						<div class="form-group">
 							<label :for="'inputMesta'+m.id" class="control-label">Broj mesta</label>
 							<input type="number" min="10" v-model="m.brojMesta" max="50000" maxlength="15" class="form-control" :id="'inputMesta'+m.id"  data-error="Polje ne sme biti prazno" required>
+							<div class="help-block with-errors"></div>
+						</div>
+
+						<div class="form-group">
+							<label :for="'inputSlika'+m.id" class="control-label">Slika</label>
+							<input type="file" accept="image/*" @change="uploadImage($event,m)" class="form-control" id="'inputSlika'+m.id">
 							<div class="help-block with-errors"></div>
 						</div>
 
@@ -419,7 +450,25 @@ Vue.component("man-view-user", {
 
 								<div class="form-group">
 									<label for="inputDrzavaAdd" class="control-label">Država</label>
-									<input type="text" v-model="novaManifestacija.drzava" pattern="^[_A-z0-9]{1,}$" maxlength="15" class="form-control" id="inputDrzavaAdd"  data-error="Polje ne sme biti prazno" required>
+									<input type="text" v-model="novaManifestacija.drzava"   class="form-control" id="inputDrzavaAdd"  data-error="Polje ne sme biti prazno" required>
+									<div class="help-block with-errors"></div>
+								</div>
+
+								<div class="form-group">
+									<label for="inputUlicaAdd" class="control-label">Ulica</label>
+									<input type="text" v-model="novaManifestacija.ulica"  class="form-control" id="inputUlicaAdd"  data-error="Polje ne sme biti prazno" required>
+									<div class="help-block with-errors"></div>
+								</div>
+
+								<div class="form-group">
+									<label for="inputKBrojAdd" class="control-label">Kućni broj</label>
+									<input type="text" v-model="novaManifestacija.kucniBroj" class="form-control" id="inputKBrojAdd"  data-error="Polje ne sme biti prazno" required>
+									<div class="help-block with-errors"></div>
+								</div>
+
+								<div class="form-group">
+									<label for="inputPBrojAdd" class="control-label">Poštanski broj</label>
+									<input type="text" v-model="novaManifestacija.postanskiBroj"  class="form-control" id="inputPBrojAdd"  data-error="Polje ne sme biti prazno" required>
 									<div class="help-block with-errors"></div>
 								</div>
 
@@ -457,7 +506,6 @@ Vue.component("man-view-user", {
 									<input type="number" min="10" v-model="novaManifestacija.brojMesta" max="50000" maxlength="15" class="form-control" id="inputMestaAdd"  data-error="Polje ne sme biti prazno" required>
 									<div class="help-block with-errors"></div>
 								</div>
-
 
 								<button class="btn btn-lg btn-primary" style="margin:20px" type="submit" @click="submitMan()">Dodaj manifestaciju</button>
 							</form>
@@ -536,6 +584,28 @@ Vue.component("man-view-user", {
 		openModal(){
 			$('#modal1').modal();
 		},
+		uploadImage(event,m) {
+		
+			let data = new FormData();
+			data.append('name', m.naziv+"_slika");
+			data.append('file', event.target.files[0]); 
+		
+			let config = {
+			  header : {
+				'Content-Type' : 'image/png'
+			  }
+			}
+		
+			axios.put(
+			  `manifestacije/slika/`+m.id, 
+			  data,
+			  config
+			).then(
+			  response => {
+				console.log('image upload response > ', response)
+			  }
+			)
+		  },
 		async submitIzmene(m){
 			//TO DO poslati izmene na backend
 			if ( $('#formEdit'+m.id)[0].checkValidity() ) {
@@ -546,9 +616,13 @@ Vue.component("man-view-user", {
 					
 				});
 
-				m.postanskiBroj=""
-				m.ulica=""
-				m.kucniBroj=""
+				await axios.get("https://maps.google.com/maps/api/geocode/json?address=" + m.drzava+" "+m.grad+" "+m.ulica+ " "+ m.kucniBroj+" "+m.postanskiBroj + "&sensor=false&key=AIzaSyDs1wPwu4XZNfH5ttEj7md96W0nWJn0RGU").then(response=>{
+					console.log(response.data)	
+					m.geoDuzina=response.data.results[0].geometry.location.lng
+					m.geoSirina=response.data.results[0].geometry.location.lat
+				})
+
+				console.log(m)
 
 				await axios.put(`/manifestacije`,m).then(response=>{
 					alert("Izmene uspešno sačuvane!")
@@ -596,9 +670,6 @@ Vue.component("man-view-user", {
 				this.novaManifestacija.aktivna=false
 				this.novaManifestacija.prodavacUsername=this.username
 				this.novaManifestacija.slikaPath=""
-				this.novaManifestacija.postanskiBroj=""
-				this.novaManifestacija.ulica=""
-				this.novaManifestacija.kucniBroj=""
 				this.novaManifestacija.datumVremeOdrzavanja=new Date(parseInt(new Date(this.novaManifestacija.datumVremeOdrzavanja + " " + this.novaManifestacija.vreme).getTime()))
 				delete this.novaManifestacija.vreme
 				console.log(this.novaManifestacija)
@@ -609,6 +680,10 @@ Vue.component("man-view-user", {
 				this.novaManifestacija.brojMesta=parseInt(this.novaManifestacija.brojMesta)
 				this.novaManifestacija.slobodnaMesta=this.novaManifestacija.brojMesta
 				console.log(this.novaManifestacija.datumVremeOdrzavanja)
+
+				await axios.get("http://maps.google.com/maps/api/geocode/json?address=" + this.novaManifestacija.drzava+" "+this.novaManifestacija.grad+" "+this.novaManifestacija.ulica+ " "+ this.novaManifestacija.kucniBroj+" "+this.novaManifestacija.postanskiBroj + "&sensor=false").then(response=>{
+					console.log(response.data)
+				})
 
 				await axios.post(`/manifestacije`,this.novaManifestacija).then(response=>{
 					alert("Uspešno kreiranan manifestacija!")
@@ -807,12 +882,17 @@ Vue.component("man-view-user", {
                      const man=[]
                      
                      response.data.forEach(element => {
-                    	 console.log(element.datumVremeOdrzavanja)
+                    	 console.log(element)
                          man.push({
                         	id:element.id,
                  			naziv: element.naziv,
 							grad: element.lokacija.grad,
                  			drzava: element.lokacija.drzava,
+							geoDuzina: element.lokacija.geoDuzina,
+							geoSirina: element.lokacija.geoSirina,
+							ulica: element.lokacija.ulica,
+							kucniBroj: element.lokacija.kucniBroj,
+							postanskiBroj: element.lokacija.postanskiBroj,
                  			slikaPath: element.slikaPath,
                  			tip: element.tip,
                  			datumVremeOdrzavanja: element.datumVremeOdrzavanja,

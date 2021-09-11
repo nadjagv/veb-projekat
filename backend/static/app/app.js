@@ -16,6 +16,18 @@ const router = new VueRouter({
 	  ]
 });
 
+Vue.use(VueGoogleMaps, {
+	load: {
+	  key: 'AIzaSyDs1wPwu4XZNfH5ttEj7md96W0nWJn0RGU',
+	  v: '3.26',
+	},
+	// Demonstrating how we can customize the name of the components
+	installComponents: false,
+});
+
+Vue.component('google-map', VueGoogleMaps.Map);
+Vue.component('google-marker', VueGoogleMaps.Marker);
+
 Vue.component('star-rating', VueStarRating.default);
 
 var app = new Vue({

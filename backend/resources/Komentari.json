@@ -61,7 +61,7 @@
     "manifestacijaId" : "prosla1111",
     "tekst" : "test test",
     "ocena" : 4.0,
-    "status" : "KREIRAN",
+    "status" : "PRIHVACEN",
     "obrisan" : false
   } ]
 }

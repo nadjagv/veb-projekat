@@ -130,6 +130,7 @@ Vue.component("home-page", {
 `
 	,
 	methods: {
+		
 		logIn(){
 			if ( $('#navForm')[0].checkValidity() ) {
                 $('#navForm').submit(function (evt) {
@@ -168,7 +169,6 @@ Vue.component("home-page", {
 		window.localStorage.removeItem('uloga')
 		window.localStorage.removeItem('username')
 		window.localStorage.removeItem('jwt')
-
 
 		
 		},

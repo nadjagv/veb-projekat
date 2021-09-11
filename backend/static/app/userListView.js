@@ -139,7 +139,7 @@ Vue.component("user-list-view", {
             <p v-if="k.uloga==='KUPAC' && k.blokiran">Status kupca: Blokiran </p>
             <p v-if="k.uloga==='KUPAC' && !k.blokiran">Status kupca: Aktivan </p>
 
-            <button @click="blokiraj(k)" v-if="userRole==='ADMINISTRATOR' && k.uloga==='KUPAC' && !k.blokiran" type="button" style="margin-bottom:10px" class="btn btn-warning" >
+            <button @click="blokiraj(k)" v-if="userRole==='ADMINISTRATOR' && (k.uloga==='KUPAC' || k.uloga==='PRODAVAC') && !k.blokiran" type="button" style="margin-bottom:10px" class="btn btn-warning" >
 			Blokiraj <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
 			</button>
 
@@ -278,7 +278,11 @@ Vue.component("user-list-view", {
 			$('#modalNew').modal();
 		},
         async blokiraj(k){
-            await axios.put(`kupci/sumnjivi/blokiraj/`+k.username)
+            if(k.uloga==="KUPAC"){
+                await axios.put(`kupci/sumnjivi/blokiraj/`+k.username)
+            }else{
+                await axios.put(`prodavci/blokiraj/`+k.username)
+            }
             k.blokiran=true
         },
         async obrisi(k){

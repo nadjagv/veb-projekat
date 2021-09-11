@@ -20,7 +20,8 @@
     "slikaPath" : "koncert-v.png",
     "obrisana" : false,
     "ocena" : 0.0,
-    "prodavacUsername" : "joca"
+    "prodavacUsername" : "joca",
+    "brojOcena" : 0
   }, {
     "id" : "prosla1111",
     "naziv" : "Mali koncert",
@@ -41,8 +42,9 @@
     },
     "slikaPath" : "koncert.jpg",
     "obrisana" : false,
-    "ocena" : 4.5,
-    "prodavacUsername" : "joca"
+    "ocena" : 4.0,
+    "prodavacUsername" : "joca",
+    "brojOcena" : 1
   }, {
     "id" : "aaaaa1111",
     "naziv" : "Radovan III",
@@ -53,18 +55,19 @@
     "cenaRegular" : 1500.0,
     "aktivna" : true,
     "lokacija" : {
-      "geoDuzina" : 0.0,
-      "geoSirina" : 0.0,
-      "ulica" : "",
+      "geoDuzina" : 19.8440137,
+      "geoSirina" : 45.2554051,
+      "ulica" : "Trg Slobode",
       "grad" : "Novi Sad",
       "drzava" : "Srbija",
-      "postanskiBroj" : "",
-      "kucniBroj" : ""
+      "postanskiBroj" : "21000",
+      "kucniBroj" : "3"
     },
     "slikaPath" : "man4.jpg",
     "obrisana" : false,
     "ocena" : 0.0,
-    "prodavacUsername" : "joca"
+    "prodavacUsername" : "joca",
+    "brojOcena" : 0
   }, {
     "id" : "bbbbb1111",
     "naziv" : "Žurka",
@@ -75,18 +78,19 @@
     "cenaRegular" : 1000.0,
     "aktivna" : false,
     "lokacija" : {
-      "geoDuzina" : 0.0,
-      "geoSirina" : 0.0,
-      "ulica" : "",
+      "geoDuzina" : 19.8378178,
+      "geoSirina" : 45.2549596,
+      "ulica" : "Pavla Papa",
       "grad" : "Novi Sad",
       "drzava" : "Srbija",
-      "postanskiBroj" : "",
-      "kucniBroj" : ""
+      "postanskiBroj" : "21000",
+      "kucniBroj" : "23"
     },
     "slikaPath" : "car1.jpg",
     "obrisana" : false,
     "ocena" : 0.0,
-    "prodavacUsername" : "joca"
+    "prodavacUsername" : "joca",
+    "brojOcena" : 0
   }, {
     "id" : "prosla2222",
     "naziv" : "Koncert klasične muzike",
@@ -108,7 +112,8 @@
     "slikaPath" : "car2.jpg",
     "obrisana" : false,
     "ocena" : 3.7,
-    "prodavacUsername" : "filip"
+    "prodavacUsername" : "filip",
+    "brojOcena" : 0
   }, {
     "id" : "ccccc1111",
     "naziv" : "Umetnička izložba",
@@ -130,29 +135,8 @@
     "slikaPath" : "car3.jpg",
     "obrisana" : false,
     "ocena" : 0.0,
-    "prodavacUsername" : "filip"
-  }, {
-    "id" : "U2ApmAHSVT",
-    "naziv" : "Veliki koncert",
-    "tip" : "KONCERT",
-    "brojMesta" : 3000,
-    "slobodnaMesta" : 3000,
-    "datumVremeOdrzavanja" : [ 2021, 11, 11, 2, 0 ],
-    "cenaRegular" : 700.0,
-    "aktivna" : false,
-    "lokacija" : {
-      "geoDuzina" : 0.0,
-      "geoSirina" : 0.0,
-      "ulica" : "Bulevar",
-      "grad" : "Novi Sad",
-      "drzava" : "Srbija",
-      "postanskiBroj" : "21000",
-      "kucniBroj" : "2"
-    },
-    "slikaPath" : "koncert-v.png",
-    "obrisana" : false,
-    "ocena" : 0.0,
-    "prodavacUsername" : "joca"
+    "prodavacUsername" : "filip",
+    "brojOcena" : 0
   }, {
     "id" : "vEoZ4I9NlK",
     "naziv" : "dsad",
@@ -174,6 +158,7 @@
     "slikaPath" : "",
     "obrisana" : true,
     "ocena" : 0.0,
-    "prodavacUsername" : "joca"
+    "prodavacUsername" : "joca",
+    "brojOcena" : 0
   } ]
 }
