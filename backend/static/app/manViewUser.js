@@ -804,7 +804,7 @@ Vue.component("man-view-user", {
 		},
 		async aktiviraj(m){
 			m.aktivna=true
-			await axios.post(`manifestacije/aktiviraj/`+m.id,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} })
+			await axios.post(`manifestacije/aktiviraj/`+m.id,{data:{}},{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} })
 			this.pripremi()
 		},
 		racunajCenu(m){
