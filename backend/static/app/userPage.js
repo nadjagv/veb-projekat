@@ -53,10 +53,12 @@ Vue.component("user-page", {
 		prikaziKarte(){
 			this.prikaz="Karte"
 		},
-		logOut(){
+		async logOut(){
 			window.localStorage.removeItem('uloga')
 			window.localStorage.removeItem('username')
 			window.localStorage.removeItem('jwt')
+
+			await axios.post(`korisnici/login`,{data:{}},{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} })
 		}
 	},
 	mounted() {
