@@ -547,7 +547,7 @@ Vue.component("man-view-user", {
 		async ucitajKomentare(m){
 			this.komentari=[]
 			if(this.userRole==="ADMINISTRATOR" || this.userRole==="PRODAVAC"){
-				await axios.get(`/komentari/manifestacija/svi/`+m.id,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
+				await axios.get(`/komentari/manifestacija/svi/`+m.id,{data:{}, headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
 					const kom=[]
 					response.data.forEach(element=>{
 						kom.push({
@@ -562,7 +562,7 @@ Vue.component("man-view-user", {
 					this.komentari=kom
 				})
 			}else{
-				await axios.get(`/komentari/manifestacija/prihvaceni/`+m.id,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
+				await axios.get(`/komentari/manifestacija/prihvaceni/`+m.id,{ data:{},headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
 					const kom=[]
 					response.data.forEach(element=>{
 						kom.push({
@@ -873,12 +873,12 @@ Vue.component("man-view-user", {
 		this.username=window.localStorage.getItem('username')
 
 		if(this.userRole==="KUPAC"){
-			await axios.get(`kupci/`+window.localStorage.getItem('username')).then(response=>{
+			await axios.get(`kupci/`+window.localStorage.getItem('username'),{data:{}, headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
 				this.kupacTip=response.data.tip
 			})
 		}
 		
-		await axios.get(`/manifestacije`,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
+		await axios.get(`/manifestacije`,{data:{}, headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
                      const man=[]
                      
                      response.data.forEach(element => {
