@@ -532,11 +532,11 @@ Vue.component("man-view-user", {
 	methods: {
 		async prihvatiKomentar(k){
 			k.status="PRIHVACEN"
-			await axios.post(`komentari/prihvati/`+k.id,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} })
+			await axios.post(`komentari/prihvati/`+k.id,{data:{}, headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} })
 		},
 		async odbijKomentar(k){
 			k.status="ODBIJEN"
-			await axios.post(`komentari/odbij/`+k.id,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} })
+			await axios.post(`komentari/odbij/`+k.id,{ data:{},headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} })
 		},
 		pripremiEditModal(m){
 			var parsed = moment(m.datumVremeOdrzavanja);
