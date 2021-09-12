@@ -38,10 +38,10 @@
     "nazivManifestacije" : "Umetnička izložba",
     "datumVremeOdrzavanja" : [ 2021, 9, 23, 19, 0 ],
     "cena" : 1200.0,
-    "kupacUsername" : "marko",
+    "kupacUsername" : "sumnjivko",
     "status" : "ODUSTANAK",
     "tip" : "REGULAR",
-    "brojKarata" : 4,
+    "brojKarata" : 6,
     "obrisana" : false
   }, {
     "id" : "ZutS5ChfGN",

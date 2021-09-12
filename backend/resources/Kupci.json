@@ -10,10 +10,10 @@
     "obrisan" : false,
     "karteIds" : [ "aaaaa11111", "bilaa22222", "ZutS5ChfGN" ],
     "otkazivanja" : null,
-    "brojBodova" : 2000.11278195488723,
+    "brojBodova" : 2000.11,
     "tip" : "BRONZANI",
     "blokiran" : false,
-    "jwttoken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWphIiwiZXhwIjoxNjMxMjA1MjU3LCJpYXQiOjE2MzEyMDQ2NTd9._PQElzwDUSu7TpWxXy5XGoJ6zJc4jKj4zX1CLikxz1A"
+    "jwttoken" : null
   }, {
     "username" : "marko",
     "password" : "marko",
@@ -38,7 +38,7 @@
     "datumRodjenja" : [ 2000, 1, 2 ],
     "uloga" : "KUPAC",
     "obrisan" : false,
-    "karteIds" : [ "aaaaa22222" ],
+    "karteIds" : [ "aaaaa33333" ],
     "otkazivanja" : [ {
       "datum" : [ 2021, 9, 7, 19, 0 ],
       "kupacUsername" : "sumnjivko"
@@ -61,6 +61,6 @@
     "brojBodova" : 200.0,
     "tip" : "BRONZANI",
     "blokiran" : true,
-    "jwttoken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdW1uaml2a28iLCJleHAiOjE2MzEyMDM4NzQsImlhdCI6MTYzMTIwMzI3NH0.W95vNELgCU3m3o7HBZ9IZO6oP7iTQOobGqaMQo75gBo"
+    "jwttoken" : null
   } ]
 }
