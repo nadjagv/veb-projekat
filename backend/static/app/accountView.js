@@ -117,19 +117,19 @@ Vue.component("account-view", {
 
         switch(this.userRole){
             case "KUPAC":
-                await axios.get(`/kupci/`+username,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
+                await axios.get(`/kupci/`+username,{ data:{},headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
                     console.log(response.data)
                     this.user=response.data
                 })
                 break
             case "PRODAVAC":
-                await axios.get(`/prodavci/`+username,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
+                await axios.get(`/prodavci/`+username,{ data:{},headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
                     console.log(response.data)
                     this.user=response.data
                 })
                 break
             case "ADMINISTRATOR":
-                await axios.get(`/administratori/`+username,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
+                await axios.get(`/administratori/`+username,{data:{}, headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
                     console.log(response.data)
                     this.user=response.data
                 })

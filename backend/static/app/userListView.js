@@ -403,7 +403,7 @@ Vue.component("user-list-view", {
         let usernameMain=window.localStorage.getItem('username')
 
         if(this.userRole==="ADMINISTRATOR"){
-            await axios.get(`/prodavci`,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
+            await axios.get(`/prodavci`,{data:{}, headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
                 response.data.forEach(element=>{
                     this.korisnici.push({
                         ime: element.ime,
@@ -415,7 +415,7 @@ Vue.component("user-list-view", {
                 })
             })
 
-            await axios.get(`/kupci`,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
+            await axios.get(`/kupci`,{ data:{},headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
                 response.data.forEach(element=>{
                     this.korisnici.push({
                         ime: element.ime,
@@ -430,7 +430,7 @@ Vue.component("user-list-view", {
                 })
             })
 
-            await axios.get(`/kupci/sumnjivi/pregled`,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
+            await axios.get(`/kupci/sumnjivi/pregled`,{data:{}, headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
                 response.data.forEach(element=>{
                     this.sumnjiviKorisnici.push({
                         ime: element.ime,
@@ -445,7 +445,7 @@ Vue.component("user-list-view", {
                 })
             })
 
-            await axios.get(`/administratori`,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
+            await axios.get(`/administratori`,{ data:{},headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
                 response.data.forEach(element=>{
                     this.korisnici.push({
                         ime: element.ime,
