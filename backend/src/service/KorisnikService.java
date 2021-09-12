@@ -77,6 +77,27 @@ public class KorisnikService {
 		return null;
 	}
 	
+	
+	public boolean logout(Korisnik k) {
+		Korisnik korisnik = pretraziPoUsername(k.getUsername());
+		if (korisnik == null || korisnik.isObrisan())
+			return false;;
+		
+		korisnik.setJWTToken(null);
+		
+		if (k.getUloga().equals(Uloga.ADMINISTRATOR)) {
+			administratorRep.save();
+		}else if (k.getUloga().equals(Uloga.KUPAC)) {
+			kupacRep.save();
+		}else {
+			prodavacRep.save();
+		}
+		
+		
+		return true;
+	}
+	
+	
 	public Korisnik izmeniPodatke(Korisnik k) {
 		Korisnik korisnik = pretraziPoUsername(k.getUsername());
 		

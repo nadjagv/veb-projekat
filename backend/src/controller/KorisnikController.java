@@ -42,6 +42,31 @@ public class KorisnikController {
 			return "Pogresni kredencijali.";
 		});
 		
+		post("/korisnici/logout", (req, res) -> {
+			Uloga uloga = TokenUtils.proveriToken(req);
+			System.out.println(uloga);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.PRODAVAC && uloga != Uloga.ADMINISTRATOR && uloga != Uloga.KUPAC) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
+			
+			res.type("application/json");
+			String payload = req.body();
+			Korisnik kor = jsonb.fromJson(payload, Korisnik.class);
+			
+			boolean k = korisnikService.logout(kor);
+			if (k) {
+				res.status(200);
+				return "Uspeh";
+			}
+			
+			res.status(400);
+			return "Greska.";
+		});
+		
 		post("/korisnici/postojiUsername/:username", (req, res) -> {
 			res.type("application/json");
 			
