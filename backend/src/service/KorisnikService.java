@@ -78,16 +78,16 @@ public class KorisnikService {
 	}
 	
 	
-	public boolean logout(Korisnik k) {
-		Korisnik korisnik = pretraziPoUsername(k.getUsername());
+	public boolean logout(String username) {
+		Korisnik korisnik = pretraziPoUsername(username);
 		if (korisnik == null || korisnik.isObrisan())
 			return false;;
 		
 		korisnik.setJWTToken(null);
 		
-		if (k.getUloga().equals(Uloga.ADMINISTRATOR)) {
+		if (korisnik.getUloga().equals(Uloga.ADMINISTRATOR)) {
 			administratorRep.save();
-		}else if (k.getUloga().equals(Uloga.KUPAC)) {
+		}else if (korisnik.getUloga().equals(Uloga.KUPAC)) {
 			kupacRep.save();
 		}else {
 			prodavacRep.save();

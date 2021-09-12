@@ -55,12 +55,12 @@ Vue.component("seller-page", {
 			this.prikaz="UserList"
 		},
 		async logOut(){
+			await axios.post(`korisnici/logout/` + window.localStorage.getItem("username"),{data:{}},{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} })
+			
 			window.localStorage.removeItem('uloga')
 			window.localStorage.removeItem('username')
 			window.localStorage.removeItem('jwt')
-
-			await axios.post(`korisnici/login`,{data:{}},{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} })
-		}
+			}
 	},
 	mounted() {
 		

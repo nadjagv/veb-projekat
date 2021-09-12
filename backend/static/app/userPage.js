@@ -54,12 +54,11 @@ Vue.component("user-page", {
 			this.prikaz="Karte"
 		},
 		async logOut(){
+			await axios.post(`korisnici/logout/` + window.localStorage.getItem("username"),{data:{}},{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} })
+			
 			window.localStorage.removeItem('uloga')
 			window.localStorage.removeItem('username')
-			window.localStorage.removeItem('jwt')
-
-			await axios.post(`korisnici/login`,{data:{}},{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} })
-		}
+			window.localStorage.removeItem('jwt')}
 	},
 	mounted() {
 		
