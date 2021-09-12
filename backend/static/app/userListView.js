@@ -262,7 +262,7 @@ Vue.component("user-list-view", {
                     pol: this.noviProdavac.pol,
                     datumRodjenja: this.noviProdavac.datumRodjenja,
                     uloga: "PRODAVAC",
-                }).then(response=>{
+                },{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
                     alert("Uspešno dodat prodavac!")
                 }).catch(err=>{
                     alert("Došlo je do greške!")
@@ -286,7 +286,7 @@ Vue.component("user-list-view", {
             k.blokiran=true
         },
         async obrisi(k){
-            await axios.delete(`korisnici/`+k.username)
+            await axios.delete(`korisnici/`+k.username,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} })
             this.korisnici=this.korisnici.filter(kor=>kor.username!=k.username)
             this.korisniciZaPrikaz=this.korisniciZaPrikaz.filter(kor=>kor.username!=k.username)
         },
@@ -403,7 +403,7 @@ Vue.component("user-list-view", {
         let usernameMain=window.localStorage.getItem('username')
 
         if(this.userRole==="ADMINISTRATOR"){
-            await axios.get(`/prodavci`).then(response=>{
+            await axios.get(`/prodavci`,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
                 response.data.forEach(element=>{
                     this.korisnici.push({
                         ime: element.ime,
@@ -415,7 +415,7 @@ Vue.component("user-list-view", {
                 })
             })
 
-            await axios.get(`/kupci`).then(response=>{
+            await axios.get(`/kupci`,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
                 response.data.forEach(element=>{
                     this.korisnici.push({
                         ime: element.ime,
@@ -430,7 +430,7 @@ Vue.component("user-list-view", {
                 })
             })
 
-            await axios.get(`/kupci/sumnjivi/pregled`).then(response=>{
+            await axios.get(`/kupci/sumnjivi/pregled`,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
                 response.data.forEach(element=>{
                     this.sumnjiviKorisnici.push({
                         ime: element.ime,
@@ -445,7 +445,7 @@ Vue.component("user-list-view", {
                 })
             })
 
-            await axios.get(`/administratori`).then(response=>{
+            await axios.get(`/administratori`,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
                 response.data.forEach(element=>{
                     this.korisnici.push({
                         ime: element.ime,
@@ -461,7 +461,7 @@ Vue.component("user-list-view", {
             this.korisnici=this.korisnici.filter(k=>k.username!=usernameMain)
 
         }else if(this.userRole==="PRODAVAC"){
-            await axios.get(`/prodavci/mojiKupci/`+usernameMain).then(response=>{
+            await axios.get(`/prodavci/mojiKupci/`+usernameMain,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
                 response.data.forEach(element=>{
                     this.korisnici.push({
                         ime: element.ime,

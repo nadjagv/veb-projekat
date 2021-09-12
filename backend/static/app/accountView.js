@@ -69,6 +69,19 @@ Vue.component("account-view", {
                 <button class="btn btn-lg btn-primary" style="margin:20px" type="submit" @click="saveChanges()"><span id="pretragaIcon" class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span> Sačuvaj izmene</button>
             </form>
 
+            <div v-if="userRole==='KUPAC'" class="form-group">
+                <h4>Nivo kupca: {{user.tip}}</h4>
+                <h4 v-if="user.tip==='NOVI'">Ostvaren popust 0% (sledeći nivo 3%)</h4>
+                <h4 v-if="user.tip==='BRONZANI'">Ostvaren popust 3% (sledeći nivo 5%)</h4>
+                <h4 v-if="user.tip==='SREBRNI'">Ostvaren popust 5% (sledeći nivo 10%)</h4>
+                <h4 v-if="user.tip==='ZLATNI'">Ostvaren popust 10%</h4>
+
+                <h4>Broj bodova: {{user.brojBodova}}</h4>
+                <h4 v-if="user.tip==='NOVI'">Potrebno za sledeći nivo: {{2000-user.brojBodova}}</h4>
+                <h4 v-if="user.tip==='BRONZANI'">Potrebno za sledeći nivo: {{3000-user.brojBodova}}</h4>
+                <h4 v-if="user.tip==='SREBRNI'">Potrebno za sledeći nivo: {{4000-user.brojBodova}}</h4>
+            </div>
+
 	</div>
     </div>
     	  
@@ -89,7 +102,7 @@ Vue.component("account-view", {
                     username: window.localStorage.getItem("username"),
                     pol: this.user.pol,
                     uloga:this.userRole
-                }).then(response=>{
+                },{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
                     alert("Izmene uspešno sačuvane!")
                 }).catch(err=>{
                     alert("Došlo je do greške!")
@@ -104,19 +117,19 @@ Vue.component("account-view", {
 
         switch(this.userRole){
             case "KUPAC":
-                await axios.get(`/kupci/`+username).then(response=>{
+                await axios.get(`/kupci/`+username,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
                     console.log(response.data)
                     this.user=response.data
                 })
                 break
             case "PRODAVAC":
-                await axios.get(`/prodavci/`+username).then(response=>{
+                await axios.get(`/prodavci/`+username,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
                     console.log(response.data)
                     this.user=response.data
                 })
                 break
             case "ADMINISTRATOR":
-                await axios.get(`/administratori/`+username).then(response=>{
+                await axios.get(`/administratori/`+username,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
                     console.log(response.data)
                     this.user=response.data
                 })
