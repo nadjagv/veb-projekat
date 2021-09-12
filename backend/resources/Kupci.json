@@ -10,7 +10,7 @@
     "obrisan" : false,
     "karteIds" : [ "aaaaa11111", "bilaa22222", "ZutS5ChfGN" ],
     "otkazivanja" : null,
-    "brojBodova" : 200.11278195488723,
+    "brojBodova" : 2000.11278195488723,
     "tip" : "BRONZANI",
     "blokiran" : false,
     "jwttoken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWphIiwiZXhwIjoxNjMxMjA1MjU3LCJpYXQiOjE2MzEyMDQ2NTd9._PQElzwDUSu7TpWxXy5XGoJ6zJc4jKj4zX1CLikxz1A"
@@ -26,7 +26,7 @@
     "karteIds" : [ "aaaaa22222" ],
     "otkazivanja" : null,
     "brojBodova" : 200.0,
-    "tip" : "BRONZANI",
+    "tip" : "NOVI",
     "blokiran" : false,
     "jwttoken" : null
   }, {

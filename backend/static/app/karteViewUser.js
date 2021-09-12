@@ -244,7 +244,7 @@ Vue.component("karte-view", {
 				kupacUsername:k.kupacUsername,
 				tip: k.tip,
 				brojKarata: k.brojKarata,
-            })
+            },{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} })
             k.status="Odustanak"
         },
 	},
@@ -257,7 +257,7 @@ Vue.component("karte-view", {
         switch(this.userRole){
             case "KUPAC":
                 
-                await axios.get(`/kupci/mojeKarteSve/`+window.localStorage.getItem('username')).then(response=>{
+                await axios.get(`/kupci/mojeKarteSve/`+window.localStorage.getItem('username'),{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
                     const kar=[]
                     
                     response.data.forEach(element => {
@@ -282,7 +282,7 @@ Vue.component("karte-view", {
                 })
                 break
             case "PRODAVAC":
-                await axios.get(`/prodavci/mojeKarte/`+window.localStorage.getItem('username')).then(response=>{
+                await axios.get(`/prodavci/mojeKarte/`+window.localStorage.getItem('username'),{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
                     const kar=[]
                     
                     response.data.forEach(element => {
@@ -307,7 +307,7 @@ Vue.component("karte-view", {
                 })
                 break
             case "ADMINISTRATOR":
-                await axios.get(`/karte`).then(response=>{
+                await axios.get(`/karte`,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
                     const kar=[]
                     
                     response.data.forEach(element => {

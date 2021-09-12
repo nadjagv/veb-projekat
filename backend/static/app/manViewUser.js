@@ -532,11 +532,11 @@ Vue.component("man-view-user", {
 	methods: {
 		async prihvatiKomentar(k){
 			k.status="PRIHVACEN"
-			await axios.post(`komentari/prihvati/`+k.id)
+			await axios.post(`komentari/prihvati/`+k.id,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} })
 		},
 		async odbijKomentar(k){
 			k.status="ODBIJEN"
-			await axios.post(`komentari/odbij/`+k.id)
+			await axios.post(`komentari/odbij/`+k.id,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} })
 		},
 		pripremiEditModal(m){
 			var parsed = moment(m.datumVremeOdrzavanja);
@@ -547,7 +547,7 @@ Vue.component("man-view-user", {
 		async ucitajKomentare(m){
 			this.komentari=[]
 			if(this.userRole==="ADMINISTRATOR" || this.userRole==="PRODAVAC"){
-				await axios.get(`/komentari/manifestacija/svi/`+m.id).then(response=>{
+				await axios.get(`/komentari/manifestacija/svi/`+m.id,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
 					const kom=[]
 					response.data.forEach(element=>{
 						kom.push({
@@ -562,7 +562,7 @@ Vue.component("man-view-user", {
 					this.komentari=kom
 				})
 			}else{
-				await axios.get(`/komentari/manifestacija/prihvaceni/`+m.id).then(response=>{
+				await axios.get(`/komentari/manifestacija/prihvaceni/`+m.id,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
 					const kom=[]
 					response.data.forEach(element=>{
 						kom.push({
@@ -599,7 +599,7 @@ Vue.component("man-view-user", {
 			axios.put(
 			  `manifestacije/slika/`+m.id, 
 			  data,
-			  config
+			  config,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }
 			).then(
 			  response => {
 				console.log('image upload response > ', response)
@@ -624,7 +624,7 @@ Vue.component("man-view-user", {
 
 				console.log(m)
 
-				await axios.put(`/manifestacije`,m).then(response=>{
+				await axios.put(`/manifestacije`,m,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
 					alert("Izmene uspešno sačuvane!")
 				}).catch(err=>{
 					alert("Došlo je do greške!")
@@ -635,7 +635,7 @@ Vue.component("man-view-user", {
 			}
 		},
 		async obrisiMan(m){
-			await axios.delete(`manifestacije/`+m.id)
+			await axios.delete(`manifestacije/`+m.id,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} })
             this.manifestacije=this.manifestacije.filter(man=>man.id!=m.id)
             this.manifestacijeZaPrikaz=this.manifestacijeZaPrikaz.filter(man=>man.id!=m.id)
 		},
@@ -653,7 +653,7 @@ Vue.component("man-view-user", {
 
 				
 
-				await axios.post(`/komentari`,noviKomentar)
+				await axios.post(`/komentari`,noviKomentar,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} })
 
 				this.textKomentar=""
 				this.ocenaKomentar=0
@@ -685,7 +685,7 @@ Vue.component("man-view-user", {
 					console.log(response.data)
 				})
 
-				await axios.post(`/manifestacije`,this.novaManifestacija).then(response=>{
+				await axios.post(`/manifestacije`,this.novaManifestacija,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
 					alert("Uspešno kreiranan manifestacija!")
 				}).catch(err=>{
 					alert("Došlo je do greške!")
@@ -804,7 +804,7 @@ Vue.component("man-view-user", {
 		},
 		async aktiviraj(m){
 			m.aktivna=true
-			await axios.post(`manifestacije/aktiviraj/`+m.id)
+			await axios.post(`manifestacije/aktiviraj/`+m.id,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} })
 			this.pripremi()
 		},
 		racunajCenu(m){
@@ -847,7 +847,7 @@ Vue.component("man-view-user", {
 					kupacUsername:this.username,
 					tip: this.tipKarte,
 					brojKarata: this.brojKarata,
-				})
+				},{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} })
 
 				m.slobodnaMesta-=this.brojKarata
 				this.pripremiModal(m)
@@ -878,7 +878,7 @@ Vue.component("man-view-user", {
 			})
 		}
 		
-		await axios.get(`/manifestacije`).then(response=>{
+		await axios.get(`/manifestacije`,{ headers: {"Authorization" : `Bearer ${window.localStorage.getItem("jwt")}`} }).then(response=>{
                      const man=[]
                      
                      response.data.forEach(element => {
