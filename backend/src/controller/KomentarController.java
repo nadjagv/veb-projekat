@@ -10,8 +10,10 @@ import javax.json.bind.JsonbBuilder;
 
 import domain.Komentar;
 import domain.Manifestacija;
+import enums.Uloga;
 import helperClasses.CrudManifestacijaDTO;
 import service.KomentarService;
+import utils.TokenUtils;
 
 public class KomentarController {
 
@@ -31,7 +33,14 @@ public class KomentarController {
 		
 		//kreiranje
 		post("/komentari", (req, res) -> {
-			
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.KUPAC) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			res.type("application/json");
 			String payload = req.body();
 			Komentar dto = jsonb.fromJson(payload, Komentar.class);
@@ -49,6 +58,14 @@ public class KomentarController {
 		});
 		
 		get("/komentari/manifestacija/svi/:id", (req, res) -> {
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.PRODAVAC || uloga != Uloga.ADMINISTRATOR) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			return jsonb.toJson(komentarService.preuzmiSveZaManifestaciju(req.params("id")));
 		});
 		
@@ -57,6 +74,14 @@ public class KomentarController {
 		});
 		
 		post("/komentari/prihvati/:id", (req, res) -> {
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.PRODAVAC || uloga != Uloga.ADMINISTRATOR) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			String id = req.params("id");
 			Komentar k = komentarService.preuzmiPoId(id);
 			if (k == null) {
@@ -75,6 +100,14 @@ public class KomentarController {
 		});
 		
 		post("/komentari/odbij/:id", (req, res) -> {
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.PRODAVAC || uloga != Uloga.ADMINISTRATOR) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			String id = req.params("id");
 			Komentar k = komentarService.preuzmiPoId(id);
 			if (k == null) {
@@ -94,7 +127,14 @@ public class KomentarController {
 		
 		delete("/komentari/:id/:username", (req, res) -> {
 			
-			//provera tokena
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.KUPAC) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			
 			String id = req.params("id");
 			String username = req.params("username");

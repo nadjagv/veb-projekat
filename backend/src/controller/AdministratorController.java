@@ -5,7 +5,6 @@ import static spark.Spark.get;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 
-import com.google.gson.Gson;
 
 import domain.Administrator;
 import service.AdministratorService;

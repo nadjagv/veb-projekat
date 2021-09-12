@@ -23,9 +23,11 @@ import javax.servlet.http.Part;
 import com.google.gson.Gson;
 
 import domain.Manifestacija;
+import enums.Uloga;
 import helperClasses.CrudManifestacijaDTO;
 import repositories.ManifestacijaRepository;
 import service.ManifestacijaService;
+import utils.TokenUtils;
 
 public class ManifestacijaController {
 	Jsonb jsonb = JsonbBuilder.newBuilder().build();
@@ -52,6 +54,15 @@ public class ManifestacijaController {
 		});
 		
 		post("/manifestacije", (req, res) -> {
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.PRODAVAC) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
+			
 			res.type("application/json");
 			String payload = req.body();
 			CrudManifestacijaDTO dto = jsonb.fromJson(payload, CrudManifestacijaDTO.class);
@@ -80,6 +91,15 @@ public class ManifestacijaController {
 		
 		
 		put("/manifestacije", (req, res) -> {
+			
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.PRODAVAC) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			res.type("application/json");
 			String payload = req.body();
 			CrudManifestacijaDTO dto = jsonb.fromJson(payload, CrudManifestacijaDTO.class);
@@ -124,6 +144,14 @@ public class ManifestacijaController {
 		delete("/manifestacije/:id", (req, res) -> {
 			
 			//provera tokena
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.PRODAVAC || uloga != Uloga.ADMINISTRATOR) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			
 			String id = req.params("id");
 			
@@ -145,7 +173,14 @@ public class ManifestacijaController {
 		
 		
 		post("/manifestacije/aktiviraj/:id", (req, res) -> {
-			
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.ADMINISTRATOR) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			String id = req.params("id");
 			
 			Manifestacija m = manService.preuzmiPoId(id);
@@ -164,7 +199,14 @@ public class ManifestacijaController {
 		
 		
 		put("/manifestacije/slika/:id", (req, res) -> {
-
+//			Uloga uloga = TokenUtils.proveriToken(req);
+//			if (uloga == null) {
+//				res.status(401);
+//				return "Nije dozvojen pristup.";
+//			}else if (uloga != Uloga.PRODAVAC) {
+//				res.status(401);
+//				return "Nije dozvojen pristup.";
+//			}
 			res.type( "multipart/form-data");
 			String location = "image";          // the directory location where files will be stored
 			long maxFileSize = 100000000;       // the maximum size allowed for uploaded files
@@ -206,16 +248,3 @@ public class ManifestacijaController {
 	}
 
 }
-
-//public UserController(final UserService userService) {
-//	get("/users", new Route() {
-//		@Override
-//		public Object handle(Request request, Response response) {
-//		// process request
-//		return userService.getAllUsers();
-//		}
-//	});
-//	
-//	// more routes
-//	}
-//}

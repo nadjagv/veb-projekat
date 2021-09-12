@@ -12,8 +12,10 @@ import com.google.gson.Gson;
 
 import domain.Karta;
 import domain.Manifestacija;
+import enums.Uloga;
 import helperClasses.CrudManifestacijaDTO;
 import service.KartaService;
+import utils.TokenUtils;
 
 public class KartaController {
 
@@ -23,15 +25,33 @@ public class KartaController {
 		KartaService kartaService = new KartaService();
 		
 		get("/karte", (req, res) -> {
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			return jsonb.toJson(kartaService.preuzmiSve());
 		});
 		
 		get("/karte/:id", (req, res) -> {
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			Karta m = kartaService.preuzmiPoId(req.params("id"));
 			return jsonb.toJson(m);
 		});
 		
 		post("/karte/rezervisi", (req, res) -> {
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.KUPAC) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			res.type("application/json");
 			String payload = req.body();
 			Karta dto = jsonb.fromJson(payload, Karta.class);
@@ -50,6 +70,15 @@ public class KartaController {
 		});
 		
 		post("/karte/otkazi", (req, res) -> {
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.KUPAC) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
+			
 			res.type("application/json");
 			String payload = req.body();
 			Karta dto = jsonb.fromJson(payload, Karta.class);

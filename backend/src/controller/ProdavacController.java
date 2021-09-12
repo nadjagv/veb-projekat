@@ -10,7 +10,9 @@ import com.google.gson.Gson;
 
 import domain.Kupac;
 import domain.Prodavac;
+import enums.Uloga;
 import service.ProdavacService;
+import utils.TokenUtils;
 
 public class ProdavacController {
 
@@ -20,15 +22,39 @@ public class ProdavacController {
 		ProdavacService prodavacService = new ProdavacService();
 		
 		get("/prodavci", (req, res) -> {
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.PRODAVAC || uloga != Uloga.ADMINISTRATOR || uloga != Uloga.KUPAC) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			return jsonb.toJson(prodavacService.preuzmiSve());
 		});
 		
 		get("/prodavci/:username", (req, res) -> {
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.PRODAVAC || uloga != Uloga.ADMINISTRATOR || uloga != Uloga.KUPAC) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			Prodavac a = prodavacService.preuzmiPoUsername(req.params("username"));
 			return jsonb.toJson(a);
 		});
 		
 		get("/prodavci/mojeMan/:username", (req, res) -> {
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.PRODAVAC || uloga != Uloga.ADMINISTRATOR) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			String username = req.params("username");
 			Prodavac a = prodavacService.preuzmiPoUsername(username);
 			
@@ -42,6 +68,14 @@ public class ProdavacController {
 		});
 		
 		get("/prodavci/mojeKarte/:username", (req, res) -> {
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.PRODAVAC || uloga != Uloga.ADMINISTRATOR) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			String username = req.params("username");
 			Prodavac a = prodavacService.preuzmiPoUsername(username);
 			
@@ -55,6 +89,14 @@ public class ProdavacController {
 		});
 		
 		get("/prodavci/mojiKupci/:username", (req, res) -> {
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.PRODAVAC || uloga != Uloga.ADMINISTRATOR) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			String username = req.params("username");
 			Prodavac a = prodavacService.preuzmiPoUsername(username);
 			
@@ -68,6 +110,14 @@ public class ProdavacController {
 		});
 		
 		put("/prodavci/blokiraj/:username", (req, res) -> {
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.ADMINISTRATOR) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			
 			String username = req.params("username");
 			Prodavac k = prodavacService.preuzmiPoUsername(username);

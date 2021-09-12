@@ -16,6 +16,7 @@ import helperClasses.Kredencijali;
 import service.KorisnikService;
 import service.KupacService;
 import service.ProdavacService;
+import utils.TokenUtils;
 
 public class KorisnikController {
 	
@@ -82,6 +83,14 @@ public class KorisnikController {
 		
 		
 		post("/korisnici/izmena", (req, res) -> {
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.PRODAVAC || uloga != Uloga.ADMINISTRATOR || uloga != Uloga.KUPAC) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			res.type("application/json");
 			String payload = req.body();
 			Korisnik kor = jsonb.fromJson(payload, Korisnik.class);
@@ -105,6 +114,15 @@ public class KorisnikController {
 		delete("/korisnici/:username", (req, res) -> {
 			
 			//provera tokena
+			
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.ADMINISTRATOR) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			
 			String username = req.params("username");
 			

@@ -10,7 +10,9 @@ import com.google.gson.Gson;
 
 import domain.Kupac;
 import domain.Prodavac;
+import enums.Uloga;
 import service.KupacService;
+import utils.TokenUtils;
 
 public class KupacController {
 
@@ -20,15 +22,39 @@ public class KupacController {
 		KupacService kupacService = new KupacService();
 		
 		get("/kupci", (req, res) -> {
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.PRODAVAC || uloga != Uloga.ADMINISTRATOR || uloga != Uloga.KUPAC) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			return jsonb.toJson(kupacService.preuzmiSve());
 		});
 		
 		get("/kupci/:username", (req, res) -> {
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.PRODAVAC || uloga != Uloga.ADMINISTRATOR || uloga != Uloga.KUPAC) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			Kupac a = kupacService.preuzmiPoUsername(req.params("username"));
 			return jsonb.toJson(a);
 		});
 		
 		get("/kupci/mojeKarte/:username", (req, res) -> {
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.PRODAVAC || uloga != Uloga.ADMINISTRATOR || uloga != Uloga.KUPAC) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			String username = req.params("username");
 			Kupac k = kupacService.preuzmiPoUsername(username);
 			
@@ -42,6 +68,14 @@ public class KupacController {
 		});
 		
 		get("/kupci/mojeKarteSve/:username", (req, res) -> {
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.PRODAVAC || uloga != Uloga.ADMINISTRATOR || uloga != Uloga.KUPAC) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			String username = req.params("username");
 			Kupac k = kupacService.preuzmiPoUsername(username);
 			
@@ -55,6 +89,14 @@ public class KupacController {
 		});
 		
 		get("/kupci/mojeManifestacije/:username", (req, res) -> {
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.PRODAVAC || uloga != Uloga.ADMINISTRATOR || uloga != Uloga.KUPAC) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			String username = req.params("username");
 			Kupac k = kupacService.preuzmiPoUsername(username);
 			
@@ -68,11 +110,26 @@ public class KupacController {
 		});
 		
 		get("/kupci/sumnjivi/pregled", (req, res) -> {
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.PRODAVAC || uloga != Uloga.ADMINISTRATOR) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			return jsonb.toJson(kupacService.preuzmiSumnjiveKupce());
 		});
 		
 		put("/kupci/sumnjivi/blokiraj/:username", (req, res) -> {
-			
+			Uloga uloga = TokenUtils.proveriToken(req);
+			if (uloga == null) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}else if (uloga != Uloga.PRODAVAC || uloga != Uloga.ADMINISTRATOR) {
+				res.status(401);
+				return "Nije dozvojen pristup.";
+			}
 			String username = req.params("username");
 			Kupac k = kupacService.preuzmiPoUsername(username);
 			
