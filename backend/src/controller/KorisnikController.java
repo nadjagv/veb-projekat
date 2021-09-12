@@ -84,10 +84,11 @@ public class KorisnikController {
 		
 		post("/korisnici/izmena", (req, res) -> {
 			Uloga uloga = TokenUtils.proveriToken(req);
+			System.out.println(uloga);
 			if (uloga == null) {
 				res.status(401);
 				return "Nije dozvojen pristup.";
-			}else if (uloga != Uloga.PRODAVAC || uloga != Uloga.ADMINISTRATOR || uloga != Uloga.KUPAC) {
+			}else if (uloga != Uloga.PRODAVAC && uloga != Uloga.ADMINISTRATOR && uloga != Uloga.KUPAC) {
 				res.status(401);
 				return "Nije dozvojen pristup.";
 			}

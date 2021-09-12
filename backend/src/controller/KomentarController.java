@@ -62,7 +62,7 @@ public class KomentarController {
 			if (uloga == null) {
 				res.status(401);
 				return "Nije dozvojen pristup.";
-			}else if (uloga != Uloga.PRODAVAC || uloga != Uloga.ADMINISTRATOR) {
+			}else if (uloga != Uloga.PRODAVAC && uloga != Uloga.ADMINISTRATOR) {
 				res.status(401);
 				return "Nije dozvojen pristup.";
 			}
@@ -78,7 +78,7 @@ public class KomentarController {
 			if (uloga == null) {
 				res.status(401);
 				return "Nije dozvojen pristup.";
-			}else if (uloga != Uloga.PRODAVAC || uloga != Uloga.ADMINISTRATOR) {
+			}else if (uloga != Uloga.PRODAVAC && uloga != Uloga.ADMINISTRATOR) {
 				res.status(401);
 				return "Nije dozvojen pristup.";
 			}
@@ -104,7 +104,7 @@ public class KomentarController {
 			if (uloga == null) {
 				res.status(401);
 				return "Nije dozvojen pristup.";
-			}else if (uloga != Uloga.PRODAVAC || uloga != Uloga.ADMINISTRATOR) {
+			}else if (uloga != Uloga.PRODAVAC && uloga != Uloga.ADMINISTRATOR) {
 				res.status(401);
 				return "Nije dozvojen pristup.";
 			}

@@ -8,7 +8,7 @@
     "datumRodjenja" : [ 1999, 10, 4 ],
     "uloga" : "ADMINISTRATOR",
     "obrisan" : false,
-    "jwttoken" : null
+    "jwttoken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYWRqYSIsImV4cCI6MTYzMTQ1ODk4NiwiaWF0IjoxNjMxNDU4Mzg2fQ.qSAc_u7IsMOpo07b1RgAa9EpAr1l6pV0eI9OrkMT5nA"
   }, {
     "username" : "matija",
     "password" : "matija",
@@ -19,5 +19,5 @@
     "uloga" : "ADMINISTRATOR",
     "obrisan" : false,
     "jwttoken" : null
-  }]
+  } ]
 }
