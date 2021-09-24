@@ -23,7 +23,7 @@
     "datumRodjenja" : [ 2000, 11, 2 ],
     "uloga" : "KUPAC",
     "obrisan" : false,
-    "karteIds" : [ "aaaaa22222" ],
+    "karteIds" : [ "aaaaa22222", "bilaa33333" ],
     "otkazivanja" : null,
     "brojBodova" : 200.0,
     "tip" : "NOVI",
@@ -59,8 +59,8 @@
       "kupacUsername" : "sumnjivko"
     } ],
     "brojBodova" : 200.0,
-    "tip" : "BRONZANI",
-    "blokiran" : true,
+    "tip" : "NOVI",
+    "blokiran" : false,
     "jwttoken" : null
   } ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
   "komentari" : [ {
     "id" : "komentar01",
     "kupacUsername" : "maja",
@@ -11,7 +11,7 @@
     "id" : "komentar02",
     "kupacUsername" : "marko",
     "manifestacijaId" : "prosla1111",
-    "tekst" : "Nita posebno.",
+    "tekst" : "Ništa posebno.",
     "ocena" : 3.0,
     "status" : "PRIHVACEN",
     "obrisan" : false
@@ -19,7 +19,7 @@
     "id" : "komentar03",
     "kupacUsername" : "maja",
     "manifestacijaId" : "prosla1111",
-    "tekst" : "Uas.",
+    "tekst" : "Užas.",
     "ocena" : 1.0,
     "status" : "ODBIJEN",
     "obrisan" : false
@@ -27,32 +27,8 @@
     "id" : "tGeiZhHuRX",
     "kupacUsername" : "maja",
     "manifestacijaId" : "prosla1111",
-    "tekst" : "test",
+    "tekst" : "Lepo mi je bilo.",
     "ocena" : 3.5,
-    "status" : "ODBIJEN",
-    "obrisan" : false
-  }, {
-    "id" : "komentar04",
-    "kupacUsername" : "maja",
-    "manifestacijaId" : "prosla2222",
-    "tekst" : "test",
-    "ocena" : 4.5,
-    "status" : "KREIRAN",
-    "obrisan" : false
-  }, {
-    "id" : "komentar05",
-    "kupacUsername" : "marko",
-    "manifestacijaId" : "prosla2222",
-    "tekst" : "test",
-    "ocena" : 3.5,
-    "status" : "PRIHVACEN",
-    "obrisan" : false
-  }, {
-    "id" : "komentar06",
-    "kupacUsername" : "maja",
-    "manifestacijaId" : "prosla2222",
-    "tekst" : "test",
-    "ocena" : 2.7,
     "status" : "ODBIJEN",
     "obrisan" : false
   }, {

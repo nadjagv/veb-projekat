@@ -5,7 +5,7 @@
     "tip" : "KONCERT",
     "brojMesta" : 3000,
     "slobodnaMesta" : 2998,
-    "datumVremeOdrzavanja" : [ 2021, 9, 26, 19, 0 ],
+    "datumVremeOdrzavanja" : [ 2021, 10, 26, 19, 0 ],
     "cenaRegular" : 700.0,
     "aktivna" : true,
     "lokacija" : {
@@ -27,7 +27,7 @@
     "naziv" : "Mali koncert",
     "tip" : "KONCERT",
     "brojMesta" : 3000,
-    "slobodnaMesta" : 2999,
+    "slobodnaMesta" : 2996,
     "datumVremeOdrzavanja" : [ 2021, 8, 25, 19, 0 ],
     "cenaRegular" : 500.0,
     "aktivna" : true,
@@ -44,14 +44,14 @@
     "obrisana" : false,
     "ocena" : 4.0,
     "prodavacUsername" : "joca",
-    "brojOcena" : 1
+    "brojOcena" : 3
   }, {
     "id" : "aaaaa1111",
     "naziv" : "Radovan III",
     "tip" : "PREDSTAVA",
     "brojMesta" : 250,
     "slobodnaMesta" : 102,
-    "datumVremeOdrzavanja" : [ 2021, 9, 25, 19, 0 ],
+    "datumVremeOdrzavanja" : [ 2021, 10, 25, 19, 0 ],
     "cenaRegular" : 1500.0,
     "aktivna" : true,
     "lokacija" : {
@@ -74,7 +74,7 @@
     "tip" : "OSTALO",
     "brojMesta" : 300,
     "slobodnaMesta" : 0,
-    "datumVremeOdrzavanja" : [ 2021, 9, 25, 22, 0 ],
+    "datumVremeOdrzavanja" : [ 2021, 10, 25, 22, 0 ],
     "cenaRegular" : 1000.0,
     "aktivna" : false,
     "lokacija" : {
@@ -111,7 +111,7 @@
     },
     "slikaPath" : "car2.jpg",
     "obrisana" : false,
-    "ocena" : 3.7,
+    "ocena" : 0.0,
     "prodavacUsername" : "filip",
     "brojOcena" : 0
   }, {
@@ -120,7 +120,7 @@
     "tip" : "OSTALO",
     "brojMesta" : 150,
     "slobodnaMesta" : 50,
-    "datumVremeOdrzavanja" : [ 2021, 9, 23, 19, 0 ],
+    "datumVremeOdrzavanja" : [ 2021, 10, 23, 19, 0 ],
     "cenaRegular" : 300.0,
     "aktivna" : false,
     "lokacija" : {
